@@ -42,7 +42,7 @@ const Application = (props) => {
       })
   }
 
-  const downloadCsvFile = () => {
+  const downloadCsvFile = (e) => {
     setDownloading(true);
     getCsvFileByRefNo(e.referenceNo)
     .then((status) => {
