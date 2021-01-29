@@ -52,7 +52,7 @@ const Application = (props) => {
     })
   }
 
-  const downloadBulkCsvFile = (e) => {
+  const downloadBulkCsvFile = () => {
     var data = watch();
     trigger('date_from');
     trigger('date_to');
@@ -153,7 +153,7 @@ const Application = (props) => {
                           type="submit" className="btn btn-primary waves-effect waves-light">
                           <span className="d-flex"><Spinner type="search" loading={loading} />  Search</span>    
                         </button>
-                        <button onClick={downloadCsvFile}
+                        <button onClick={downloadBulkCsvFile}
                           type="button" className="btn btn-success waves-effect waves-light ml-2">
                           <span className="d-flex"><Spinner type="download" loading={bulkDownloading} />  Bulk Download</span>    
                         </button>
