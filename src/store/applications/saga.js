@@ -35,3 +35,23 @@ export async function getCsvFileByRefNo(refNo) {
     console.log(error);
   })
 }
+
+export async function getCsvAllData(from, to) {
+  return await get(`${GET_CSV_FILE}`, {
+    params: {
+      fromDate: from,
+      toDate: to,
+      page: '0',
+      size: '100000',
+      loggedUser: 'admin'
+    },
+    responseType: 'blob'
+  })
+  .then((response) => {
+    FileDownload(response, `export_all_records.csv`);
+    return true;
+  })
+  .catch((error) =>{
+    console.log(error);
+  })
+}

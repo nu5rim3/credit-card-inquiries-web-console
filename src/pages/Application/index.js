@@ -6,7 +6,7 @@ import { Row, Col, Card, CardBody, CardTitle } from "reactstrap"
 import Breadcrumbs from "../../components/Common/Breadcrumb"
 import "./datatables.scss"
 
-import { getAllEntries, getCsvFileByRefNo } from "store/applications/saga";
+import { getAllEntries, getCsvFileByRefNo, getCsvAllData } from "store/applications/saga";
 import { useForm } from 'react-hook-form';
 import Spinner from 'components/Common/Spinner';
 
@@ -14,9 +14,10 @@ const Application = (props) => {
 
   const [loading, setLoading] = useState(false);
   const [downloading, setDownloading] = useState(false);
+  const [bulkDownloading, setBulkDownloading] = useState(false);
   const [list, setList] = useState([]);
 
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, trigger, watch } = useForm();
 
   const onSubmit = (data) => {
     setLoading(true);
@@ -41,14 +42,21 @@ const Application = (props) => {
       })
   }
 
-  const downloadCsvFile = (e) => {
-    setDownloading(true);
-    getCsvFileByRefNo(e.referenceNo)
+  const downloadCsvFile = () => {
+    var data = watch();
+    trigger('date_from');
+    trigger('date_to');
+    setBulkDownloading(true);
+    getCsvAllData(data.date_from, data.date_to)
     .then((status) => {
       if (status) {
-        setDownloading(false);
+        setBulkDownloading(false);
       }
     })
+  }
+
+  const downloadBulkCsvFile = (e) => {
+
   }
 
   const data = {
@@ -138,6 +146,10 @@ const Application = (props) => {
                         <button
                           type="submit" className="btn btn-primary waves-effect waves-light">
                           <span className="d-flex"><Spinner type="search" loading={loading} />  Search</span>    
+                        </button>
+                        <button onClick={downloadCsvFile}
+                          type="button" className="btn btn-success waves-effect waves-light ml-2">
+                          <span className="d-flex"><Spinner type="download" loading={bulkDownloading} />  Bulk Download</span>    
                         </button>
                       </Col>
                     </Row>
