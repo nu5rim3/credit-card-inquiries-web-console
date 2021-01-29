@@ -43,6 +43,16 @@ const Application = (props) => {
   }
 
   const downloadCsvFile = () => {
+    setDownloading(true);
+    getCsvFileByRefNo(e.referenceNo)
+    .then((status) => {
+      if (status) {
+        setDownloading(false);
+      }
+    })
+  }
+
+  const downloadBulkCsvFile = (e) => {
     var data = watch();
     trigger('date_from');
     trigger('date_to');
@@ -53,10 +63,6 @@ const Application = (props) => {
         setBulkDownloading(false);
       }
     })
-  }
-
-  const downloadBulkCsvFile = (e) => {
-
   }
 
   const data = {
