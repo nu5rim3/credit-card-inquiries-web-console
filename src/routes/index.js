@@ -6,12 +6,14 @@ import Login from "../pages/Authentication/Login"
 import Logout from "../pages/Authentication/Logout"
 import Register from "../pages/Authentication/Register"
 import ForgetPwd from "../pages/Authentication/ForgetPassword"
+import UserProfile from "../pages/Authentication/UserProfile"
 
 // Dashboard
 import Dashboard from "../pages/Dashboard/index"
 import Application from "../pages/Application/index"
 
 const authProtectedRoutes = [
+  { path: "/profile", component: UserProfile },
   { path: "/dashboard", component: Dashboard },
   { path: "/applications", component: Application },
 

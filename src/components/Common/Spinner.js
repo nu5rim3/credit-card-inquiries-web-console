@@ -24,6 +24,10 @@ export default class Spinner extends Component {
                     <i className="bx bx-download font-size-16 align-middle mr-2"></i>
                 );
             }
+
+            if (this.props.type === 'none') {
+                return ("");
+            }
         }
     }
 

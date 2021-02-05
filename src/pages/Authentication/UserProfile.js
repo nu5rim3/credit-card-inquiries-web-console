@@ -25,10 +25,12 @@ import avatar from "../../assets/images/users/avatar-1.jpg"
 // actions
 import { editProfile } from "../../store/actions"
 
+import { updateProfile } from "store/auth/profile/saga";
+
 class UserProfile extends Component {
   constructor(props) {
     super(props)
-    this.state = { email: "", name: "", idx: 1 }
+    this.state = { email: "", name: "", password: "", password_confirm: "" , information: JSON.parse(localStorage.getItem("authInformation")), success: "", error: ""}
 
     // handleValidSubmit
     this.handleValidSubmit = this.handleValidSubmit.bind(this)
@@ -36,44 +38,24 @@ class UserProfile extends Component {
 
   // handleValidSubmit
   handleValidSubmit(event, values) {
-    this.props.editProfile(values)
+    // this.props.editProfile(values, this.props)
+    updateProfile(values)
+    .then(res => {
+      if (res.status === 'success' && res.data.status === 200) {
+        this.setState({success: "Profile Updated!"})
+      } else if (res.status === 'success' && res.data.status !== 200) {
+        this.setState({error: "Something Wrong!"})
+      }
+    })
   }
 
   componentDidMount() {
-    if (localStorage.getItem("authUser")) {
-      const obj = JSON.parse(localStorage.getItem("authUser"))
-      if (process.env.REACT_APP_DEFAULTAUTH === "firebase") {
-        this.setState({
-          name: obj.displayName,
-          email: obj.email,
-          idx: obj.uid,
-        })
-      } else if (
-        process.env.REACT_APP_DEFAULTAUTH === "fake" ||
-        process.env.REACT_APP_DEFAULTAUTH === "jwt"
-      ) {
-        this.setState({ name: obj.username, email: obj.email, idx: obj.uid })
-      }
-    }
+
   }
 
   // eslint-disable-next-line no-unused-vars
   componentDidUpdate(prevProps, prevState, ss) {
-    if (this.props !== prevProps) {
-      const obj = JSON.parse(localStorage.getItem("authUser"))
-      if (process.env.REACT_APP_DEFAULTAUTH === "firebase") {
-        this.setState({
-          name: obj.displayName,
-          email: obj.email,
-          idx: obj.uid,
-        })
-      } else if (
-        process.env.REACT_APP_DEFAULTAUTH === "fake" ||
-        process.env.REACT_APP_DEFAULTAUTH === "jwt"
-      ) {
-        this.setState({ name: obj.username, email: obj.email, idx: obj.uid })
-      }
-    }
+  
   }
 
   render() {
@@ -82,70 +64,81 @@ class UserProfile extends Component {
         <div className="page-content">
           <Container fluid>
             {/* Render Breadcrumb */}
-            <Breadcrumb title="Skote" breadcrumbItem="Profile" />
+            <Breadcrumb title="User" breadcrumbItem="Profile" />
 
             <Row>
               <Col lg="12">
-                {this.props.error && this.props.error ? (
-                  <Alert color="danger">{this.props.error}</Alert>
+                {this.state.error && this.state.error ? (
+                  <Alert color="danger">{this.state.error}</Alert>
                 ) : null}
-                {this.props.success && this.props.success ? (
-                  <Alert color="success">{this.props.success}</Alert>
-                ) : null}
+                {this.state.success && <Alert color="success">{this.state.success}</Alert>}
+              </Col>
+            </Row>
 
+            <h4 className="card-title mb-4">Change Password</h4>
+            
+            <Row>
+              <Col lg="6">
                 <Card>
                   <CardBody>
-                    <Media>
-                      <div className="mr-3">
-                        <img
-                          src={avatar}
-                          alt=""
-                          className="avatar-md rounded-circle img-thumbnail"
+                    <AvForm
+                      className="form-horizontal"
+                      onValidSubmit={(e, v) => {
+                        this.handleValidSubmit(e, v)
+                      }}
+                    >
+                      <div className="form-group">
+                      <AvField
+                          name="username"
+                          label="Username"
+                          value={this.state.information.username}
+                          className="form-control"
+                          placeholder="Enter Password"
+                          type="text"
+                          disabled
+                        />
+                        <AvField
+                          name="password"
+                          label="Password"
+                          value={this.state.password}
+                          className="form-control"
+                          placeholder="Enter Password"
+                          type="password"
+                          validate={
+                            {
+                              minLength: {value: 6, errorMessage: 'Your name must be between 6 and 16 characters'},
+                              maxLength: {value: 20, errorMessage: 'Your name must be between 6 and 16 characters'}
+                            }
+                          }
+                          required
+                        />
+                        <AvField
+                          name="password_confirm"
+                          label="Password Confirmation"
+                          value={this.state.password_confirm}
+                          className="form-control"
+                          placeholder="Enter Confirm Password"
+                          type="password"
+                          validate={
+                            {
+                              minLength: { value: 6, errorMessage: 'Your name must be between 6 and 16 characters' },
+                              maxLength: { value: 20, errorMessage: 'Your name must be between 6 and 16 characters' },
+                              match: { value: 'password' }
+                            }
+                          }
+                          required
                         />
                       </div>
-                      <Media body className="align-self-center">
-                        <div className="text-muted">
-                          <h5>{this.state.name}</h5>
-                          <p className="mb-1">{this.state.email}</p>
-                          <p className="mb-0">Id no: #{this.state.idx}</p>
-                        </div>
-                      </Media>
-                    </Media>
+                      <div className="text-center mt-4 float-right">
+                        <Button type="submit" color="primary">
+                          Update
+                        </Button>
+                      </div>
+                    </AvForm>
                   </CardBody>
                 </Card>
               </Col>
             </Row>
-
-            <h4 className="card-title mb-4">Change UserName</h4>
-
-            <Card>
-              <CardBody>
-                <AvForm
-                  className="form-horizontal"
-                  onValidSubmit={(e, v) => {
-                    this.handleValidSubmit(e, v)
-                  }}
-                >
-                  <div className="form-group">
-                    <AvField
-                      name="username"
-                      label="UserName"
-                      value={this.state.name}
-                      className="form-control"
-                      placeholder="Enter UserName"
-                      type="text"
-                      required
-                    />
-                    <AvField name="idx" value={this.state.idx} type="hidden" />
-                  </div>
-                  <div className="text-center mt-4">
-                    <Button type="submit" color="danger">
-                      Edit UserName
-                    </Button>
-                  </div>
-                </AvForm>
-              </CardBody>
-            </Card>
           </Container>
         </div>
       </React.Fragment>

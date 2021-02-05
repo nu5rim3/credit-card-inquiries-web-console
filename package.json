@@ -128,5 +128,5 @@
     "prettier": "^2.1.1"
   },
   "homepage": "https://creditcard.lolcfinance.com/login",
-  "proxy": "https://creditcard.lolcfinance.com"
+  "proxy": "http://localhost:8081"
 }

@@ -16,10 +16,14 @@ import { apiError, loginUser, socialLogin } from "../../store/actions"
 // import images
 import profile from "../../assets/images/lolcf_logo.svg"
 
+import Spinner from 'components/Common/Spinner';
+
 class Login extends Component {
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state = {
+      loading: false
+    }
 
     // handleValidSubmit
     this.handleValidSubmit = this.handleValidSubmit.bind(this)
@@ -27,6 +31,7 @@ class Login extends Component {
 
   // handleValidSubmit
   handleValidSubmit(event, values) {
+    this.setState({loading: true})
     this.props.loginUser(values, this.props.history)
   }
 
@@ -69,7 +74,6 @@ class Login extends Component {
                           <AvField
                             name="email"
                             label="Email"
-                            value="admin@lolctech.com"
                             className="form-control"
                             placeholder="Enter email"
                             type="email"
@@ -81,7 +85,6 @@ class Login extends Component {
                           <AvField
                             name="password"
                             label="Password"
-                            value="123456"
                             type="password"
                             required
                             placeholder="Enter Password"
@@ -107,7 +110,7 @@ class Login extends Component {
                             className="btn btn-primary btn-block waves-effect waves-light"
                             type="submit"
                           >
-                            Log In
+                            <span className="d-flex justify-content-center"><Spinner type="none" loading={this.state.loading} />  Log In</span>   
                           </button>
                         </div>
                       </AvForm>

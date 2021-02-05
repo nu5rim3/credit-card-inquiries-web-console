@@ -1,4 +1,4 @@
-import { get } from "helpers/api_helper"
+import { get, getToken } from "helpers/api_helper"
 import { GET_APPLICATIONS, GET_CSV_FILE } from "helpers/url_helper";
 import FileDownload from "js-file-download";
 
@@ -10,6 +10,9 @@ export async function getAllEntries(from, to) {
       page: '0',
       size: '100000',
       loggedUser: 'admin'
+    },
+    headers: {
+      'Authorization': `Bearer ${await getToken().then(res => res)}`
     }
   })
   .then((response) => {
@@ -25,7 +28,10 @@ export async function getCsvFileByRefNo(refNo) {
     params: {
       loggedUser: 'admin'
     },
-    responseType: 'blob'
+    responseType: 'blob',
+    headers: {
+      'Authorization': `Bearer ${await getToken().then(res => res)}`
+    }
   })
   .then((response) => {
     FileDownload(response, `${refNo}.csv`);
@@ -45,7 +51,10 @@ export async function getCsvAllData(from, to) {
       size: '100000',
       loggedUser: 'admin'
     },
-    responseType: 'blob'
+    responseType: 'blob',
+    headers: {
+      'Authorization': `Bearer ${await getToken().then(res => res)}`
+    }
   })
   .then((response) => {
     FileDownload(response, `export_all_records.csv`);
