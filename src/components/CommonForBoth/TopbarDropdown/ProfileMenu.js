@@ -11,9 +11,6 @@ import { withRouter, Link } from "react-router-dom"
 //i18n
 import { withTranslation } from "react-i18next"
 
-// users
-import user1 from "../../../assets/images/users/avatar-1.jpg"
-
 class ProfileMenu extends Component {
   constructor(props) {
     super(props)
@@ -69,11 +66,11 @@ class ProfileMenu extends Component {
             <i className="mdi mdi-chevron-down d-none d-xl-inline-block"/>
           </DropdownToggle>
           <DropdownMenu right>
-            {/* <DropdownItem tag="a" href="/profile">
+           <DropdownItem tag="a" href="/profile">
               <i className="bx bx-user font-size-16 align-middle mr-1"/>
               {this.props.t("Profile")}
             </DropdownItem>
-            <DropdownItem tag="a" href="/crypto-wallet">
+             {/* <DropdownItem tag="a" href="/crypto-wallet">
               <i className="bx bx-wallet font-size-16 align-middle mr-1"/>
               {this.props.t("My Wallet")}
             </DropdownItem>

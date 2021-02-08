@@ -12,26 +12,37 @@ import { AvField, AvForm } from "availity-reactstrap-validation"
 
 // actions
 import { apiError, loginUser, socialLogin } from "../../store/actions"
+import { login } from 'store/auth/login/saga'
 
 // import images
 import profile from "../../assets/images/lolcf_logo.svg"
 
+import Spinner from 'components/Common/Spinner';
+
 class Login extends Component {
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state = {
+      loading: false,
+      error: ''
+    }
 
     // handleValidSubmit
     this.handleValidSubmit = this.handleValidSubmit.bind(this)
   }
 
   // handleValidSubmit
-  handleValidSubmit(event, values) {
-    this.props.loginUser(values, this.props.history)
+  async handleValidSubmit(event, values) {
+    this.setState({loading: true})
+    var response = await login(values, this.props.history);
+    
+    if ((response.status === 400) || (response.status === 401) || (response.status === 500)) {
+      this.setState({error: response.data.error_description});
+    }
   }
 
   componentDidMount() {
-    this.props.apiError("")
+    
   }
 
   render() {
@@ -61,19 +72,19 @@ class Login extends Component {
                         className="form-horizontal"
                         onValidSubmit={this.handleValidSubmit}
                       >
-                        {this.props.error && this.props.error ? (
-                          <Alert color="danger">{this.props.error}</Alert>
+                        {this.state.error && this.state.error ? (
+                          <Alert color="danger">{this.state.error}</Alert>
                         ) : null}
 
                         <div className="form-group">
                           <AvField
                             name="email"
                             label="Email"
-                            value="admin@lolctech.com"
                             className="form-control"
                             placeholder="Enter email"
                             type="email"
                             required
+                            defaultValue="admin@lolctech.com"
                           />
                         </div>
 
@@ -81,10 +92,10 @@ class Login extends Component {
                           <AvField
                             name="password"
                             label="Password"
-                            value="123456"
                             type="password"
                             required
                             placeholder="Enter Password"
+                            defaultValue="Admin@1234#"
                           />
                         </div>
 
@@ -107,7 +118,7 @@ class Login extends Component {
                             className="btn btn-primary btn-block waves-effect waves-light"
                             type="submit"
                           >
-                            Log In
+                            <span className="d-flex justify-content-center"><Spinner type="none" loading={this.state.loading} />  Log In</span>   
                           </button>
                         </div>
                       </AvForm>

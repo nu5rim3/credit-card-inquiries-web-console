@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { Link } from "react-router-dom";
 import { MDBDataTable } from "mdbreact"
 import { Row, Col, Card, CardBody, CardTitle } from "reactstrap"
 
@@ -18,7 +19,7 @@ const Application = (props) => {
   const [list, setList] = useState([]);
 
   const { register, handleSubmit, trigger, watch } = useForm();
-
+  // hasDocument
   const onSubmit = (data) => {
     setLoading(true);
     getAllEntries(data.date_from, data.date_to)
@@ -31,10 +32,13 @@ const Application = (props) => {
             fullName: e.customer.fullName,
             contactNo: e.mobileNumber,
             date: e.createdAt,
-            option: <button onClick={() => downloadCsvFile(e)}
-                    type="button" className="btn btn-success btn-sm waves-effect waves-light">
-                    <span className="d-flex"><Spinner type="download" loading={downloading} />  Download</span>    
-                  </button>
+            option: <div>
+              <button onClick={() => downloadCsvFile(e)}
+                type="button" className="btn btn-success btn-sm waves-effect waves-light">
+                <span className="d-flex"><Spinner type="download" loading={downloading} />  Download</span>
+              </button>
+              {getViewDocument(e)}
+            </div>
           });
         });
         setLoading(false);
@@ -42,14 +46,25 @@ const Application = (props) => {
       })
   }
 
+  const getViewDocument = (e) => {
+    if (e.hasDocument === true) {
+      return (<Link to={`view-documents/` + e.referenceNo}
+        type="button" className="btn btn-primary btn-sm waves-effect waves-light ml-2">
+        <span className="d-flex"><Spinner type="images" loading={false} />  Documents</span>
+      </Link>);
+    } else {
+      return null;
+    }
+  }
+
   const downloadCsvFile = (e) => {
     setDownloading(true);
     getCsvFileByRefNo(e.referenceNo)
-    .then((status) => {
-      if (status) {
-        setDownloading(false);
-      }
-    })
+      .then((status) => {
+        if (status) {
+          setDownloading(false);
+        }
+      })
   }
 
   const downloadBulkCsvFile = () => {
@@ -58,11 +73,11 @@ const Application = (props) => {
     trigger('date_to');
     setBulkDownloading(true);
     getCsvAllData(data.date_from, data.date_to)
-    .then((status) => {
-      if (status) {
-        setBulkDownloading(false);
-      }
-    })
+      .then((status) => {
+        if (status) {
+          setBulkDownloading(false);
+        }
+      })
   }
 
   const data = {
@@ -151,11 +166,11 @@ const Application = (props) => {
                       <Col className="col-4">
                         <button
                           type="submit" className="btn btn-primary waves-effect waves-light">
-                          <span className="d-flex"><Spinner type="search" loading={loading} />  Search</span>    
+                          <span className="d-flex"><Spinner type="search" loading={loading} />  Search</span>
                         </button>
                         <button onClick={downloadBulkCsvFile}
                           type="button" className="btn btn-success waves-effect waves-light ml-2">
-                          <span className="d-flex"><Spinner type="download" loading={bulkDownloading} />  Bulk Download</span>    
+                          <span className="d-flex"><Spinner type="download" loading={bulkDownloading} />  Bulk Download</span>
                         </button>
                       </Col>
                     </Row>
