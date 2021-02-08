@@ -84,7 +84,6 @@ class Login extends Component {
                             placeholder="Enter email"
                             type="email"
                             required
-                            defaultValue="admin@lolctech.com"
                           />
                         </div>
 
@@ -95,7 +94,6 @@ class Login extends Component {
                             type="password"
                             required
                             placeholder="Enter Password"
-                            defaultValue="Admin@1234#"
                           />
                         </div>
 
