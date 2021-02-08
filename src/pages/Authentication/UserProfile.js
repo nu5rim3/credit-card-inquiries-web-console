@@ -37,16 +37,19 @@ class UserProfile extends Component {
   }
 
   // handleValidSubmit
-  handleValidSubmit(event, values) {
+  async handleValidSubmit(event, values) {
     // this.props.editProfile(values, this.props)
-    updateProfile(values)
+    await updateProfile(values)
     .then(res => {
-      if (res.status === 'success' && res.data.status === 200) {
+      if (res.status === 204) {
         this.setState({success: "Profile Updated!"})
-      } else if (res.status === 'success' && res.data.status !== 200) {
-        this.setState({error: "Something Wrong!"})
+        console.log(this.state);
+      } else if (res.status !== 204) {
+        this.setState({error: res.data.error_description})
       }
     })
+
+    this.setState({password: "", password_confirm: ""})
   }
 
   componentDidMount() {
@@ -80,6 +83,16 @@ class UserProfile extends Component {
             <Row>
               <Col lg="6">
                 <Card>
+                <div className="pt-4">
+                  <ul>
+                    <li>Password Minimum Length is 8 characters.</li>
+                    <li>Password cannot contain the Username.</li>
+                    <li>Password cannot contain the Email address.</li>
+                    <li>Password must be included at least 1 special character.</li>
+                    <li>Password must be included at least 1 uppercase character.</li>
+                    <li>Password must be included at least 1 lowercase character.</li>
+                  </ul>
+                </div>
                   <CardBody>
                     <AvForm
                       className="form-horizontal"
@@ -89,11 +102,20 @@ class UserProfile extends Component {
                     >
                       <div className="form-group">
                       <AvField
+                          name="idx"
+                          label="User ID"
+                          value={this.state.information.uid}
+                          className="form-control"
+                          placeholder=""
+                          type="text"
+                          disabled
+                        />
+                      <AvField
                           name="username"
                           label="Username"
-                          value={this.state.information.username}
+                          value={this.state.information.email}
                           className="form-control"
-                          placeholder="Enter Password"
+                          placeholder=""
                           type="text"
                           disabled
                         />
@@ -104,10 +126,11 @@ class UserProfile extends Component {
                           className="form-control"
                           placeholder="Enter Password"
                           type="password"
+                          value={this.state.password}
                           validate={
                             {
-                              minLength: {value: 6, errorMessage: 'Your name must be between 6 and 16 characters'},
-                              maxLength: {value: 20, errorMessage: 'Your name must be between 6 and 16 characters'}
+                              minLength: {value: 8, errorMessage: 'Your name must be between 8 and 50 characters'},
+                              maxLength: {value: 50, errorMessage: 'Your name must be between 8 and 50 characters'}
                             }
                           }
                           required
@@ -119,10 +142,11 @@ class UserProfile extends Component {
                           className="form-control"
                           placeholder="Enter Confirm Password"
                           type="password"
+                          value={this.state.password_confirm}
                           validate={
                             {
-                              minLength: { value: 6, errorMessage: 'Your name must be between 6 and 16 characters' },
-                              maxLength: { value: 20, errorMessage: 'Your name must be between 6 and 16 characters' },
+                              minLength: { value: 8, errorMessage: 'Your name must be between 8 and 50 characters' },
+                              maxLength: { value: 50, errorMessage: 'Your name must be between 8 and 50 characters' },
                               match: { value: 'password' }
                             }
                           }

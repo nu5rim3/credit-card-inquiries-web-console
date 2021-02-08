@@ -25,6 +25,12 @@ export default class Spinner extends Component {
                 );
             }
 
+            if (this.props.type === 'images') {
+                return (
+                    <i className="bx bx-images font-size-16 align-middle mr-2"></i>
+                );
+            }
+
             if (this.props.type === 'none') {
                 return ("");
             }

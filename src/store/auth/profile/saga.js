@@ -16,12 +16,32 @@ import { success } from "toastr"
 const fireBaseBackend = getFirebaseBackend()
 
 export const updateProfile = async(data) => {
-  return putMethod('/api/v1/users/update-password', data, {
-    headers: {
-      'Authorization': `Bearer ${await getToken().then(res => res)}`
-    }
-  }).then(res => { return {status: 'success', data: res}})
-  .catch(err => { return {status: 'error', data: err}})
+  const params = {
+    type: "password",
+    temporary: false,
+    value: data.password
+  }
+
+  return await new Promise(async(resolve) => {
+    var xhr = new XMLHttpRequest();
+    xhr.open("PUT", `/services/auth/admin/realms/master/users/${data.idx}/reset-password`, true);
+    xhr.setRequestHeader('Authorization', `Bearer ${await getToken().then(res => res)}`)
+    xhr.setRequestHeader('Content-type', 'application/json');
+    xhr.onload = function (e) {
+      if (xhr.status === 204) {
+        resolve({data: '', status: xhr.status });  
+      } else {
+        resolve({data: JSON.parse(xhr.response), status: xhr.status });
+      }
+      
+    };
+    xhr.onerror = function () {
+      resolve({status: xhr.status });
+      console.error("** An error occurred during the XMLHttpRequest");
+    };
+    xhr.send(JSON.stringify(params));
+  })
+
 }
 
 function* editProfile({ payload: { user, props } }) {

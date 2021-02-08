@@ -12,6 +12,7 @@ import { AvField, AvForm } from "availity-reactstrap-validation"
 
 // actions
 import { apiError, loginUser, socialLogin } from "../../store/actions"
+import { login } from 'store/auth/login/saga'
 
 // import images
 import profile from "../../assets/images/lolcf_logo.svg"
@@ -22,7 +23,8 @@ class Login extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      loading: false
+      loading: false,
+      error: ''
     }
 
     // handleValidSubmit
@@ -30,13 +32,17 @@ class Login extends Component {
   }
 
   // handleValidSubmit
-  handleValidSubmit(event, values) {
+  async handleValidSubmit(event, values) {
     this.setState({loading: true})
-    this.props.loginUser(values, this.props.history)
+    var response = await login(values, this.props.history);
+    
+    if ((response.status === 400) || (response.status === 401) || (response.status === 500)) {
+      this.setState({error: response.data.error_description});
+    }
   }
 
   componentDidMount() {
-    this.props.apiError("")
+    
   }
 
   render() {
@@ -66,8 +72,8 @@ class Login extends Component {
                         className="form-horizontal"
                         onValidSubmit={this.handleValidSubmit}
                       >
-                        {this.props.error && this.props.error ? (
-                          <Alert color="danger">{this.props.error}</Alert>
+                        {this.state.error && this.state.error ? (
+                          <Alert color="danger">{this.state.error}</Alert>
                         ) : null}
 
                         <div className="form-group">
@@ -78,6 +84,7 @@ class Login extends Component {
                             placeholder="Enter email"
                             type="email"
                             required
+                            defaultValue="admin@lolctech.com"
                           />
                         </div>
 
@@ -88,6 +95,7 @@ class Login extends Component {
                             type="password"
                             required
                             placeholder="Enter Password"
+                            defaultValue="Admin@1234#"
                           />
                         </div>
 
