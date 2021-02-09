@@ -138,3 +138,13 @@ div.table-responsive
   > div[class^="col-"]:last-child {
   padding-right: 0;
 }
+
+div.table-responsive 
+  tbody {
+    border-bottom: 2px solid #eff2f7;
+}
+
+div.table-responsive 
+  thead:last-child {
+    display: none;
+} 

@@ -176,14 +176,16 @@ const Application = (props) => {
                         </div>
                       </Col>
                       <Col className="col-4">
-                        <button
-                          type="submit" className="btn btn-primary waves-effect waves-light">
-                          <span className="d-flex"><Spinner type="search" loading={loading} />  Search</span>
-                        </button>
-                        <button onClick={downloadBulkCsvFile}
-                          type="button" className="btn btn-success waves-effect waves-light ml-2">
-                          <span className="d-flex"><Spinner type="download" loading={bulkDownloading} />  Bulk Download</span>
-                        </button>
+                        <div className="d-flex justify-content-end">
+                          <button
+                            type="submit" className="btn btn-primary waves-effect waves-light">
+                            <span className="d-flex"><Spinner type="search" loading={loading} />  Search</span>
+                          </button>
+                          <button onClick={downloadBulkCsvFile}
+                            type="button" className="btn btn-success waves-effect waves-light ml-2">
+                            <span className="d-flex"><Spinner type="download" loading={bulkDownloading} />  Bulk Download</span>
+                          </button>
+                        </div>
                       </Col>
                     </Row>
                   </form>
