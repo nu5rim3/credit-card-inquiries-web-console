@@ -50,7 +50,7 @@ const Application = (props) => {
   const getViewDocument = (e) => {
     if (e.hasDocument === true) {
       return (<Link to={`view-documents/` + e.referenceNo}
-        type="button" className="btn btn-primary btn-sm waves-effect waves-light ml-2">
+        type="button" className="btn btn-primary btn-sm waves-effect waves-light mt-sm-2 mt-xl-0 ml-xl-2">
         <span className="d-flex"><Spinner type="images" loading={false} />  Documents</span>
       </Link>);
     } else {
