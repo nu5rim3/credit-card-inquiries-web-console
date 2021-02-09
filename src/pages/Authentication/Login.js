@@ -37,7 +37,7 @@ class Login extends Component {
     var response = await login(values, this.props.history);
     
     if ((response.status === 400) || (response.status === 401) || (response.status === 500)) {
-      this.setState({error: response.data.error_description});
+      this.setState({error: response.data.error_description, loading: false});
     }
   }
 

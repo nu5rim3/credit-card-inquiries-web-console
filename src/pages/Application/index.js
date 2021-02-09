@@ -10,6 +10,7 @@ import "./datatables.scss"
 import { getAllEntries, getCsvFileByRefNo, getCsvAllData } from "store/applications/saga";
 import { useForm } from 'react-hook-form';
 import Spinner from 'components/Common/Spinner';
+import { format } from "prettier";
 
 const Application = (props) => {
 
@@ -31,7 +32,7 @@ const Application = (props) => {
             nicNo: e.nic,
             fullName: e.customer.fullName,
             contactNo: e.mobileNumber,
-            date: e.createdAt,
+            date: formatDateTime(e.createdAt),
             option: <div>
               <button onClick={() => downloadCsvFile(e)}
                 type="button" className="btn btn-success btn-sm waves-effect waves-light">
@@ -78,6 +79,17 @@ const Application = (props) => {
           setBulkDownloading(false);
         }
       })
+  }
+
+  const formatDateTime = (dateTime) => {
+    var d = new Date(dateTime),
+      dformat = [(d.getMonth() + 1).padLeft(),
+      d.getDate().padLeft(),
+      d.getFullYear()].join('/') + ' ' +
+        [d.getHours().padLeft(),
+        d.getMinutes().padLeft(),
+        d.getSeconds().padLeft()].join(':');
+    return dformat;
   }
 
   const data = {
@@ -184,6 +196,11 @@ const Application = (props) => {
       </div>
     </React.Fragment>
   )
+}
+
+Number.prototype.padLeft = function (base, chr) {
+  var len = (String(base || 10).length - String(this).length) + 1;
+  return len > 0 ? new Array(len).join(chr || '0') + this : this;
 }
 
 export default Application;

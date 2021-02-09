@@ -18,7 +18,10 @@ export default class index extends Component {
             billingProofImages: [],
             IncomeProofsImages: [],
             SupportiveImages: [],
-            visible: false
+            identification: false,
+            billing: false,
+            income: false,
+            supportive: false
         }
     }
 
@@ -62,7 +65,7 @@ export default class index extends Component {
                             <Col key={index.toString()} className="img-item col-3">
                                 <img src={item.src} style={{ width: '100%' }} onClick={() => {
                                     this.setState({
-                                        visible: true,
+                                        identification: true,
                                         activeIndex: index,
                                     });
                                 }} />
@@ -71,8 +74,8 @@ export default class index extends Component {
                     })}
                 </Row>
                 <Viewer
-                    visible={this.state.visible}
-                    onClose={() => { this.setState({ visible: false }); }}
+                    visible={this.state.identification}
+                    onClose={() => { this.setState({ identification: false }); }}
                     images={identificationImages}
                 />
             </div>
@@ -92,7 +95,7 @@ export default class index extends Component {
                             <Col key={index.toString()} className="img-item col-3">
                                 <img src={item.src} style={{ width: '100%' }} onClick={() => {
                                     this.setState({
-                                        visible: true,
+                                        billing: true,
                                         activeIndex: index,
                                     });
                                 }} />
@@ -101,8 +104,8 @@ export default class index extends Component {
                     })}
                 </Row>
                 <Viewer
-                    visible={this.state.visible}
-                    onClose={() => { this.setState({ visible: false }); }}
+                    visible={this.state.billing}
+                    onClose={() => { this.setState({ billing: false }); }}
                     images={billingProofImages}
                 />
             </div>
@@ -122,7 +125,7 @@ export default class index extends Component {
                             <Col key={index.toString()} className="img-item col-3">
                                 <img src={item.src} style={{ width: '100%' }} onClick={() => {
                                     this.setState({
-                                        visible: true,
+                                        income: true,
                                         activeIndex: index,
                                     });
                                 }} />
@@ -131,8 +134,8 @@ export default class index extends Component {
                     })}
                 </Row>
                 <Viewer
-                    visible={this.state.visible}
-                    onClose={() => { this.setState({ visible: false }); }}
+                    visible={this.state.income}
+                    onClose={() => { this.setState({ income: false }); }}
                     images={IncomeProofsImages}
                 />
             </div>
@@ -152,7 +155,7 @@ export default class index extends Component {
                             <Col key={index.toString()} className="img-item col-3">
                                 <img src={item.src} style={{ width: '100%' }} onClick={() => {
                                     this.setState({
-                                        visible: true,
+                                        supportive: true,
                                         activeIndex: index,
                                     });
                                 }} />
@@ -161,8 +164,8 @@ export default class index extends Component {
                     })}
                 </Row>
                 <Viewer
-                    visible={this.state.visible}
-                    onClose={() => { this.setState({ visible: false }); }}
+                    visible={this.state.supportive}
+                    onClose={() => { this.setState({ supportive: false }); }}
                     images={SupportiveImages}
                 />
             </div>

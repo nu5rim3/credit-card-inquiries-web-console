@@ -84,6 +84,7 @@ class UserProfile extends Component {
               <Col lg="6">
                 <Card>
                 <div className="pt-4">
+                  <h4 className="pl-4 pb-4">Password Policies</h4>
                   <ul>
                     <li>Password Minimum Length is 8 characters.</li>
                     <li>Password cannot contain the Username.</li>
