@@ -1,6 +1,6 @@
 {
-  "name": "Credit Card Application Console",
-  "version": "1.0.0",
+  "name": "skotereact",
+  "version": "2.0.0",
   "private": true,
   "dependencies": {
     "@fullcalendar/bootstrap": "^5.4.0",
