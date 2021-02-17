@@ -5,7 +5,7 @@ const app = express();
 app.disable('x-powered-by');
 
 app.use(function(req, res, next) {
-  res.setHeader("content-security-policy", "upgrade-insecure-requests; frame-ancestors 'self' https://creditcard.lolcfinance.com");
+  res.setHeader("content-security-policy", "upgrade-insecure-requests; frame-ancestors 'self' https://creditcard.lolc.lk");
   res.setHeader("strict-transport-security", "max-age=31536000");
   res.setHeader("Referrer-Policy", "no-referrer");
   res.setHeader("X-Content-Type-Options", "nosniff");
@@ -15,7 +15,7 @@ app.use(function(req, res, next) {
 });
 
 app.use('/robots.txt', function (req, res, next) {
-  res.redirect('https://creditcard.lolcfinance.com');
+  res.redirect('https://creditcard.lolc.lk');
 });
 
 app.use(express.static(path.join(__dirname, 'build')));
