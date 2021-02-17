@@ -130,6 +130,6 @@
     "eslint-plugin-react": "^7.20.6",
     "prettier": "^2.1.1"
   },
-  "homepage": "https://creditcard.lolcfinance.com/login",
-  "proxy": "https://creditcard.lolcfinance.com"
+  "homepage": "https://creditcard.lolc.lk/login",
+  "proxy": "https://creditcard.lolc.lk"
 }
