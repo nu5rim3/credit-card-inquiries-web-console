@@ -20,7 +20,7 @@ app.use('/robots.txt', function (req, res, next) {
 
 app.use(express.static(path.join(__dirname, 'build')));
 
-app.get('/login/profile', function (req, res) {
+app.get('/admin/profile', function (req, res) {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
