@@ -14,6 +14,7 @@ import Application from "../pages/Application/index"
 import Document from "../pages/Document/index";
 
 const authProtectedRoutes = [
+  { path: "/login/profile", component: UserProfile },
   { path: "/profile", component: UserProfile },
   { path: "/view-documents/:refNo", component: Document },
   { path: "/dashboard", component: Dashboard },
