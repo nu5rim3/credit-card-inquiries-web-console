@@ -1,4 +1,4 @@
-import { get, getToken, BASE_URL } from "helpers/api_helper"
+import { get, getToken, getLoggedUser, BASE_URL } from "helpers/api_helper"
 import { GET_ALL_DOCUMENTS_BY_REFERENCE, VIEW_IMAGE } from "helpers/url_helper";
 
 export async function getAllDocuments(refNo) {
@@ -7,7 +7,7 @@ export async function getAllDocuments(refNo) {
       referenceNo: refNo,
       page: '0',
       size: '100000',
-      loggedUser: 'admin'
+      loggedUser: await getLoggedUser().then(res => res)
     },
     headers: {
       'Authorization': `Bearer ${await getToken().then(res => res)}`
@@ -24,7 +24,7 @@ export async function getAllDocuments(refNo) {
 export async function viewImages(path) {
   return await get(`${VIEW_IMAGE}/${path}`, {
     params: {
-      loggedUser: 'admin'
+      loggedUser: await getLoggedUser().then(res => res)
     },
     headers: {
       'Authorization': `Bearer ${await getToken().then(res => res)}`

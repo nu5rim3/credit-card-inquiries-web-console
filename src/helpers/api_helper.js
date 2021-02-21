@@ -86,3 +86,11 @@ export async function getToken() {
     return token;
   }
 }
+
+export async function getLoggedUser() { 
+  var info = localStorage.getItem("authInformation")
+
+  if (info !== null) {
+    return JSON.parse(info).username;
+  }
+}
