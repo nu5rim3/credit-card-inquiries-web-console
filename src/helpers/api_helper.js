@@ -91,6 +91,6 @@ export async function getLoggedUser() {
   var info = localStorage.getItem("authInformation")
 
   if (info !== null) {
-    return JSON.parse(info).username;
+    return JSON.parse(info).email;
   }
 }
