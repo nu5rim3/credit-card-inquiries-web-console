@@ -24,7 +24,7 @@ export const updateProfile = async(data) => {
 
   return await new Promise(async(resolve) => {
     var xhr = new XMLHttpRequest();
-    xhr.open("PUT", `/services/auth/admin/realms/master/users/${data.idx}/reset-password`, true);
+    xhr.open("PUT", `/auth/admin/realms/master/users/${data.idx}/reset-password`, true);
     xhr.setRequestHeader('Authorization', `Bearer ${await getToken().then(res => res)}`)
     xhr.setRequestHeader('Content-type', 'application/json');
     xhr.onload = function (e) {
