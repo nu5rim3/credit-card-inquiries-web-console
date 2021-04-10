@@ -66,5 +66,5 @@ export const GET_APPLICATIONS = "/api/v1/dashboard/getEntries"
 export const GET_CSV_FILE = "/api/v1/dashboard/getEntries/export"
 
 //DOCUMENTS
-export const GET_ALL_DOCUMENTS_BY_REFERENCE = "/api/v1/documents/getDocumentsByRefNo"
-export const VIEW_IMAGE = "/api/v1/documents/view"
+export const GET_ALL_DOCUMENTS_BY_REFERENCE = "/api/v1/dashboard/documents/getDocumentsByRefNo"
+export const VIEW_IMAGE = "/api/v1/dashboard/documents/view"
