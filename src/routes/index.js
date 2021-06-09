@@ -12,10 +12,12 @@ import UserProfile from "../pages/Authentication/UserProfile"
 import Dashboard from "../pages/Dashboard/index"
 import Application from "../pages/Application/index"
 import Document from "../pages/Document/index";
+import ViewFile from "../pages/Document/ViewFile";
 
 const authProtectedRoutes = [
   { path: "/admin/profile", component: UserProfile },
   { path: "/profile", component: UserProfile },
+  { path: "/view-documents/file**", component: ViewFile },
   { path: "/view-documents/:refNo", component: Document },
   { path: "/dashboard", component: Dashboard },
   { path: "/applications", component: Application },

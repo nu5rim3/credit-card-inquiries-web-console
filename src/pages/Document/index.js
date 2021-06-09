@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { MDBDataTable } from "mdbreact"
 import { Row, Col, Card, CardBody, CardTitle } from "reactstrap"
 import Viewer from 'react-viewer';
+import { Link } from "react-router-dom";
 
 //Import Breadcrumb
 import Breadcrumbs from "../../components/Common/Breadcrumb"
@@ -36,16 +37,16 @@ export default class index extends Component {
                 .then(res => {
                     res.forEach((r) => {
                         if (r.fileCategory === 'identification_document_1') {
-                            imagesSet1.push({ src: `${getImageViewUrl()}/${r.filePath}?access_token=${token}` })
+                            imagesSet1.push({ src: `${getImageViewUrl()}/${r.filePath}?access_token=${token}&type=${r.fileType.toLowerCase()}`, type: r.fileType })
                         }
                         if (r.fileCategory === 'identification_document_2') {
-                            imagesSet2.push({ src: `${getImageViewUrl()}/${r.filePath}?access_token=${token}` })
+                            imagesSet2.push({ src: `${getImageViewUrl()}/${r.filePath}?access_token=${token}&type=${r.fileType.toLowerCase()}`, type: r.fileType })
                         }
                         if (r.fileCategory === 'income_proof_document') {
-                            imagesSet3.push({ src: `${getImageViewUrl()}/${r.filePath}?access_token=${token}` })
+                            imagesSet3.push({ src: `${getImageViewUrl()}/${r.filePath}?access_token=${token}&type=${r.fileType.toLowerCase()}`, type: r.fileType })
                         }
                         if (r.fileCategory === 'other_supporting_document') {
-                            imagesSet4.push({ src: `${getImageViewUrl()}/${r.filePath}?access_token=${token}` })
+                            imagesSet4.push({ src: `${getImageViewUrl()}/${r.filePath}?access_token=${token}&type=${r.fileType.toLowerCase()}`, type: r.fileType })
                         }
                     })
                 });
@@ -61,16 +62,24 @@ export default class index extends Component {
             return <div>
                 <Row>
                     {identificationImages.map((item, index) => {
-                        return (
-                            <Col key={index.toString()} className="img-item col-3">
-                                <img src={item.src} style={{ width: '100%' }} onClick={() => {
-                                    this.setState({
-                                        identification: true,
-                                        activeIndex: index,
-                                    });
-                                }} />
+                        if (item.type.toLowerCase() === 'image/jpeg' || item.type.toLowerCase() === 'image/png' || item.type.toLowerCase() === 'image/apng') {
+                            return (
+                                <Col key={index.toString()} className="img-item col-3">
+    
+                                    <img src={item.src} style={{ width: '100%' }} onClick={() => {
+                                        this.setState({
+                                            identification: true,
+                                            activeIndex: index,
+                                        });
+                                    }} />
+                                </Col>
+                            );
+                        } else {
+                            return <Col key={index.toString()} className="img-item col-3">
+                                <Link to={`/view-documents/file${item.src}`}
+                                    className="btn btn-primary" ><i className="bx bx-file-blank mr-2"></i>View File</Link>
                             </Col>
-                        );
+                        }
                     })}
                 </Row>
                 <Viewer
@@ -91,16 +100,23 @@ export default class index extends Component {
             return <div>
                 <Row>
                     {billingProofImages.map((item, index) => {
-                        return (
-                            <Col key={index.toString()} className="img-item col-3">
-                                <img src={item.src} style={{ width: '100%' }} onClick={() => {
-                                    this.setState({
-                                        billing: true,
-                                        activeIndex: index,
-                                    });
-                                }} />
+                        if (item.type.toLowerCase() === 'image/jpeg' || item.type.toLowerCase() === 'image/png' || item.type.toLowerCase() === 'image/apng') {
+                            return (
+                                <Col key={index.toString()} className="img-item col-3">
+                                    <img src={item.src} style={{ width: '100%' }} onClick={() => {
+                                        this.setState({
+                                            billing: true,
+                                            activeIndex: index,
+                                        });
+                                    }} />
+                                </Col>
+                            );   
+                        } else {
+                            return <Col key={index.toString()} className="img-item col-3">
+                                <Link to={`/view-documents/file${item.src}`}
+                                    className="btn btn-primary" ><i className="bx bx-file-blank mr-2"></i>View File</Link>
                             </Col>
-                        );
+                        }
                     })}
                 </Row>
                 <Viewer
@@ -121,16 +137,23 @@ export default class index extends Component {
             return <div>
                 <Row>
                     {IncomeProofsImages.map((item, index) => {
-                        return (
-                            <Col key={index.toString()} className="img-item col-3">
-                                <img src={item.src} style={{ width: '100%' }} onClick={() => {
-                                    this.setState({
-                                        income: true,
-                                        activeIndex: index,
-                                    });
-                                }} />
+                        if (item.type.toLowerCase() === 'image/jpeg' || item.type.toLowerCase() === 'image/png' || item.type.toLowerCase() === 'image/apng') {
+                            return (
+                                <Col key={index.toString()} className="img-item col-3">
+                                    <img src={item.src} style={{ width: '100%' }} onClick={() => {
+                                        this.setState({
+                                            income: true,
+                                            activeIndex: index,
+                                        });
+                                    }} />
+                                </Col>
+                            );   
+                        } else {
+                            return <Col key={index.toString()} className="img-item col-3">
+                                <Link to={`/view-documents/file${item.src}`}
+                                    className="btn btn-primary" ><i className="bx bx-file-blank mr-2"></i>View File</Link>
                             </Col>
-                        );
+                        }
                     })}
                 </Row>
                 <Viewer
@@ -151,16 +174,24 @@ export default class index extends Component {
             return <div>
                 <Row>
                     {SupportiveImages.map((item, index) => {
-                        return (
-                            <Col key={index.toString()} className="img-item col-3">
-                                <img src={item.src} style={{ width: '100%' }} onClick={() => {
-                                    this.setState({
-                                        supportive: true,
-                                        activeIndex: index,
-                                    });
-                                }} />
+                        if (item.type.toLowerCase() === 'image/jpeg' || item.type.toLowerCase() === 'image/png' || item.type.toLowerCase() === 'image/apng') {
+                            return (
+                                <Col key={index.toString()} className="img-item col-3">
+                                    <img src={item.src} style={{ width: '100%' }} onClick={() => {
+                                        this.setState({
+                                            supportive: true,
+                                            activeIndex: index,
+                                        });
+                                    }} />
+                                </Col>
+                            );
+                        } else {
+                            return <Col key={index.toString()} className="img-item col-3">
+                                <Link to={`/view-documents/file${item.src}`}
+                                    className="btn btn-primary" ><i className="bx bx-file-blank mr-2"></i>View File</Link>
                             </Col>
-                        );
+                        }
+                        
                     })}
                 </Row>
                 <Viewer
