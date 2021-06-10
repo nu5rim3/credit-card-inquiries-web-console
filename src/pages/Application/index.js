@@ -30,7 +30,7 @@ const Application = (props) => {
           dataSet.push({
             referenceNo: e.referenceNo,
             nicNo: e.nic,
-            fullName: e.customer.fullName,
+            fullName: (e.customers.length > 0 ? e.customer[0].fullName : ''),
             contactNo: e.mobileNumber,
             date: formatDateTime(e.createdAt),
             option: <div>

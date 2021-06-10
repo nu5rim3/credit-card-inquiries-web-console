@@ -14,6 +14,11 @@ import Application from "../pages/Application/index"
 import Document from "../pages/Document/index";
 import ViewFile from "../pages/Document/ViewFile";
 
+// Users
+import Users from "../pages/Users/index";
+import UserCreate from "../pages/Users/UserCreate";
+import UserUpdate from "../pages/Users/UserUpdate";
+
 const authProtectedRoutes = [
   { path: "/admin/profile", component: UserProfile },
   { path: "/profile", component: UserProfile },
@@ -22,8 +27,10 @@ const authProtectedRoutes = [
   { path: "/dashboard", component: Dashboard },
   { path: "/applications", component: Application },
 
-  // this route should be at the end of all other routes
-  // { path: "/", exact: true, component: () => <Redirect to="/dashboard" /> },
+  { path: "/users", component: Users },
+  { path: "/users/create", component: UserCreate },
+  { path: "/users/update/:id", component: UserUpdate },
+  
   { path: "/", exact: true, component: () => <Redirect to="/applications" /> },
 ]
 

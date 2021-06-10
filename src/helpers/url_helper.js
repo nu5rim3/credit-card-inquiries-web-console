@@ -68,3 +68,9 @@ export const GET_CSV_FILE = "/api/v1/dashboard/getEntries/export"
 //DOCUMENTS
 export const GET_ALL_DOCUMENTS_BY_REFERENCE = "/api/v1/dashboard/documents/getDocumentsByRefNo"
 export const VIEW_IMAGE = "/api/v1/dashboard/documents/view"
+
+// USERS 
+export const INT_GET_USERS = "/api/v1/dashboard/employee"
+export const INT_GET_USER_BY_ID = "/api/v1/dashboard/employee"
+export const INT_CREATE_USER = "/api/v1/dashboard/employee"
+export const INT_UPDATE_USER = "/api/v1/dashboard/employee/update"

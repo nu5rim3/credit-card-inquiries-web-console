@@ -25,9 +25,21 @@ export default class Spinner extends Component {
                 );
             }
 
+            if (this.props.type === 'data') {
+                return (
+                    <i className="bx bx-data font-size-16 align-middle mr-2"></i>
+                );
+            }
+
             if (this.props.type === 'images') {
                 return (
                     <i className="bx bx-images font-size-16 align-middle mr-2"></i>
+                );
+            }
+
+            if (this.props.type === 'save') {
+                return (
+                    <i className="bx bxs-save font-size-16 align-middle mr-2"></i>
                 );
             }
 
