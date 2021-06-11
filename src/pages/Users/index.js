@@ -96,7 +96,7 @@ const Application = (props) => {
             version: e.version,
             status: e.status,
             option: <div>
-                <Link to={`/users/update/${res.data.employeeId}`}
+                <Link to={`/users/update/${e.data.employeeId}`}
                   className="btn btn-success btn-sm waves-effect waves-light">
                   <span className="d-flex"><Spinner type="none" loading={downloading} />  Update</span>
                 </Link>
