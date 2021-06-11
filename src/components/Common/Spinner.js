@@ -43,6 +43,12 @@ export default class Spinner extends Component {
                 );
             }
 
+            if (this.props.type === 'send') {
+                return (
+                    <i className="bx bxs-send font-size-16 align-middle mr-2"></i>
+                );
+            }
+
             if (this.props.type === 'none') {
                 return ("");
             }

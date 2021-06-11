@@ -19,6 +19,9 @@ import Users from "../pages/Users/index";
 import UserCreate from "../pages/Users/UserCreate";
 import UserUpdate from "../pages/Users/UserUpdate";
 
+// Invitation
+import Invitation from "../pages/Invitation/index";
+
 const authProtectedRoutes = [
   { path: "/admin/profile", component: UserProfile },
   { path: "/profile", component: UserProfile },
@@ -30,6 +33,9 @@ const authProtectedRoutes = [
   { path: "/users", component: Users },
   { path: "/users/create", component: UserCreate },
   { path: "/users/update/:id", component: UserUpdate },
+
+
+  { path: "/invitations", component: Invitation },
   
   { path: "/", exact: true, component: () => <Redirect to="/applications" /> },
 ]

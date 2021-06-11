@@ -8,10 +8,8 @@ const localAuth = localStorage.getItem("authUser");
 const API_URL = "/services"
 
 const axiosApi = axios.create({
-  baseURL: API_URL,
+  baseURL: API_URL
 })
-
-// axiosApi.defaults.headers.common["Authorization"] = token
 
 axiosApi.interceptors.response.use(
   response => response,
@@ -50,7 +48,7 @@ export async function getToken() {
   var decode = jwt_decode(localAuth.access_token);
 
   if (decode.exp <= Math.round(new Date().getTime() / 1000)) {
-    
+
     const params = qs.stringify({
       grant_type: 'refresh_token',
       refresh_token: refreshToken
@@ -59,7 +57,7 @@ export async function getToken() {
     let response = await new Promise(resolve => {
       var xhr = new XMLHttpRequest();
       xhr.open("POST", '/auth/realms/master/protocol/openid-connect/token', true);
-      xhr.setRequestHeader('Authorization', 'Basic YWRtaW4tY29uc29sZTplYzU2MTFlNC02MDlhLTRiNTItOTQzZS1hMDFlN2ZjYjBlNGI=')
+      xhr.setRequestHeader('Authorization', `Basic ${process.env.REACT_APP_ACCESS_TOKEN}`)
       xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
       xhr.onload = function (e) {
         resolve({ data: JSON.parse(xhr.response), status: xhr.status });
@@ -87,7 +85,7 @@ export async function getToken() {
   }
 }
 
-export async function getLoggedUser() { 
+export async function getLoggedUser() {
   var info = localStorage.getItem("authInformation")
 
   if (info !== null) {

@@ -74,3 +74,6 @@ export const INT_GET_USERS = "/api/v1/dashboard/employee"
 export const INT_GET_USER_BY_ID = "/api/v1/dashboard/employee"
 export const INT_CREATE_USER = "/api/v1/dashboard/employee"
 export const INT_UPDATE_USER = "/api/v1/dashboard/employee/update"
+
+// INVITATION
+export const SEND_INVITATION = "/api/v1/dashboard/generate/sms"
