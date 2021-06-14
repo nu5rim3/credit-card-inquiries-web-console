@@ -18,7 +18,7 @@ export async function login(user, history) {
 
     let response = await new Promise(resolve => {
       var xhr = new XMLHttpRequest();
-      xhr.open("POST", '/services/auth/realms/master/protocol/openid-connect/token', true);
+      xhr.open("POST", '/auth/realms/master/protocol/openid-connect/token', true);
       xhr.setRequestHeader('Authorization', `Basic ${process.env.REACT_APP_ACCESS_TOKEN}`)
       xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
       xhr.onload = function (e) {
