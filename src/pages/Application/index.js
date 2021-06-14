@@ -1,7 +1,9 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { Link } from "react-router-dom";
 import { MDBDataTable } from "mdbreact"
-import { Row, Col, Card, CardBody, CardTitle } from "reactstrap"
+import { Row, Col, Card, CardBody, CardTitle, Pagination, PaginationItem, PaginationLink } from "reactstrap"
+import ReactPaginate from 'react-paginate';
+
 
 //Import Breadcrumb
 import Breadcrumbs from "../../components/Common/Breadcrumb"
@@ -10,41 +12,60 @@ import "./datatables.scss"
 import { getAllEntries, getCsvFileByRefNo, getCsvAllData } from "store/applications/saga";
 import { useForm } from 'react-hook-form';
 import Spinner from 'components/Common/Spinner';
-import { format } from "prettier";
 
-const Application = (props) => {
+const Application = () => {
+
+  const OFFSET = 10;
 
   const [loading, setLoading] = useState(false);
   const [downloading, setDownloading] = useState(false);
   const [bulkDownloading, setBulkDownloading] = useState(false);
-  const [list, setList] = useState([]);
+  const [page, setPage] = useState(0);
+  const [data, setData] = useState([]);
+  const [date, setDate] = useState(null);
 
   const { register, handleSubmit, trigger, watch } = useForm();
+
+  const onLoadData = (date, page) => {
+    if (date != null && date != null) {
+      setLoading(true);
+      getAllEntries(date.date_from, date.date_to, page, OFFSET)
+        .then((res) => {
+          var dataSet = [];
+          if (res !== undefined && res.data.content != undefined) {
+            res.data.content.forEach(e => {
+              dataSet.push({
+                referenceNo: e.referenceNo,
+                nicNo: e.nic,
+                fullName: (e.customers != null ? e.customer.fullName : ''),
+                contactNo: e.mobileNumber,
+                date: formatDateTime(e.createdAt),
+                option: <div>
+                  <button onClick={() => downloadCsvFile(e)}
+                    type="button" className="btn btn-success btn-sm waves-effect waves-light">
+                    <span className="d-flex"><Spinner type="download" loading={downloading} />  Download</span>
+                  </button>
+                  {getViewDocument(e)}
+                </div>
+              });
+            });
+            setLoading(false);
+            setData(dataSet);
+            setPage(0)
+            setPage(res.data.totalPages);
+          } else {
+            setLoading(false);
+          }
+        })
+    }
+  }
+
   // hasDocument
   const onSubmit = (data) => {
-    setLoading(true);
-    getAllEntries(data.date_from, data.date_to)
-      .then((data) => {
-        var dataSet = [];
-        data.forEach(e => {
-          dataSet.push({
-            referenceNo: e.referenceNo,
-            nicNo: e.nic,
-            fullName: (e.customers.length > 0 ? e.customer[0].fullName : ''),
-            contactNo: e.mobileNumber,
-            date: formatDateTime(e.createdAt),
-            option: <div>
-              <button onClick={() => downloadCsvFile(e)}
-                type="button" className="btn btn-success btn-sm waves-effect waves-light">
-                <span className="d-flex"><Spinner type="download" loading={downloading} />  Download</span>
-              </button>
-              {getViewDocument(e)}
-            </div>
-          });
-        });
-        setLoading(false);
-        setList(dataSet);
-      })
+    if (data.date_from != null && data.date_to != null) {
+      setDate(data);
+      onLoadData(data, 0);
+    }
   }
 
   const getViewDocument = (e) => {
@@ -92,7 +113,38 @@ const Application = (props) => {
     return dformat;
   }
 
-  const data = {
+  const handlePageClick = (data) => {
+    let selected = data.selected;
+    setPage(0);
+    setPage(selected);
+    onLoadData(date, selected);
+  }
+
+  const pagination = () => {
+    return (
+      <ReactPaginate
+        previousLabel={'Previous'}
+        nextLabel={'Next'}
+        breakLabel={'...'}
+        pageCount={page}
+        marginPagesDisplayed={2}
+        pageRangeDisplayed={4}
+        previousClassName={'page-item'}
+        previousLinkClassName={'page-link'}
+        containerClassName={'pagination'}
+        pageClassName={'page-item'}
+        pageLinkClassName={'page-link'}
+        activeClassName="active"
+        nextClassName={'page-item'}
+        nextLinkClassName={'page-link'}
+        breakClassName={'page-item'}
+        breakLinkClassName={'page-link'}
+        onPageChange={handlePageClick}
+      />
+    )
+  }
+
+  const items = {
     columns: [
       {
         label: "Reference No",
@@ -131,7 +183,7 @@ const Application = (props) => {
         width: 150,
       }
     ],
-    rows: list,
+    rows: data,
   }
 
 
@@ -189,7 +241,17 @@ const Application = (props) => {
                       </Col>
                     </Row>
                   </form>
-                  <MDBDataTable responsive bordered data={data} />
+                  <MDBDataTable
+                    responsive
+                    striped
+                    bordered
+                    data={items}
+                    paging={false}
+                  />
+
+                  <div className="d-flex flex-row-reverse">
+                    {pagination()}
+                  </div>
                 </CardBody>
               </Card>
             </Col>
@@ -198,11 +260,6 @@ const Application = (props) => {
       </div>
     </React.Fragment>
   )
-}
-
-Number.prototype.padLeft = function (base, chr) {
-  var len = (String(base || 10).length - String(this).length) + 1;
-  return len > 0 ? new Array(len).join(chr || '0') + this : this;
 }
 
 export default Application;

@@ -85,14 +85,14 @@ class SidebarContent extends Component {
       <React.Fragment>
         <div id="sidebar-menu">
           <ul className="metismenu list-unstyled" id="side-menu">
-            <li className="menu-title">{this.props.t("Master")}</li>
+            {/* <li className="menu-title">{this.props.t("Master")}</li>
             
             <li>
               <Link to="/users" className="waves-effect">
                 <i className="bx bxs-user-account" />
                 <span>{this.props.t("Users")}</span>
               </Link>
-            </li>
+            </li> */}
 
             <li className="menu-title">{this.props.t("Menu")}</li>
   
@@ -103,14 +103,14 @@ class SidebarContent extends Component {
               </Link>
             </li>
 
-            <li className="menu-title">{this.props.t("Utility")}</li>
+            {/* <li className="menu-title">{this.props.t("Utility")}</li>
   
             <li>
               <Link to="/invitations" className="waves-effect">
                 <i className="bx bxs-message-square-detail" />
                 <span>{this.props.t("Invitations")}</span>
               </Link>
-            </li>
+            </li> */}
           </ul>
         </div>
       </React.Fragment>

@@ -2,22 +2,20 @@ import { get, getToken, getLoggedUser } from "helpers/api_helper"
 import { GET_APPLICATIONS, GET_CSV_FILE } from "helpers/url_helper";
 import FileDownload from "js-file-download";
 
-export async function getAllEntries(from, to) {
+export async function getAllEntries(from, to, page, size) {
   return await get(GET_APPLICATIONS, {
     params: {
       fromDate: from,
       toDate: to,
-      page: '0',
-      size: '100000',
+      page: page,
+      size: size,
       loggedUser: `${await getLoggedUser().then(res => res)}`
     },
     headers: {
       'Authorization': `Bearer ${await getToken().then(res => res)}`
     }
   })
-  .then((response) => {
-    return (response.data.content);
-  })
+  .then((response) => response)
   .catch((error) =>{
     console.log(error);
   })
