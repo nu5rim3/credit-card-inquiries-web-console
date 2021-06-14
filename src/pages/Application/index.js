@@ -37,7 +37,7 @@ const Application = () => {
               dataSet.push({
                 referenceNo: e.referenceNo,
                 nicNo: e.nic,
-                fullName: (e.customers != null ? e.customer.fullName : ''),
+                fullName: (e.customer != null ? e.customer.fullName : ''),
                 contactNo: e.mobileNumber,
                 date: formatDateTime(e.createdAt),
                 option: <div>
