@@ -134,5 +134,5 @@
     "prettier": "^2.1.1"
   },
   "homepage": "https://creditcard.lolc.lk/login",
-  "proxy": "https://uat.warranty.lk"
+  "proxy": "https://creditcard.lolc.lk"
 }
