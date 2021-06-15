@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react"
 import { Link } from "react-router-dom";
 import { MDBDataTable } from "mdbreact"
 import { Row, Col, Card, CardBody, CardTitle, Alert } from "reactstrap"
+import ReactPaginate from 'react-paginate';
 
 //Import Breadcrumb
 import Breadcrumbs from "../../components/Common/Breadcrumb"
@@ -10,18 +11,21 @@ import "./datatables.scss"
 import { getAllEntries, getuserById } from "store/users/saga";
 import { useForm } from 'react-hook-form';
 import Spinner from 'components/Common/Spinner';
-import { format } from "prettier";
 
 const Application = (props) => {
+
+  const OFFSET = 10;
 
   const [loading, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
   const [downloading, setDownloading] = useState(false);
   const [allUsers, setAllUsers] = useState(false);
-  const [list, setList] = useState([]);
   const [status, setStatus] = useState(null)
   const [message, setMessage] = useState(null)
   const [visible, setVisible] = useState(false)
+  const [page, setPage] = useState(0);
+  const [data, setData] = useState([]);
+  const [date, setDate] = useState(null);
 
   const { register, handleSubmit, trigger, watch, errors } = useForm();
 
@@ -34,31 +38,31 @@ const Application = (props) => {
           setStatus(true);
           setMessage("Data Loaded!")
           setVisible(true)
-          setList([])
-          setList((o) => [...o, 
-            {
-              createdBy: res.data.createdBy,
-              createdAt: res.data.createdAt,
-              updatedBy: res.data.updatedBy,
-              updatedAt: res.data.updatedAt,
-              empIdPk: res.data.empIdPk,
-              windowsUserId: res.data.windowsUserId,
-              employeeId: res.data.employeeId,
-              email: res.data.email,
-              nic: res.data.nic,
-              contactNo: res.data.contactNo,
-              fullName: res.data.fullName,
-              branchCode: res.data.branchCode,
-              branchName: res.data.branchName,
-              version: res.data.version,
-              status: res.data.status,
-              option: <div>
-                <Link to={`/users/update/${res.data.employeeId}`}
-                  className="btn btn-success btn-sm waves-effect waves-light">
-                  <span className="d-flex"><Spinner type="none" loading={downloading} />  Update</span>
-                </Link>
-              </div>
-            }
+          setData([])
+          setData((o) => [...o,
+          {
+            createdBy: res.data.createdBy,
+            createdAt: res.data.createdAt,
+            updatedBy: res.data.updatedBy,
+            updatedAt: res.data.updatedAt,
+            empIdPk: res.data.empIdPk,
+            windowsUserId: res.data.windowsUserId,
+            employeeId: res.data.employeeId,
+            email: res.data.email,
+            nic: res.data.nic,
+            contactNo: res.data.contactNo,
+            fullName: res.data.fullName,
+            branchCode: res.data.branchCode,
+            branchName: res.data.branchName,
+            version: res.data.version,
+            status: res.data.status,
+            option: <div>
+              <Link to={`/users/update/${res.data.employeeId}`}
+                className="btn btn-success btn-sm waves-effect waves-light">
+                <span className="d-flex"><Spinner type="none" loading={downloading} />  Update</span>
+              </Link>
+            </div>
+          }
           ])
         } else {
           setStatus(false)
@@ -73,42 +77,83 @@ const Application = (props) => {
     }, 5000);
   }
 
-  const getAllUsers = () => {
+  const onLoadData = (page) => {
     setAllUsers(true);
-    getAllEntries()
-      .then((data) => {
+    getAllEntries(page, OFFSET)
+      .then((res) => {
         var dataSet = [];
-        data.forEach(e => {
-          dataSet.push({
-            createdBy: e.createdBy,
-            createdAt: e.createdAt,
-            updatedBy: e.updatedBy,
-            updatedAt: e.updatedAt,
-            empIdPk: e.empIdPk,
-            windowsUserId: e.windowsUserId,
-            employeeId: e.employeeId,
-            email: e.email,
-            nic: e.nic,
-            contactNo: e.contactNo,
-            fullName: e.fullName,
-            branchCode: e.branchCode,
-            branchName: e.branchName,
-            version: e.version,
-            status: e.status,
-            option: <div>
-                <Link to={`/users/update/${e.data.employeeId}`}
+        if (res !== undefined && res.data.content != undefined) {
+          res.data.content.forEach(e => {
+            dataSet.push({
+              createdBy: e.createdBy,
+              createdAt: e.createdAt,
+              updatedBy: e.updatedBy,
+              updatedAt: e.updatedAt,
+              empIdPk: e.empIdPk,
+              windowsUserId: e.windowsUserId,
+              employeeId: e.employeeId,
+              email: e.email,
+              nic: e.nic,
+              contactNo: e.contactNo,
+              fullName: e.fullName,
+              branchCode: e.branchCode,
+              branchName: e.branchName,
+              version: e.version,
+              status: e.status,
+              option: <div>
+                <Link to={`/users/update/${e.employeeId}`}
                   className="btn btn-success btn-sm waves-effect waves-light">
                   <span className="d-flex"><Spinner type="none" loading={downloading} />  Update</span>
                 </Link>
               </div>
+            });
           });
-        });
-        setAllUsers(false);
-        setList(dataSet);
+          setAllUsers(false);
+          setData(dataSet);
+          setPage(0)
+          setPage(res.data.totalPages);
+        } else {
+          setAllUsers(false);
+        }
       })
   }
 
-  const data = {
+  const getAllUsers = () => {
+    onLoadData(0);
+  }
+
+  const handlePageClick = (data) => {
+    let selected = data.selected;
+    setPage(0);
+    setPage(selected);
+    onLoadData(selected);
+  }
+
+  const pagination = () => {
+    return (
+      <ReactPaginate
+        previousLabel={'Previous'}
+        nextLabel={'Next'}
+        breakLabel={'...'}
+        pageCount={page}
+        marginPagesDisplayed={2}
+        pageRangeDisplayed={4}
+        previousClassName={'page-item'}
+        previousLinkClassName={'page-link'}
+        containerClassName={'pagination'}
+        pageClassName={'page-item'}
+        pageLinkClassName={'page-link'}
+        activeClassName="active"
+        nextClassName={'page-item'}
+        nextLinkClassName={'page-link'}
+        breakClassName={'page-item'}
+        breakLinkClassName={'page-link'}
+        onPageChange={handlePageClick}
+      />
+    )
+  }
+
+  const items = {
     columns: [
       {
         label: "Employee ID",
@@ -147,7 +192,7 @@ const Application = (props) => {
         width: 150,
       }
     ],
-    rows: list,
+    rows: data,
   }
 
   return (
@@ -198,14 +243,25 @@ const Application = (props) => {
                             <span className="d-flex"><Spinner type="data" loading={allUsers} />  All Users</span>
                           </button>
                           <Link to="/users/create"
-                            className="btn btn-primary waves-effect waves-light ml-2">
+                            className="btn btn-primary waves-effect waves-light ml-2 d-flex">
+                            <i className="bx bx-user font-size-16 align-middle mr-2"></i>
                             <span className="d-flex"> Create User</span>
                           </Link>
                         </div>
                       </Col>
                     </Row>
                   </form>
-                  <MDBDataTable responsive bordered data={data} />
+                  <MDBDataTable
+                    responsive
+                    striped
+                    bordered
+                    data={items}
+                    paging={false}
+                  />
+
+                  <div className="d-flex flex-row-reverse">
+                    {pagination()}
+                  </div>
                 </CardBody>
               </Card>
             </Col>

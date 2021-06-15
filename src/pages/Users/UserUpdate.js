@@ -156,9 +156,10 @@ const UpdateUser = (props) => {
                                                     type="text"
                                                     errorMessage="NIC No is required!"
                                                     value={data.nic != null ? data.nic : ''}
+                                                    helpMessage="All characters should be uppercase!"
                                                     validate={{
                                                         required: { value: true },
-                                                        pattern: { value: /^([0-9]{9}[x|X|v|V]|[0-9]{12})$/m }
+                                                        pattern: { value: /^([0-9]{9}[X|V]|[0-9]{12})$/m }
                                                     }}
                                                 />
                                             </Col>
@@ -203,7 +204,7 @@ const UpdateUser = (props) => {
                                             <Label
                                                 htmlFor="horizontal-password-Input"
                                                 className="col-sm-3 col-form-label"
-                                            >Branch <span className="text-danger">*</span></Label>
+                                            >Branch Code <span className="text-danger">*</span></Label>
                                             <Col sm={9}>
                                                 <AvField
                                                     name="branchCode"
@@ -219,7 +220,7 @@ const UpdateUser = (props) => {
                                             <Label
                                                 htmlFor="horizontal-password-Input"
                                                 className="col-sm-3 col-form-label"
-                                            >Branch <span className="text-danger">*</span></Label>
+                                            >Branch Name <span className="text-danger">*</span></Label>
                                             <Col sm={9}>
                                                 <AvField
                                                     name="branchName"
