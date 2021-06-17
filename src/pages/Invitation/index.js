@@ -23,38 +23,59 @@ const Invitation = (props) => {
     const onSubmit = async (event, errors, values) => {
         if (errors.length === 0) {
             setLoading(true)
-            await getuserById(values)
-                .then(async (res) => {
-                    if (res.status === 200) {
-                        setStatus(true);
-                        setMessage("User found!")
-                        setVisible(true)
-                        values['userId'] = values.meo_id
-                        await sendInvitaion(values)
-                            .then(res => {
-                                if (res.status === 200) {
-                                    setStatus(true);
-                                    setMessage(res.data.message)
-                                    setVisible(true)
-                                    form && form.reset()
-                                } else {
-                                    setStatus(false)
-                                    setMessage(res.data.message)
-                                    setVisible(true)
-                                }
-                                setLoading(false)
-                                setTimeout(() => {
-                                    setVisible(false)
-                                }, 5000);
-                            })
+            if (values.type === "I") {
+                await getuserById(values)
+                    .then(async (res) => {
+                        if (res.status === 200) {
+                            setStatus(true);
+                            setMessage("User found!")
+                            setVisible(true)
+                            values['userId'] = values.meo_id
+                            await sendInvitaion(values)
+                                .then(res => {
+                                    if (res.status === 200) {
+                                        setStatus(true);
+                                        setMessage(res.data.message)
+                                        setVisible(true)
+                                        form && form.reset()
+                                    } else {
+                                        setStatus(false)
+                                        setMessage(res.data.message)
+                                        setVisible(true)
+                                    }
+                                    setLoading(false)
+                                    setTimeout(() => {
+                                        setVisible(false)
+                                    }, 5000);
+                                })
 
-                    } else {
-                        setStatus(false)
-                        setMessage(res.data.message)
-                        setVisible(true)
-                    }
-                    setLoading(false)
-                })
+                        } else {
+                            setStatus(false)
+                            setMessage(res.data.message)
+                            setVisible(true)
+                        }
+                        setLoading(false)
+                    })
+            } else {
+                await sendInvitaion(values)
+                    .then(res => {
+                        if (res.status === 200) {
+                            setStatus(true);
+                            setMessage(res.data.message)
+                            setVisible(true)
+                            form && form.reset()
+                        } else {
+                            setStatus(false)
+                            setMessage(res.data.message)
+                            setVisible(true)
+                        }
+                        setLoading(false)
+                        setTimeout(() => {
+                            setVisible(false)
+                        }, 5000);
+                    })
+            }
+
 
             setTimeout(() => {
                 setVisible(false)
