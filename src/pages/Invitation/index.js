@@ -71,7 +71,7 @@ const Invitation = (props) => {
     }
 
     function getPreDefineInvitation() {
-        return "test sms";
+        return "Welcome to LOLC Finance!";
     }
 
     return (
@@ -124,7 +124,7 @@ const Invitation = (props) => {
                                             >Invitaion Message <span className="text-danger">*</span></Label>
                                             <Col sm={9}>
                                                 <AvField
-                                                    name="employeeId"
+                                                    name="message"
                                                     placeholder="Message body type here!"
                                                     type="textarea"
                                                     errorMessage="Message body is required!"
