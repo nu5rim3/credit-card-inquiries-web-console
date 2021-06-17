@@ -72,7 +72,7 @@ const Application = (props) => {
         setLoading2(false)
       })
 
-    setTimeout(() => {
+    setInterval(() => {
       setVisible(false)
     }, 5000);
   }

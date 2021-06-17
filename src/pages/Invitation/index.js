@@ -7,6 +7,7 @@ import Breadcrumbs from "../../components/Common/Breadcrumb"
 // Form Validations and Alerts
 import { AvForm, AvField } from "availity-reactstrap-validation"
 
+import { getuserById } from "store/users/saga";
 import { sendInvitaion } from "store/invitations/saga";
 import Spinner from 'components/Common/Spinner';
 
@@ -19,26 +20,45 @@ const Invitation = (props) => {
     const [form, setForm] = useState();
     const [type, setType] = useState(false);
 
-    const onSubmit = (event, errors, values) => {
+    const onSubmit = async (event, errors, values) => {
         if (errors.length === 0) {
-            setLoading(true);
-            sendInvitaion(values)
-                .then(res => {
+            setLoading(true)
+            await getuserById(values)
+                .then(async (res) => {
                     if (res.status === 200) {
                         setStatus(true);
-                        setMessage(res.data.message)
+                        setMessage("User found!")
                         setVisible(true)
-                        form && form.reset()
+                        values['userId'] = values.meo_id
+                        await sendInvitaion(values)
+                            .then(res => {
+                                if (res.status === 200) {
+                                    setStatus(true);
+                                    setMessage(res.data.message)
+                                    setVisible(true)
+                                    form && form.reset()
+                                } else {
+                                    setStatus(false)
+                                    setMessage(res.data.message)
+                                    setVisible(true)
+                                }
+                                setLoading(false)
+                                setTimeout(() => {
+                                    setVisible(false)
+                                }, 5000);
+                            })
+
                     } else {
                         setStatus(false)
                         setMessage(res.data.message)
                         setVisible(true)
                     }
                     setLoading(false)
-                    setTimeout(() => {
-                        setVisible(false)
-                    }, 5000);
                 })
+
+            setTimeout(() => {
+                setVisible(false)
+            }, 5000);
         }
     }
 
@@ -128,7 +148,7 @@ const Invitation = (props) => {
                                                     placeholder="Message body type here!"
                                                     type="textarea"
                                                     errorMessage="Message body is required!"
-                                                    value={getPreDefineInvitation()}
+                                                    defaultValue={getPreDefineInvitation()}
                                                     rows={10}
                                                     validate={{ required: { value: true } }}
                                                 />
@@ -142,7 +162,7 @@ const Invitation = (props) => {
                                                         type="submit"
                                                         color="primary"
                                                         className="w-md d-flex justify-content-between"
-                                                    >Create
+                                                    >Send
                                                         <Spinner type="send" loading={loading} />
                                                     </Button>
                                                 </div>
