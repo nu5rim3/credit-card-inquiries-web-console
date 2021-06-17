@@ -19,6 +19,11 @@ import Users from "../pages/Users/index";
 import UserCreate from "../pages/Users/UserCreate";
 import UserUpdate from "../pages/Users/UserUpdate";
 
+// Branches
+import Branches from "../pages/Branches/index";
+import BranchCreate from "../pages/Branches/BranchCreate";
+import BranchUpdate from "../pages/Branches/BranchUpdate";
+
 // Invitation
 import Invitation from "../pages/Invitation/index";
 
@@ -34,6 +39,9 @@ const authProtectedRoutes = [
   { path: "/users/create", component: UserCreate },
   { path: "/users/update/:id", component: UserUpdate },
 
+  { path: "/branches", component: Branches },
+  { path: "/branches/create", component: BranchCreate },
+  { path: "/branches/update/:id", component: BranchUpdate },
 
   { path: "/invitations", component: Invitation },
   

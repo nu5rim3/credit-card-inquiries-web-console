@@ -8,18 +8,18 @@ import ReactPaginate from 'react-paginate';
 import Breadcrumbs from "../../components/Common/Breadcrumb"
 import "./datatables.scss"
 
-import { getAllEntries, getuserById } from "store/users/saga";
+import { getAllEntries, getBranchById } from "store/branches/saga";
 import { useForm } from 'react-hook-form';
 import Spinner from 'components/Common/Spinner';
 
-const Users = (props) => {
+const Branches = (props) => {
 
   const OFFSET = 10;
 
   const [loading, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
   const [downloading, setDownloading] = useState(false);
-  const [allUsers, setAllUsers] = useState(false);
+  const [allBranches, setAllBranches] = useState(false);
   const [status, setStatus] = useState(null)
   const [message, setMessage] = useState(null)
   const [visible, setVisible] = useState(false)
@@ -32,7 +32,7 @@ const Users = (props) => {
 
   const onSubmit = (data) => {
     setLoading2(true)
-    getuserById(data)
+    getBranchById(data)
       .then(res => {
         if (res.status === 200) {
           setStatus(true);
@@ -40,33 +40,30 @@ const Users = (props) => {
           setVisible(true)
           setData([])
           setData((o) => [...o,
-          {
-            createdBy: res.data.createdBy,
-            createdAt: res.data.createdAt,
-            updatedBy: res.data.updatedBy,
-            updatedAt: res.data.updatedAt,
-            empIdPk: res.data.empIdPk,
-            windowsUserId: res.data.windowsUserId,
-            employeeId: res.data.employeeId,
-            email: res.data.email,
-            nic: res.data.nic,
-            contactNo: res.data.contactNo,
-            fullName: res.data.fullName,
-            branchCode: res.data.branchCode,
-            branchName: res.data.branchName,
-            version: res.data.version,
-            status: res.data.status,
-            option: <div>
-              <Link to={`/users/update/${res.data.employeeId}`}
-                className="btn btn-success btn-sm waves-effect waves-light">
-                <span className="d-flex"><Spinner type="none" loading={downloading} />  Update</span>
-              </Link>
-            </div>
-          }
+            {
+              createdBy: res.data.createdBy,
+              createdAt: res.data.createdAt,
+              updatedBy: res.data.updatedBy,
+              updatedAt: res.data.updatedAt,
+              code: res.data.code,
+              description: res.data.description,
+              district: res.data.district,
+              branchZone: res.data.branchZone,
+              companyCode: res.data.companyCode,
+              status: <>
+                {res.data.status === "A" ? <button className="btn btn-success btn-sm waves-effect waves-light">Active</button> : <button className="btn btn-danger btn-sm waves-effect waves-light">Inactive</button>}
+              </>,
+              option: <div>
+                <Link to={`/branches/update/${res.data.code}`}
+                  className="btn btn-success btn-sm waves-effect waves-light">
+                  <span className="d-flex"><Spinner type="none" loading={downloading} />  Update</span>
+                </Link>
+              </div>
+            }
           ])
         } else {
           setStatus(false)
-          setMessage(res.data.message)
+          setMessage(res.data)
           setVisible(true)
         }
         setLoading2(false)
@@ -78,7 +75,7 @@ const Users = (props) => {
   }
 
   const onLoadData = (page) => {
-    setAllUsers(true);
+    setAllBranches(true);
     getAllEntries(page, OFFSET)
       .then((res) => {
         var dataSet = [];
@@ -89,36 +86,33 @@ const Users = (props) => {
               createdAt: e.createdAt,
               updatedBy: e.updatedBy,
               updatedAt: e.updatedAt,
-              empIdPk: e.empIdPk,
-              windowsUserId: e.windowsUserId,
-              employeeId: e.employeeId,
-              email: e.email,
-              nic: e.nic,
-              contactNo: e.contactNo,
-              fullName: e.fullName,
-              branchCode: e.branchCode,
-              branchName: e.branchName,
-              version: e.version,
-              status: e.status,
+              code: e.code,
+              description: e.description,
+              district: e.district,
+              branchZone: e.branchZone,
+              companyCode: e.companyCode,
+              status: <>
+                {e.status === "A" ? <button className="btn btn-success btn-sm waves-effect waves-light">Active</button> : <button className="btn btn-danger btn-sm waves-effect waves-light">Inactive</button>}
+              </>,
               option: <div>
-                <Link to={`/users/update/${e.employeeId}`}
+                <Link to={`/branches/update/${e.code}`}
                   className="btn btn-success btn-sm waves-effect waves-light">
                   <span className="d-flex"><Spinner type="none" loading={downloading} />  Update</span>
                 </Link>
               </div>
             });
           });
-          setAllUsers(false);
+          setAllBranches(false);
           setData(dataSet);
           setPage(0)
           setPage(res.data.totalPages);
         } else {
-          setAllUsers(false);
+          setAllBranches(false);
         }
       })
   }
 
-  const getAllUsers = () => {
+  const getallBranches = () => {
     onLoadData(0);
   }
 
@@ -156,32 +150,32 @@ const Users = (props) => {
   const items = {
     columns: [
       {
-        label: "Employee ID",
-        field: "employeeId",
+        label: "Branch Code",
+        field: "code",
         sort: "asc",
         width: 150,
       },
       {
-        label: "Full Name",
-        field: "fullName",
+        label: "Branch Name",
+        field: "description",
         sort: "asc",
         width: 270,
       },
       {
-        label: "Branch Name",
-        field: "branchName",
+        label: "Branch Zone",
+        field: "branchZone",
         sort: "asc",
         width: 200,
       },
       {
-        label: "Contact No",
-        field: "contactNo",
+        label: "District",
+        field: "district",
         sort: "asc",
         width: 100,
       },
       {
-        label: "Email",
-        field: "email",
+        label: "Status",
+        field: "status",
         sort: "asc",
         width: 150,
       },
@@ -222,7 +216,7 @@ const Users = (props) => {
                         <div className="form-group row">
                           <label
                             htmlFor="example-date-input"
-                            className="col-md-3 col-form-label">MEO/Agent ID: </label>
+                            className="col-md-3 col-form-label">Branch Code: </label>
                           <div className="col-md-7">
                             <input ref={register({ required: true })}
                               className="form-control"
@@ -238,14 +232,14 @@ const Users = (props) => {
                             type="submit" className="btn btn-primary waves-effect waves-light">
                             <span className="d-flex"><Spinner type="search" loading={loading2} />  Search</span>
                           </button>
-                          <button onClick={getAllUsers}
+                          <button onClick={getallBranches}
                             type="button" className="btn btn-success waves-effect waves-light ml-2">
-                            <span className="d-flex"><Spinner type="data" loading={allUsers} />  All Users</span>
+                            <span className="d-flex"><Spinner type="data" loading={allBranches} />  All Branches</span>
                           </button>
-                          <Link to="/users/create"
+                          <Link to="/branches/create"
                             className="btn btn-primary waves-effect waves-light ml-2 d-flex">
-                            <i className="bx bx-user font-size-16 align-middle mr-2"></i>
-                            <span className="d-flex"> Create User</span>
+                            <i className="bx bxs-buildings font-size-16 align-middle mr-2"></i>
+                            <span className="d-flex"> Create Branch</span>
                           </Link>
                         </div>
                       </Col>
@@ -277,4 +271,4 @@ Number.prototype.padLeft = function (base, chr) {
   return len > 0 ? new Array(len).join(chr || '0') + this : this;
 }
 
-export default Users;
+export default Branches;

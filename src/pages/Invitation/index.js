@@ -19,6 +19,7 @@ const Invitation = (props) => {
     const [visible, setVisible] = useState(false)
     const [form, setForm] = useState();
     const [type, setType] = useState(false);
+    const [template, setTemplate] = useState("Welcome to LOLC Finance!");
 
     const onSubmit = async (event, errors, values) => {
         if (errors.length === 0) {
@@ -81,6 +82,8 @@ const Invitation = (props) => {
                 setVisible(false)
             }, 5000);
         }
+
+        setTemplate("Welcome to LOLC Finance!");
     }
 
     function handleType(value) {
@@ -109,10 +112,6 @@ const Invitation = (props) => {
                 </Col>
             </div>
         )
-    }
-
-    function getPreDefineInvitation() {
-        return "Welcome to LOLC Finance!";
     }
 
     return (
@@ -169,7 +168,7 @@ const Invitation = (props) => {
                                                     placeholder="Message body type here!"
                                                     type="textarea"
                                                     errorMessage="Message body is required!"
-                                                    defaultValue={getPreDefineInvitation()}
+                                                    value={template}
                                                     rows={10}
                                                     validate={{ required: { value: true } }}
                                                 />
