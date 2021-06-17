@@ -121,6 +121,7 @@ const UpdateUser = (props) => {
                                                     placeholder="Enter Employee ID"
                                                     type="text"
                                                     errorMessage="Employee ID is required!"
+                                                    disabled
                                                     value={data.employeeId != null ? data.employeeId : ''}
                                                     validate={{
                                                         required: { value: true }
