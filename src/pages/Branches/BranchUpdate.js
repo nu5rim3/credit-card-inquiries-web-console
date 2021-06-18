@@ -40,7 +40,7 @@ const UpdateUser = (props) => {
                     }
                     setLoading(false)
                 })
-            setTimeout(() => {
+            setInterval(() => {
                 setVisible(false)
             }, 5000);
         }
@@ -106,6 +106,7 @@ const UpdateUser = (props) => {
                                                     type="text"
                                                     errorMessage="Branch code is required!"
                                                     value={data.code != null ? data.code : ''}
+                                                    disabled
                                                     validate={{
                                                         required: { value: true }
                                                     }}
@@ -192,6 +193,7 @@ const UpdateUser = (props) => {
                                                     value={data.status != null ? data.status : ''}
                                                     validate={{ required: { value: true } }}
                                                 >
+                                                    <option value="">-- Select --</option>
                                                     <option value="A">Active</option>
                                                     <option value="I">Inactive</option>
                                                 </AvField>
