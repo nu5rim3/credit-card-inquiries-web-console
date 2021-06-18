@@ -105,8 +105,8 @@ const UpdateUser = (props) => {
                                                     placeholder="Enter Branch Code"
                                                     type="text"
                                                     errorMessage="Branch code is required!"
-                                                    value={data.code != null ? data.code : ''}
                                                     disabled
+                                                    value={data.code != null ? data.code : ''}
                                                     validate={{
                                                         required: { value: true }
                                                     }}
@@ -124,6 +124,7 @@ const UpdateUser = (props) => {
                                                     placeholder="Enter description Address"
                                                     type="text"
                                                     errorMessage="description is required!"
+                                                    disabled
                                                     value={data.description != null ? data.description : ''}
                                                     validate={{ required: { value: true }}}
                                                 />
@@ -140,6 +141,7 @@ const UpdateUser = (props) => {
                                                     placeholder="Enter District"
                                                     type="text"
                                                     errorMessage="District is required!"
+                                                    disabled
                                                     value={data.district != null ? data.district : ''}
                                                     validate={{
                                                         required: { value: true }
@@ -158,6 +160,7 @@ const UpdateUser = (props) => {
                                                     placeholder="Enter Branch Zone"
                                                     type="text"
                                                     errorMessage="Branch Zone is required!"
+                                                    disabled
                                                     value={data.branchZone != null ? data.branchZone : ''}
                                                     validate={{
                                                         required: { value: true }
@@ -176,6 +179,7 @@ const UpdateUser = (props) => {
                                                     placeholder="Enter Company Code"
                                                     type="number"
                                                     errorMessage="Company Code is required!"
+                                                    disabled
                                                     value={data.companyCode != null ? data.companyCode : ''}
                                                     validate={{ required: { value: true } }}
                                                 />

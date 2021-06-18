@@ -11,13 +11,12 @@ class ViewFile extends Component {
   constructor(props) {
     super(props)
     this.state = {url: '', type: ''}
-    console.log(this.props.match.params[0]);
   }
 
   async componentDidMount() {
     var token = await getToken().then(res => res);
     var parsed = qs.parse(this.props.location.search);
-    this.setState({url: `${getImageViewUrl()}${this.props.match.params[0].split("services/api/v1/documents/view")[1]}?access_token=${token}`, type: parsed.type.toLowerCase()})
+    this.setState({url: `${getImageViewUrl()}${this.props.match.params[0].split("/services/api/v1/dashboard/documents/view")[1]}?access_token=${token}`, type: parsed.type.toLowerCase()})
   }
 
   render() {
