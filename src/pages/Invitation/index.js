@@ -118,7 +118,7 @@ const Invitation = (props) => {
                             <AvField
                                 className="form-control"
                                 type="date"
-                                helpMessage="From Date"
+                                helpMessage="To Date"
                                 name="toDate" id="toDate" 
                                 validate={{ required: { value: true } }}
                                 />
