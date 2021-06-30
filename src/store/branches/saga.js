@@ -1,5 +1,5 @@
 import { get, post, getToken, getLoggedUser } from "helpers/api_helper"
-import { INT_GET_BRANCHES, INT_CREATE_BRANCH, INT_GET_BRANCH_BY_ID, INT_UPDATE_BRANCH } from "helpers/url_helper";
+import { INT_GET_BRANCHES, INT_CREATE_BRANCH, INT_GET_BRANCH_BY_ID, INT_UPDATE_BRANCH, INT_FUSION_BRANCH } from "helpers/url_helper";
 
 export async function getAllEntries(page, size) {
   return await get(INT_GET_BRANCHES, {
@@ -51,4 +51,21 @@ export async function updateBranch(data) {
       'Authorization': `Bearer ${await getToken().then(res => res)}`
     }
   }).then(res => res)
+}
+
+export async function getAllClcEntries() {
+  return await get(INT_FUSION_BRANCH, {
+    params: {
+      page: 0,
+      size: 1000,
+      loggedUser: `${await getLoggedUser().then(res => res)}`
+    },
+    headers: {
+      'Authorization': `Bearer ${await getToken().then(res => res)}`
+    }
+  })
+  .then((response) => response)
+  .catch((error) =>{
+    console.log(error);
+  })
 }

@@ -83,3 +83,6 @@ export const INT_GET_BRANCHES = "/api/v1/dashboard/branches"
 export const INT_GET_BRANCH_BY_ID = "/api/v1/dashboard/branches"
 export const INT_CREATE_BRANCH = "/api/v1/dashboard/branches"
 export const INT_UPDATE_BRANCH = "/api/v1/dashboard/branches/update"
+
+// BRANCHES
+export const INT_FUSION_BRANCH = "/api/v1/dashboard/branches/fusion"

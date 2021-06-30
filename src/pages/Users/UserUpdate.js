@@ -10,6 +10,7 @@ import "./datatables.scss"
 import { AvForm, AvField } from "availity-reactstrap-validation"
 
 import { getuserById, updateUser } from "store/users/saga";
+import { getAllClcEntries } from "store/branches/saga";
 import Spinner from 'components/Common/Spinner';
 
 const UpdateUser = (props) => {
@@ -22,8 +23,11 @@ const UpdateUser = (props) => {
     const [visible, setVisible] = useState(false)
     const [data, setData] = useState({})
     const [form, setForm] = useState()
+    const [branches, setBranches] = useState([]);
+    const [branchName, setBranchName] = useState(null);
 
     const onSubmit = (event, errors, values) => {
+        values['branchName'] = branchName;
         if (errors.length === 0) {
             setLoading(true);
             updateUser(values)
@@ -44,6 +48,12 @@ const UpdateUser = (props) => {
                 setVisible(false)
             }, 5000);
         }
+    }
+
+    const onChangeBranchName = (e) => {
+        var index = e.nativeEvent.target.selectedIndex;
+        var label = e.nativeEvent.target[index].text;
+        setBranchName(label);
     }
 
     useEffect(() => {
@@ -70,6 +80,21 @@ const UpdateUser = (props) => {
             })
         }
     }, [setData])
+
+    useEffect(() => {
+        const branches = () => {
+            getAllClcEntries()
+            .then(res => {
+                if (res.status === 200) {
+                    setBranches(res.data.content);
+                }
+            })
+        };
+
+        // Load branches
+        branches();
+
+    }, [setBranches]);
 
     return (
         <React.Fragment>
@@ -123,8 +148,10 @@ const UpdateUser = (props) => {
                                                     errorMessage="Employee ID is required!"
                                                     disabled
                                                     value={data.employeeId != null ? data.employeeId : ''}
+                                                    helpMessage="Max length is 255 characters!"
                                                     validate={{
-                                                        required: { value: true }
+                                                        required: { value: true },
+                                                        maxLength: { value: 225 }
                                                     }}
                                                 />
                                             </Col>
@@ -133,7 +160,7 @@ const UpdateUser = (props) => {
                                             <Label
                                                 htmlFor="horizontal-password-Input"
                                                 className="col-sm-3 col-form-label"
-                                            >Email <span className="text-danger">*</span></Label>
+                                            >Email <span className="text-danger"></span></Label>
                                             <Col sm={9}>
                                                 <AvField
                                                     name="email"
@@ -141,7 +168,6 @@ const UpdateUser = (props) => {
                                                     type="email"
                                                     errorMessage="Email is required!"
                                                     value={data.email != null ? data.email : ''}
-                                                    validate={{ required: { value: true }, email: true }}
                                                 />
                                             </Col>
                                         </div>
@@ -205,32 +231,22 @@ const UpdateUser = (props) => {
                                             <Label
                                                 htmlFor="horizontal-password-Input"
                                                 className="col-sm-3 col-form-label"
-                                            >Branch Code <span className="text-danger">*</span></Label>
+                                            >Branch <span className="text-danger">*</span></Label>
                                             <Col sm={9}>
                                                 <AvField
                                                     name="branchCode"
-                                                    placeholder="Enter Branch Code"
-                                                    type="text"
-                                                    errorMessage="Branch Code is required!"
+                                                    placeholder="Select Branch Code"
+                                                    type="select"
+                                                    errorMessage="Branch is required!"
+                                                    onChange={(e) => onChangeBranchName(e)}
                                                     value={data.branchCode != null ? data.branchCode : ''}
                                                     validate={{ required: { value: true } }}
-                                                />
-                                            </Col>
-                                        </div>
-                                        <div className="row mb-4">
-                                            <Label
-                                                htmlFor="horizontal-password-Input"
-                                                className="col-sm-3 col-form-label"
-                                            >Branch Name <span className="text-danger">*</span></Label>
-                                            <Col sm={9}>
-                                                <AvField
-                                                    name="branchName"
-                                                    placeholder="Enter Branch Name"
-                                                    type="text"
-                                                    errorMessage="Branch Name is required!"
-                                                    value={data.branchName != null ? data.branchName : ''}
-                                                    validate={{ required: { value: true } }}
-                                                />
+                                                >
+                                                    <option value="">-- Select --</option>
+                                                    {branches.length > 0 && 
+                                                        branches.map((b, i) => <option key={i} value={b.branchCode}>{b.branchDes}</option>)
+                                                    }
+                                                </AvField>
                                             </Col>
                                         </div>
 

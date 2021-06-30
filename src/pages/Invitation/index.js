@@ -18,7 +18,7 @@ const Invitation = (props) => {
     const [message, setMessage] = useState(null)
     const [visible, setVisible] = useState(false)
     const [form, setForm] = useState();
-    const [type, setType] = useState(false);
+    const [type, setType] = useState(null);
     const [template, setTemplate] = useState("Welcome to LOLC Finance!");
 
     const onSubmit = async (event, errors, values) => {
@@ -89,9 +89,44 @@ const Invitation = (props) => {
     function handleType(value) {
         if (value === 'I') {
             setType(true)
-        } else {
+        } else if (value === 'B') {
             setType(false)
+        } else {
+            setType(null)
         }
+    }
+
+    function dateRange() {
+        return (
+            <div className="row mb-4">
+                <Label
+                    htmlFor="horizontal-firstname-Input"
+                    className="col-sm-3 col-form-label"
+                >Date <span className="text-danger">*</span></Label>
+                <Col sm={9}>
+                    <Row>
+                        <Col md={6}>
+                            <AvField
+                                className="form-control"
+                                type="date"
+                                helpMessage="From Date"
+                                name="fromDate" id="fromDate" 
+                                validate={{ required: { value: true } }}
+                                />
+                        </Col>
+                        <Col md={6}>
+                            <AvField
+                                className="form-control"
+                                type="date"
+                                helpMessage="From Date"
+                                name="toDate" id="toDate" 
+                                validate={{ required: { value: true } }}
+                                />
+                        </Col>
+                    </Row>
+                </Col>
+            </div>
+        )
     }
 
     function individualField() {
@@ -156,7 +191,11 @@ const Invitation = (props) => {
                                                 </AvField>
                                             </Col>
                                         </div>
-                                        {type == true && individualField()}
+
+                                        {type == false && type != null && dateRange()}
+
+                                        {type == true && type != null && individualField()}
+
                                         <div className="row mb-4">
                                             <Label
                                                 htmlFor="horizontal-email-Input"

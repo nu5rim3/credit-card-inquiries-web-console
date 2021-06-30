@@ -9,6 +9,7 @@ import "./datatables.scss"
 import { AvForm, AvField } from "availity-reactstrap-validation"
 
 import { createUser } from "store/users/saga";
+import { getAllClcEntries } from "store/branches/saga";
 import Spinner from 'components/Common/Spinner';
 
 const UserCreate = (props) => {
@@ -18,8 +19,11 @@ const UserCreate = (props) => {
     const [message, setMessage] = useState(null)
     const [visible, setVisible] = useState(false)
     const [form, setForm] = useState();
+    const [branches, setBranches] = useState([]);
+    const [branchName, setBranchName] = useState(null);
 
     const onSubmit = (event, errors, values) => {
+        values['branchName'] = branchName;
         if (errors.length === 0) {
             setLoading(true);
             createUser(values)
@@ -41,6 +45,27 @@ const UserCreate = (props) => {
                 })
         }
     }
+
+    const onChangeBranchName = (e) => {
+        var index = e.nativeEvent.target.selectedIndex;
+        var label = e.nativeEvent.target[index].text;
+        setBranchName(label);
+    }
+
+    useEffect(() => {
+        const branches = () => {
+            getAllClcEntries()
+            .then(res => {
+                if (res.status === 200) {
+                    setBranches(res.data.content);
+                }
+            })
+        };
+
+        // Load branches
+        branches();
+
+    }, [setBranches]);
 
     return (
         <React.Fragment>
@@ -91,8 +116,10 @@ const UserCreate = (props) => {
                                                     placeholder="Enter Employee ID"
                                                     type="text"
                                                     errorMessage="Employee ID is required!"
+                                                    helpMessage="Max length is 255 characters!"
                                                     validate={{
-                                                        required: { value: true }
+                                                        required: { value: true },
+                                                        maxLength: { value: 225 }
                                                     }}
                                                 />
                                             </Col>
@@ -101,14 +128,13 @@ const UserCreate = (props) => {
                                             <Label
                                                 htmlFor="horizontal-password-Input"
                                                 className="col-sm-3 col-form-label"
-                                            >Email <span className="text-danger">*</span></Label>
+                                            >Email <span className="text-danger"></span></Label>
                                             <Col sm={9}>
                                                 <AvField
                                                     name="email"
                                                     placeholder="Enter Email Address"
                                                     type="email"
                                                     errorMessage="Email is required!"
-                                                    validate={{ required: { value: true }, email: true }}
                                                 />
                                             </Col>
                                         </div>
@@ -169,30 +195,21 @@ const UserCreate = (props) => {
                                             <Label
                                                 htmlFor="horizontal-password-Input"
                                                 className="col-sm-3 col-form-label"
-                                            >Branch Code <span className="text-danger">*</span></Label>
+                                            >Branch <span className="text-danger">*</span></Label>
                                             <Col sm={9}>
                                                 <AvField
                                                     name="branchCode"
-                                                    placeholder="Enter Branch Code"
-                                                    type="text"
-                                                    errorMessage="Branch Code is required!"
+                                                    placeholder="Select Branch Code"
+                                                    type="select"
+                                                    errorMessage="Branch is required!"
+                                                    onChange={(e) => onChangeBranchName(e)}
                                                     validate={{ required: { value: true } }}
-                                                />
-                                            </Col>
-                                        </div>
-                                        <div className="row mb-4">
-                                            <Label
-                                                htmlFor="horizontal-password-Input"
-                                                className="col-sm-3 col-form-label"
-                                            >Branch Name <span className="text-danger">*</span></Label>
-                                            <Col sm={9}>
-                                                <AvField
-                                                    name="branchName"
-                                                    placeholder="Enter Branch Name"
-                                                    type="text"
-                                                    errorMessage="Branch Name is required!"
-                                                    validate={{ required: { value: true } }}
-                                                />
+                                                >
+                                                    <option value="">-- Select --</option>
+                                                    {branches.length > 0 && 
+                                                        branches.map((b, i) => <option key={i} value={b.branchCode}>{b.branchDes}</option>)
+                                                    }
+                                                </AvField>
                                             </Col>
                                         </div>
 
