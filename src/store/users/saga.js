@@ -1,5 +1,5 @@
 import { get, post, getToken, getLoggedUser } from "helpers/api_helper"
-import { INT_GET_USERS, INT_CREATE_USER, INT_GET_USER_BY_ID, INT_UPDATE_USER } from "helpers/url_helper";
+import { INT_GET_USERS, INT_CREATE_USER, INT_GET_USER_BY_ID, INT_UPDATE_USER, INT_INFO_USER } from "helpers/url_helper";
 
 export async function getAllEntries(page, size) {
   return await get(INT_GET_USERS, {
@@ -44,6 +44,17 @@ export async function updateUser(data) {
   return await post(INT_UPDATE_USER, data, {
     params: {
       loggedUser: `${await getLoggedUser().then(res => res)}`
+    },
+    headers: {
+      'Authorization': `Bearer ${await getToken().then(res => res)}`
+    }
+  }).then(res => res)
+}
+
+export async function getuserinfoById(userId) {
+  return await get(`${INT_INFO_USER}`, {
+    params: {
+      userId: userId
     },
     headers: {
       'Authorization': `Bearer ${await getToken().then(res => res)}`

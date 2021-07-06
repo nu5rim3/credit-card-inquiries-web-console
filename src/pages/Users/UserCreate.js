@@ -8,19 +8,22 @@ import "./datatables.scss"
 // Form Validations and Alerts
 import { AvForm, AvField } from "availity-reactstrap-validation"
 
-import { createUser } from "store/users/saga";
+import { createUser, getuserinfoById } from "store/users/saga";
 import { getAllClcEntries } from "store/branches/saga";
 import Spinner from 'components/Common/Spinner';
 
 const UserCreate = (props) => {
 
     const [loading, setLoading] = useState(false);
+    const [search, setSearch] = useState(false);
     const [status, setStatus] = useState(null)
     const [message, setMessage] = useState(null)
     const [visible, setVisible] = useState(false)
     const [form, setForm] = useState();
     const [branches, setBranches] = useState([]);
     const [branchName, setBranchName] = useState(null);
+    const [aduser, setAduser] = useState(null);
+    const [userInfo, setUserInfo] = useState(null);
 
     const onSubmit = (event, errors, values) => {
         values['branchName'] = branchName;
@@ -52,14 +55,39 @@ const UserCreate = (props) => {
         setBranchName(label);
     }
 
+    const searchUserInformation = () => {
+        if (aduser === null) {
+            setStatus(false)
+            setMessage("Windows user ID is required!")
+            setVisible(true)
+        } else {
+            setSearch(true)
+            getuserinfoById(aduser.toUpperCase())
+            .then(res => {
+                setSearch(false);
+                if (res.status === 200 && res.data.responseCode === "000") {
+                    setUserInfo(res.data.responseObject.length > 0 ? res.data.responseObject[0]: null)
+                } else {
+                    setStatus(false)
+                    setMessage("Data fetching process is failed!")
+                    setVisible(true)
+                }
+            })
+        }
+
+        setTimeout(() => {
+            setVisible(false)
+        }, 5000)
+    }
+
     useEffect(() => {
         const branches = () => {
             getAllClcEntries()
-            .then(res => {
-                if (res.status === 200) {
-                    setBranches(res.data.content);
-                }
-            })
+                .then(res => {
+                    if (res.status === 200) {
+                        setBranches(res.data.content);
+                    }
+                })
         };
 
         // Load branches
@@ -95,14 +123,25 @@ const UserCreate = (props) => {
                                                 htmlFor="horizontal-firstname-Input"
                                                 className="col-sm-3 col-form-label"
                                             >Windows Login ID</Label>
-                                            <Col sm={9}>
+                                            <Col sm={7}>
                                                 <AvField
                                                     name="windowsUserId"
                                                     placeholder="Enter PC ID"
                                                     type="text"
                                                     errorMessage="PC ID is required!"
+                                                    onChange={(e) => setAduser(e.target.value)}
                                                     validate={{ required: { value: false } }}
                                                 />
+                                            </Col>
+                                            <Col md={2}>
+                                                <Button
+                                                    type="button"
+                                                    color="primary"
+                                                    className="w-md d-flex justify-content-between"
+                                                    onClick={() => searchUserInformation()}
+                                                >Search
+                                                    <Spinner type="search" loading={search} />
+                                                </Button>
                                             </Col>
                                         </div>
                                         <div className="row mb-4">
@@ -117,6 +156,7 @@ const UserCreate = (props) => {
                                                     type="text"
                                                     errorMessage="Employee ID is required!"
                                                     helpMessage="Max length is 255 characters!"
+                                                    value={(userInfo != null && userInfo.empNo != null) ? userInfo.empNo : ''}
                                                     validate={{
                                                         required: { value: true },
                                                         maxLength: { value: 225 }
@@ -135,6 +175,7 @@ const UserCreate = (props) => {
                                                     placeholder="Enter Email Address"
                                                     type="email"
                                                     errorMessage="Email is required!"
+                                                    value={(userInfo != null && userInfo.email != null) ? userInfo.email : ''}
                                                 />
                                             </Col>
                                         </div>
@@ -169,6 +210,7 @@ const UserCreate = (props) => {
                                                     type="text"
                                                     errorMessage="Contact No is required!"
                                                     helpMessage="Type contact number except leading zero."
+                                                    value={(userInfo != null && userInfo.contactNo != null) ? userInfo.contactNo : ''}
                                                     validate={{
                                                         required: { value: true },
                                                         pattern: { value: /^[0-9]{9}$/m }
@@ -187,6 +229,7 @@ const UserCreate = (props) => {
                                                     placeholder="Enter Full Name"
                                                     type="text"
                                                     errorMessage="Full Name is required!"
+                                                    value={(userInfo != null && userInfo.userName != null) ? userInfo.userName : ''}
                                                     validate={{ required: { value: true } }}
                                                 />
                                             </Col>
@@ -202,11 +245,12 @@ const UserCreate = (props) => {
                                                     placeholder="Select Branch Code"
                                                     type="select"
                                                     errorMessage="Branch is required!"
+                                                    value={(userInfo != null && userInfo.branchCode != null) ? userInfo.branchCode : ''}
                                                     onChange={(e) => onChangeBranchName(e)}
                                                     validate={{ required: { value: true } }}
                                                 >
                                                     <option value="">-- Select --</option>
-                                                    {branches.length > 0 && 
+                                                    {branches.length > 0 &&
                                                         branches.map((b, i) => <option key={i} value={b.branchCode}>{b.branchDes}</option>)
                                                     }
                                                 </AvField>
