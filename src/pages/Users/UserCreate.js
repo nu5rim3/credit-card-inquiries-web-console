@@ -26,7 +26,12 @@ const UserCreate = (props) => {
     const [userInfo, setUserInfo] = useState(null);
 
     const onSubmit = (event, errors, values) => {
-        values['branchName'] = branchName;
+        if (branchName != null) {
+            values['branchName'] = branchName;    
+        } else {
+            values['branchName'] = userInfo.branchName;
+        }
+        
         if (errors.length === 0) {
             setLoading(true);
             createUser(values)
@@ -52,6 +57,7 @@ const UserCreate = (props) => {
     const onChangeBranchName = (e) => {
         var index = e.nativeEvent.target.selectedIndex;
         var label = e.nativeEvent.target[index].text;
+        console.log(label);
         setBranchName(label);
     }
 
