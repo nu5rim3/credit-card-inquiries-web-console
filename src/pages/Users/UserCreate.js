@@ -66,7 +66,7 @@ const UserCreate = (props) => {
             .then(res => {
                 setSearch(false);
                 if (res.status === 200 && res.data.responseCode === "000") {
-                    setUserInfo(res.data.responseObject.length > 0 ? res.data.responseObject[0]: null)
+                    setUserInfo(res.data.responseObject.userDetails.length > 0 ? res.data.responseObject.userDetails[0]: null)
                 } else {
                     setStatus(false)
                     setMessage("Data fetching process is failed!")
