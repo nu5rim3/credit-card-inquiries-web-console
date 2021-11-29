@@ -19,6 +19,7 @@ export default class index extends Component {
             billingProofImages: [],
             IncomeProofsImages: [],
             SupportiveImages: [],
+            GuarantorImages: [],
             identification: false,
             billing: false,
             income: false,
@@ -33,6 +34,7 @@ export default class index extends Component {
             var imagesSet2 = [];
             var imagesSet3 = [];
             var imagesSet4 = [];
+            var imagesSet5 = [];
             await getAllDocuments(this.props.match.params.refNo)
                 .then(res => {
                     res.forEach((r) => {
@@ -48,11 +50,14 @@ export default class index extends Component {
                         if (r.fileCategory === 'other_supporting_document') {
                             imagesSet4.push({ src: `${getImageViewUrl()}/${r.filePath}?access_token=${token}&type=${r.fileType.toLowerCase()}`, type: r.fileType })
                         }
+                        if (r.fileCategory === 'g_identification_documents') {
+                            imagesSet5.push({ src: `${getImageViewUrl()}/${r.filePath}?access_token=${token}&type=${r.fileType.toLowerCase()}`, type: r.fileType })
+                        }
                     })
                 });
         }
 
-        this.setState({ identificationImages: imagesSet1, billingProofImages: imagesSet2, IncomeProofsImages: imagesSet3, SupportiveImages: imagesSet4 });
+        this.setState({ identificationImages: imagesSet1, billingProofImages: imagesSet2, IncomeProofsImages: imagesSet3, SupportiveImages: imagesSet4, GuarantorImages: imagesSet5 });
     }
 
     getIdentificationImages() {
@@ -205,6 +210,44 @@ export default class index extends Component {
         }
     }
 
+    getGuarantorImages() {
+        const { GuarantorImages } = this.state;
+
+        if (GuarantorImages.length > 0) {
+            return <div>
+                <Row>
+                    {GuarantorImages.map((item, index) => {
+                        if (item.type.toLowerCase() === 'image/jpeg' || item.type.toLowerCase() === 'image/png' || item.type.toLowerCase() === 'image/apng') {
+                            return (
+                                <Col key={index.toString()} className="img-item col-3">
+                                    <img src={item.src} style={{ width: '100%' }} onClick={() => {
+                                        this.setState({
+                                            supportive: true,
+                                            activeIndex: index,
+                                        });
+                                    }} />
+                                </Col>
+                            );
+                        } else {
+                            return <Col key={index.toString()} className="img-item col-3">
+                                <Link to={`/view-documents/file${item.src}`}
+                                    className="btn btn-primary" ><i className="bx bx-file-blank mr-2"></i>View File</Link>
+                            </Col>
+                        }
+                        
+                    })}
+                </Row>
+                <Viewer
+                    visible={this.state.supportive}
+                    onClose={() => { this.setState({ supportive: false }); }}
+                    images={GuarantorImages}
+                />
+            </div>
+        } else {
+            return null;
+        }
+    }
+
     render() {
 
         return (
@@ -240,6 +283,13 @@ export default class index extends Component {
                                     <CardBody>
                                         <CardTitle>Any Other Supporting Documents</CardTitle>
                                         { this.getSupportiveImages() }
+                                    </CardBody>
+                                </Card>
+
+                                <Card>
+                                    <CardBody>
+                                        <CardTitle>Guarantor Documents</CardTitle>
+                                        { this.getGuarantorImages() }
                                     </CardBody>
                                 </Card>
                             </Col>
