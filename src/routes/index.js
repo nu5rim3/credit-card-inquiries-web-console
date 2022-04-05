@@ -11,7 +11,9 @@ import UserProfile from "../pages/Authentication/UserProfile"
 // Dashboard
 import Dashboard from "../pages/Dashboard/index"
 import Application from "../pages/Application/index"
+import SwaireeApplication from "../pages/SwaireeApplication/index"
 import Document from "../pages/Document/index";
+import SwaireeDocument from "../pages/SwaireeDocument/index";
 import ViewFile from "../pages/Document/ViewFile";
 
 // Users
@@ -32,8 +34,10 @@ const authProtectedRoutes = [
   { path: "/profile", component: UserProfile },
   { path: "/view-documents/file**", component: ViewFile },
   { path: "/view-documents/:refNo", component: Document },
+  { path: "/view-swairee-documents/:refNo", component: SwaireeDocument },
   { path: "/dashboard", component: Dashboard },
   { path: "/applications", component: Application },
+  { path: "/swairee-applications", component: SwaireeApplication },
 
   { path: "/users", component: Users },
   { path: "/users/create", component: UserCreate },
@@ -44,7 +48,7 @@ const authProtectedRoutes = [
   { path: "/branches/update/:id", component: BranchUpdate },
 
   { path: "/invitations", component: Invitation },
-  
+
   { path: "/", exact: true, component: () => <Redirect to="/applications" /> },
 ]
 

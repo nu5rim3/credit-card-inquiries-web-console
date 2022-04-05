@@ -9,11 +9,11 @@ import ReactPaginate from 'react-paginate';
 import Breadcrumbs from "../../components/Common/Breadcrumb"
 import "./datatables.scss"
 
-import { getAllEntries, getCsvFileByRefNo, getCsvAllData } from "store/applications/saga";
+import { getAllSwaireeEntries, getSwaireeCsvFileByRefNo, getSwaireeCsvAllData } from "store/swaireeApplications/saga";
 import { useForm } from 'react-hook-form';
 import Spinner from 'components/Common/Spinner';
 
-const Application = () => {
+const SwaireeApplication = () => {
 
   const OFFSET = 10;
 
@@ -29,7 +29,7 @@ const Application = () => {
   const onLoadData = (date, page) => {
     if (date != null && date != null) {
       setLoading(true);
-      getAllEntries(date.date_from, date.date_to, page, OFFSET)
+      getAllSwaireeEntries(date.date_from, date.date_to, page, OFFSET)
         .then((res) => {
           var dataSet = [];
           if (res !== undefined && res.data.content != undefined) {
@@ -37,7 +37,7 @@ const Application = () => {
               dataSet.push({
                 referenceNo: e.referenceNo,
                 nicNo: e.nic,
-                fullName: (e.customer != null ? e.customer.fullName : ''),
+                fullName: (e.swaireeCustomer != null ? e.swaireeCustomer.fullName : ''),
                 contactNo: e.mobileNumber,
                 date: formatDateTime(e.createdAt),
                 option: <div>
@@ -70,7 +70,7 @@ const Application = () => {
 
   const getViewDocument = (e) => {
     if (e.hasDocument === true) {
-      return (<Link to={`view-documents/` + e.referenceNo}
+      return (<Link to={`view-swairee-documents/` + e.referenceNo}
         type="button" className="btn btn-primary btn-sm waves-effect waves-light mt-sm-2 mt-xl-0 ml-xl-2">
         <span className="d-flex"><Spinner type="images" loading={false} />  Documents</span>
       </Link>);
@@ -81,7 +81,7 @@ const Application = () => {
 
   const downloadCsvFile = (e) => {
     setDownloading(true);
-    getCsvFileByRefNo(e.referenceNo)
+    getSwaireeCsvFileByRefNo(e.referenceNo)
       .then((status) => {
         if (status) {
           setDownloading(false);
@@ -94,7 +94,7 @@ const Application = () => {
     trigger('date_from');
     trigger('date_to');
     setBulkDownloading(true);
-    getCsvAllData(data.date_from, data.date_to)
+    getSwaireeCsvAllData(data.date_from, data.date_to)
       .then((status) => {
         if (status) {
           setBulkDownloading(false);
@@ -191,7 +191,7 @@ const Application = () => {
     <React.Fragment>
       <div className="page-content">
         <div className="container-fluid">
-          <Breadcrumbs title="Applications" breadcrumbItem="General Application Details" />
+          <Breadcrumbs title="Applications" breadcrumbItem="Swairee Application Details" />
           <Row>
             <Col className="col-12">
               <Card>
@@ -262,4 +262,4 @@ const Application = () => {
   )
 }
 
-export default Application;
+export default SwaireeApplication;

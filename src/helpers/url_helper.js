@@ -61,9 +61,13 @@ export const GET_TASKS = "/tasks"
 export const GET_USERS = "/users"
 export const GET_USER_PROFILE = "/user"
 
-//APPLICATIONS
+//GENERAL APPLICATIONS
 export const GET_APPLICATIONS = "/api/v1/dashboard/getEntries"
 export const GET_CSV_FILE = "/api/v1/dashboard/getEntries/export"
+
+//SWAIREE APPLICATIONS
+export const GET_SWAIREE_APPLICATIONS = "/api/v1/dashboard/swairee/getEntries"
+export const GET_SWAIREE_CSV_FILE = "/api/v1/dashboard/swairee/getEntries/export"
 
 //DOCUMENTS
 export const GET_ALL_DOCUMENTS_BY_REFERENCE = "/api/v1/dashboard/documents/getDocumentsByRefNo"
