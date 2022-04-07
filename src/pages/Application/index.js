@@ -191,7 +191,7 @@ const Application = () => {
     <React.Fragment>
       <div className="page-content">
         <div className="container-fluid">
-          <Breadcrumbs title="Application" breadcrumbItem="Details" />
+          <Breadcrumbs title="Applications" breadcrumbItem="General Application Details" />
           <Row>
             <Col className="col-12">
               <Card>

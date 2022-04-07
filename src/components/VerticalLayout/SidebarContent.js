@@ -86,7 +86,7 @@ class SidebarContent extends Component {
         <div id="sidebar-menu">
           <ul className="metismenu list-unstyled" id="side-menu">
             <li className="menu-title">{this.props.t("Master")}</li>
-            
+
             <li>
               <Link to="/users" className="waves-effect">
                 <i className="bx bxs-user-account" />
@@ -102,16 +102,21 @@ class SidebarContent extends Component {
             </li>
 
             <li className="menu-title">{this.props.t("Menu")}</li>
-  
+
             <li>
               <Link to="/#" className="waves-effect">
                 <i className="bx bx-collection" />
-                <span>{this.props.t("Applications")}</span>
+                <span>{this.props.t("General Applications")}</span>
               </Link>
             </li>
-
+            <li>
+              <Link to="/swairee-applications" className="waves-effect">
+                <i className="bx bx-file" />
+                <span>{this.props.t("Swairee Applications")}</span>
+              </Link>
+            </li>
             <li className="menu-title">{this.props.t("Utility")}</li>
-  
+
             <li>
               <Link to="/invitations" className="waves-effect">
                 <i className="bx bxs-message-square-detail" />

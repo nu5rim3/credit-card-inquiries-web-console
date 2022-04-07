@@ -70,7 +70,7 @@ export default class index extends Component {
                         if (item.type.toLowerCase() === 'image/jpeg' || item.type.toLowerCase() === 'image/png' || item.type.toLowerCase() === 'image/apng') {
                             return (
                                 <Col key={index.toString()} className="img-item col-3">
-    
+
                                     <img src={item.src} style={{ width: '100%' }} onClick={() => {
                                         this.setState({
                                             identification: true,
@@ -115,7 +115,7 @@ export default class index extends Component {
                                         });
                                     }} />
                                 </Col>
-                            );   
+                            );
                         } else {
                             return <Col key={index.toString()} className="img-item col-3">
                                 <Link to={`/view-documents/file${item.src}`}
@@ -152,7 +152,7 @@ export default class index extends Component {
                                         });
                                     }} />
                                 </Col>
-                            );   
+                            );
                         } else {
                             return <Col key={index.toString()} className="img-item col-3">
                                 <Link to={`/view-documents/file${item.src}`}
@@ -196,7 +196,7 @@ export default class index extends Component {
                                     className="btn btn-primary" ><i className="bx bx-file-blank mr-2"></i>View File</Link>
                             </Col>
                         }
-                        
+
                     })}
                 </Row>
                 <Viewer
@@ -234,7 +234,7 @@ export default class index extends Component {
                                     className="btn btn-primary" ><i className="bx bx-file-blank mr-2"></i>View File</Link>
                             </Col>
                         }
-                        
+
                     })}
                 </Row>
                 <Viewer
@@ -254,7 +254,7 @@ export default class index extends Component {
             <React.Fragment>
                 <div className="page-content">
                     <div className="container-fluid">
-                        <Breadcrumbs title="Application" breadcrumbItem="Documents" />
+                        <Breadcrumbs title="Applications" breadcrumbItem="General Application Documents" />
                         <Row>
                             <Col className="col-12">
                                 Documents of {this.props.match.params.refNo}
@@ -275,21 +275,21 @@ export default class index extends Component {
                                 <Card>
                                     <CardBody>
                                         <CardTitle>Income Proofs</CardTitle>
-                                        { this.getIncomeProofImages() }
+                                        {this.getIncomeProofImages()}
                                     </CardBody>
                                 </Card>
 
                                 <Card>
                                     <CardBody>
                                         <CardTitle>Any Other Supporting Documents</CardTitle>
-                                        { this.getSupportiveImages() }
+                                        {this.getSupportiveImages()}
                                     </CardBody>
                                 </Card>
 
                                 <Card>
                                     <CardBody>
                                         <CardTitle>Guarantor Documents</CardTitle>
-                                        { this.getGuarantorImages() }
+                                        {this.getGuarantorImages()}
                                     </CardBody>
                                 </Card>
                             </Col>
