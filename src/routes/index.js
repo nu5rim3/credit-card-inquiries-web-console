@@ -26,6 +26,12 @@ import Branches from "../pages/Branches/index";
 import BranchCreate from "../pages/Branches/BranchCreate";
 import BranchUpdate from "../pages/Branches/BranchUpdate";
 
+
+// Shops
+import Shops from "../pages/Shops/index";
+import ShopCreate from "../pages/Shops/ShopCreate";
+import ShopUpdate from "../pages/Shops/ShopUpdate";
+
 // Invitation
 import Invitation from "../pages/Invitation/index";
 
@@ -46,6 +52,10 @@ const authProtectedRoutes = [
   { path: "/branches", component: Branches },
   { path: "/branches/create", component: BranchCreate },
   { path: "/branches/update/:id", component: BranchUpdate },
+
+  { path: "/shops", component: Shops },
+  { path: "/shops/create", component: ShopCreate },
+  { path: "/shops/update/:id", component: ShopUpdate },
 
   { path: "/invitations", component: Invitation },
 

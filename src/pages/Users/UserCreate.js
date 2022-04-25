@@ -262,7 +262,24 @@ const UserCreate = (props) => {
                                                 </AvField>
                                             </Col>
                                         </div>
-
+                                        <div className="row mb-4">
+                                            <Label
+                                                htmlFor="horizontal-password-Input"
+                                                className="col-sm-3 col-form-label"
+                                            >Card Type<span className="text-danger">*</span></Label>
+                                            <Col sm={9}>
+                                                <AvField
+                                                    name="cardType"
+                                                    type="select"
+                                                  
+                                                    validate={{ required: { value: true } }}
+                                                >
+                                                    <option value="">-- Select --</option>
+                                                    <option value="GEN">General Credit Card</option>
+                                                    <option value="SW">Swairee Credit Card</option>
+                                                </AvField>
+                                            </Col>
+                                        </div>
                                         <div className="row">
                                             <Col sm={12} className="d-flex flex-row flex-row-reverse">
                                                 <div>

@@ -9,11 +9,11 @@ import "./datatables.scss"
 // Form Validations and Alerts
 import { AvForm, AvField } from "availity-reactstrap-validation"
 
-import { getuserById, updateUser } from "store/users/saga";
-import { getAllClcEntries } from "store/branches/saga";
+import { getShopById, updateShop } from "store/shops/saga";
+
 import Spinner from 'components/Common/Spinner';
 
-const UpdateUser = (props) => {
+const UpdateShop = (props) => {
 
     const { id } = useParams()
 
@@ -23,14 +23,15 @@ const UpdateUser = (props) => {
     const [visible, setVisible] = useState(false)
     const [data, setData] = useState({})
     const [form, setForm] = useState()
-    const [branches, setBranches] = useState([]);
-    const [branchName, setBranchName] = useState(null);
+
+
 
     const onSubmit = (event, errors, values) => {
-        values['branchName'] = branchName;
+        values['shopCode'] = id;
         if (errors.length === 0) {
             setLoading(true);
-            updateUser(values)
+            
+            updateShop(values)
                 .then(res => {
                     if (res.status === 200) {
                         setStatus(true);
@@ -50,57 +51,38 @@ const UpdateUser = (props) => {
         }
     }
 
-    const onChangeBranchName = (e) => {
-        var index = e.nativeEvent.target.selectedIndex;
-        var label = e.nativeEvent.target[index].text;
-        setBranchName(label);
-    }
 
     useEffect(() => {
         if (id != null && id != undefined) {
             var data = {
-                meo_id: id
+                shopCode: id
             }
-            getuserById(data)
-            .then(res => {
-                if (res.status === 200) {
-                    setStatus(true);
-                    setMessage("Data Loaded!")
-                    setVisible(true)
-                    setData(res.data)
-                } else {
-                    setStatus(false)
-                    setMessage(res.data.message)
-                    setVisible(true)
-                }
+            getShopById(data)
+                .then(res => {
+                    if (res.status === 200) {
+                        setStatus(true);
+                        setMessage("Data Loaded!")
+                        setVisible(true)
+                        setData(res.data)
+                    } else {
+                        setStatus(false)
+                        setMessage(res.data.message)
+                        setVisible(true)
+                    }
 
-                setTimeout(() => {
-                    setVisible(false)
-                }, 5000);
-            })
+                    setTimeout(() => {
+                        setVisible(false)
+                    }, 5000);
+                })
         }
     }, [setData])
 
-    useEffect(() => {
-        const branches = () => {
-            getAllClcEntries()
-            .then(res => {
-                if (res.status === 200) {
-                    setBranches(res.data.content);
-                }
-            })
-        };
-
-        // Load branches
-        branches();
-
-    }, [setBranches]);
 
     return (
         <React.Fragment>
             <div className="page-content">
                 <div className="container-fluid">
-                    <Breadcrumbs title="Master" breadcrumbItem="Update User" />
+                    <Breadcrumbs title="Master" breadcrumbItem="Update Shop" />
                     <Row>
                         <Col className="col-12">
                             <Card>
@@ -118,44 +100,23 @@ const UpdateUser = (props) => {
                                                 {message}
                                             </Alert>
                                         }
+                                        <div className="row mb-4">
+                                            <Label
+                                                htmlFor="horizontal-password-Input"
+                                                className="col-sm-3 col-form-label"
+                                            >Shop Name <span className="text-danger">*</span></Label>
+                                            <Col sm={9}>
+                                                <AvField
+                                                    name="shopName"
+                                                    placeholder="Enter Shop Name"
+                                                    type="text"
+                                                    errorMessage="Shop Name is required!"
+                                                    value={data.shopName != null ? data.shopName : ''}
+                                                    validate={{ required: { value: true } }}
+                                                />
+                                            </Col>
+                                        </div>
 
-                                        <div className="row mb-4">
-                                            <Label
-                                                htmlFor="horizontal-firstname-Input"
-                                                className="col-sm-3 col-form-label"
-                                            >Windows Login ID</Label>
-                                            <Col sm={9}>
-                                                <AvField
-                                                    name="windowsUserId"
-                                                    placeholder="Enter PC ID"
-                                                    type="text"
-                                                    errorMessage="PC ID is required!"
-                                                    value={data.windowsUserId != null ? data.windowsUserId : ''}
-                                                    validate={{ required: { value: false } }}
-                                                />
-                                            </Col>
-                                        </div>
-                                        <div className="row mb-4">
-                                            <Label
-                                                htmlFor="horizontal-email-Input"
-                                                className="col-sm-3 col-form-label"
-                                            >Employee/Agent ID <span className="text-danger">*</span></Label>
-                                            <Col sm={9}>
-                                                <AvField
-                                                    name="employeeId"
-                                                    placeholder="Enter Employee ID"
-                                                    type="text"
-                                                    errorMessage="Employee ID is required!"
-                                                    disabled
-                                                    value={data.employeeId != null ? data.employeeId : ''}
-                                                    helpMessage="Max length is 255 characters!"
-                                                    validate={{
-                                                        required: { value: true },
-                                                        maxLength: { value: 225 }
-                                                    }}
-                                                />
-                                            </Col>
-                                        </div>
                                         <div className="row mb-4">
                                             <Label
                                                 htmlFor="horizontal-password-Input"
@@ -171,26 +132,7 @@ const UpdateUser = (props) => {
                                                 />
                                             </Col>
                                         </div>
-                                        <div className="row mb-4">
-                                            <Label
-                                                htmlFor="horizontal-password-Input"
-                                                className="col-sm-3 col-form-label"
-                                            >NIC No <span className="text-danger">*</span></Label>
-                                            <Col sm={9}>
-                                                <AvField
-                                                    name="nic"
-                                                    placeholder="Enter NIC No"
-                                                    type="text"
-                                                    errorMessage="NIC No is required!"
-                                                    value={data.nic != null ? data.nic : ''}
-                                                    helpMessage="All characters should be uppercase!"
-                                                    validate={{
-                                                        required: { value: true },
-                                                        pattern: { value: /^([0-9]{9}[X|V]|[0-9]{12})$/m }
-                                                    }}
-                                                />
-                                            </Col>
-                                        </div>
+
                                         <div className="row mb-4">
                                             <Label
                                                 htmlFor="horizontal-password-Input"
@@ -211,44 +153,24 @@ const UpdateUser = (props) => {
                                                 />
                                             </Col>
                                         </div>
+
                                         <div className="row mb-4">
                                             <Label
-                                                htmlFor="horizontal-password-Input"
+                                                htmlFor="horizontal-email-Input"
                                                 className="col-sm-3 col-form-label"
-                                            >Full Name <span className="text-danger">*</span></Label>
+                                            >Description  <span className="text-danger"> </span></Label>
                                             <Col sm={9}>
                                                 <AvField
-                                                    name="fullName"
-                                                    placeholder="Enter Full Name"
-                                                    type="text"
-                                                    errorMessage="Full Name is required!"
-                                                    value={data.fullName != null ? data.fullName : ''}
-                                                    validate={{ required: { value: true } }}
+                                                    name="shopDescription"
+                                                    placeholder="Enter Description!"
+                                                    type="textarea"
+                                                    rows={8}
+                                                    value={data.shopDescription != null ? data.shopDescription : ''}
+                                                    validate={{ required: { value: false } }}
                                                 />
                                             </Col>
                                         </div>
-                                        <div className="row mb-4">
-                                            <Label
-                                                htmlFor="horizontal-password-Input"
-                                                className="col-sm-3 col-form-label"
-                                            >Branch <span className="text-danger">*</span></Label>
-                                            <Col sm={9}>
-                                                <AvField
-                                                    name="branchCode"
-                                                    placeholder="Select Branch Code"
-                                                    type="select"
-                                                    errorMessage="Branch is required!"
-                                                    onChange={(e) => onChangeBranchName(e)}
-                                                    value={data.branchCode != null ? data.branchCode : ''}
-                                                    validate={{ required: { value: true } }}
-                                                >
-                                                    <option value="">-- Select --</option>
-                                                    {branches.length > 0 && 
-                                                        branches.map((b, i) => <option key={i} value={b.branchCode}>{b.branchDes}</option>)
-                                                    }
-                                                </AvField>
-                                            </Col>
-                                        </div>
+
                                         <div className="row mb-4">
                                             <Label
                                                 htmlFor="horizontal-password-Input"
@@ -291,4 +213,4 @@ const UpdateUser = (props) => {
     )
 }
 
-export default UpdateUser;
+export default UpdateShop;
