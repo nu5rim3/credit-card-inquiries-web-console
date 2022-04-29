@@ -27,9 +27,20 @@ const UpdateUser = (props) => {
     const [branchName, setBranchName] = useState(null);
 
     const onSubmit = (event, errors, values) => {
-        values['branchName'] = branchName;
+        if(branchName !=null){
+            values['branchName'] = branchName;
+        }else{
+            for (let b of branches) {
+                if (b.branchCode === values['branchCode'] ) {
+                    values['branchName'] = b.branchDes;
+                 
+                }
+              }
+        }
+       
         if (errors.length === 0) {
             setLoading(true);
+        
             updateUser(values)
                 .then(res => {
                     if (res.status === 200) {

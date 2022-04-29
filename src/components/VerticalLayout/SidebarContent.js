@@ -102,7 +102,7 @@ class SidebarContent extends Component {
             </li>
             <li>
               <Link to="/shops" className="waves-effect">
-                <i className="bx bxs-buildings" />
+                <i className="bx bxs-store" />
                 <span>{this.props.t("Shops")}</span>
               </Link>
             </li>
