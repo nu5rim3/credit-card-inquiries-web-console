@@ -1,6 +1,6 @@
 import { get, post, getToken, getLoggedUser } from "helpers/api_helper"
-import { INT_GET_USERS, INT_CREATE_USER, INT_GET_USER_BY_ID, INT_UPDATE_USER, INT_INFO_USER } from "helpers/url_helper";
-
+import { INT_GET_USERS, INT_CREATE_USER, INT_GET_USER_BY_ID, INT_UPDATE_USER, INT_INFO_USER, GET_USER_QR_CODE } from "helpers/url_helper";
+import FileDownload from "js-file-download";
 export async function getAllEntries(page, size) {
   return await get(INT_GET_USERS, {
     params: {
@@ -12,10 +12,10 @@ export async function getAllEntries(page, size) {
       'Authorization': `Bearer ${await getToken().then(res => res)}`
     }
   })
-  .then((response) => response)
-  .catch((error) =>{
-    console.log(error);
-  })
+    .then((response) => response)
+    .catch((error) => {
+      console.log(error);
+    })
 }
 
 export async function createUser(data) {
@@ -60,4 +60,22 @@ export async function getuserinfoById(userId) {
       'Authorization': `Bearer ${await getToken().then(res => res)}`
     }
   }).then(res => res)
+}
+
+export async function getUserQRById(code) {
+  return await get(`${GET_USER_QR_CODE}/${code}`, {
+    params: {
+      loggedUser: `${await getLoggedUser().then(res => res)}`
+    },
+    responseType: 'blob',
+    headers: {
+      'Authorization': `Bearer ${await getToken().then(res => res)}`
+    }
+  }).then((response) => {
+    FileDownload(response, `${code}.png`);
+    return true;
+  })
+    .catch((error) => {
+      console.log(error);
+    })
 }

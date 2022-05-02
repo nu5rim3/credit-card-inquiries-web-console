@@ -27,9 +27,20 @@ const UpdateUser = (props) => {
     const [branchName, setBranchName] = useState(null);
 
     const onSubmit = (event, errors, values) => {
-        values['branchName'] = branchName;
+        if(branchName !=null){
+            values['branchName'] = branchName;
+        }else{
+            for (let b of branches) {
+                if (b.branchCode === values['branchCode'] ) {
+                    values['branchName'] = b.branchDes;
+                 
+                }
+              }
+        }
+       
         if (errors.length === 0) {
             setLoading(true);
+        
             updateUser(values)
                 .then(res => {
                     if (res.status === 200) {
@@ -249,7 +260,24 @@ const UpdateUser = (props) => {
                                                 </AvField>
                                             </Col>
                                         </div>
-
+                                        <div className="row mb-4">
+                                            <Label
+                                                htmlFor="horizontal-password-Input"
+                                                className="col-sm-3 col-form-label"
+                                            >Card Type<span className="text-danger">*</span></Label>
+                                            <Col sm={9}>
+                                                <AvField
+                                                    name="cardType"
+                                                    type="select"
+                                                    value={data.cardType != null ? data.cardType : ''}
+                                                    validate={{ required: { value: true } }}
+                                                >
+                                                    <option value="">-- Select --</option>
+                                                    <option value="GEN">General Credit Card</option>
+                                                    <option value="SW">Swairee Credit Card</option>
+                                                </AvField>
+                                            </Col>
+                                        </div>
                                         <div className="row">
                                             <Col sm={12} className="d-flex flex-row flex-row-reverse">
                                                 <div>

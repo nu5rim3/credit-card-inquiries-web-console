@@ -79,6 +79,7 @@ export const INT_GET_USER_BY_ID = "/api/v1/dashboard/employee"
 export const INT_CREATE_USER = "/api/v1/dashboard/employee"
 export const INT_UPDATE_USER = "/api/v1/dashboard/employee/update"
 export const INT_INFO_USER = "/api/v1/dashboard/user-info/fusion"
+export const GET_USER_QR_CODE = "/api/v1/dashboard/swairee/generate/qr-code/employees"
 
 // INVITATION
 export const SEND_INVITATION = "/api/v1/dashboard/generate/sms"
@@ -88,6 +89,13 @@ export const INT_GET_BRANCHES = "/api/v1/dashboard/branches"
 export const INT_GET_BRANCH_BY_ID = "/api/v1/dashboard/branches"
 export const INT_CREATE_BRANCH = "/api/v1/dashboard/branches"
 export const INT_UPDATE_BRANCH = "/api/v1/dashboard/branches/update"
+
+//SHOPS
+export const INT_GET_SHOPS = "/api/v1/dashboard/shops"
+export const INT_GET_SHOP_BY_ID = "/api/v1/dashboard/shops"
+export const INT_CREATE_SHOP = "/api/v1/dashboard/shops"
+export const INT_UPDATE_SHOP = "/api/v1/dashboard/shops/update"
+export const GET_SHOP_QR_CODE = "/api/v1/dashboard/swairee/generate/qr-code"
 
 // BRANCHES
 export const INT_FUSION_BRANCH = "/api/v1/dashboard/branches/fusion"

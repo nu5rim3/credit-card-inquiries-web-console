@@ -8,7 +8,7 @@ import ReactPaginate from 'react-paginate';
 import Breadcrumbs from "../../components/Common/Breadcrumb"
 import "./datatables.scss"
 
-import { getAllEntries, getuserById } from "store/users/saga";
+import { getAllEntries, getuserById, getUserQRById } from "store/users/saga";
 import { useForm } from 'react-hook-form';
 import Spinner from 'components/Common/Spinner';
 
@@ -57,8 +57,12 @@ const Users = (props) => {
             version: res.data.version,
             status: res.data.status,
             option: <div>
+              <button onClick={() => downloadUserQRCode(res.data)}
+                type="button" className="btn btn-primary btn-sm waves-effect waves-light">
+                <span className="d-flex"><Spinner type="download" loading={downloading} />QR</span>
+              </button>
               <Link to={`/users/update/${res.data.employeeId}`}
-                className="btn btn-success btn-sm waves-effect waves-light">
+                className="btn btn-success btn-sm waves-effect waves-light mt-sm-2 mt-xl-0 ml-xl-2">
                 <span className="d-flex"><Spinner type="none" loading={downloading} />  Update</span>
               </Link>
             </div>
@@ -101,8 +105,12 @@ const Users = (props) => {
               version: e.version,
               status: e.status,
               option: <div>
+                <button onClick={() => downloadUserQRCode(e)}
+                  type="button" className="btn btn-primary btn-sm waves-effect waves-light">
+                  <span className="d-flex"><Spinner type="download" loading={downloading} />QR</span>
+                </button>
                 <Link to={`/users/update/${e.employeeId}`}
-                  className="btn btn-success btn-sm waves-effect waves-light">
+                  className="btn btn-success btn-sm waves-effect waves-light mt-sm-2 mt-xl-0 ml-xl-2">
                   <span className="d-flex"><Spinner type="none" loading={downloading} />  Update</span>
                 </Link>
               </div>
@@ -121,7 +129,15 @@ const Users = (props) => {
   const getAllUsers = () => {
     onLoadData(0);
   }
-
+  const downloadUserQRCode = (e) => {
+    setDownloading(true);
+    getUserQRById(e.employeeId)
+      .then((status) => {
+        if (status) {
+          setDownloading(false);
+        }
+      })
+  }
   const handlePageClick = (data) => {
     let selected = data.selected;
     setPage(0);
@@ -171,25 +187,25 @@ const Users = (props) => {
         label: "Branch Name",
         field: "branchName",
         sort: "asc",
-        width: 200,
+        width: 130,
       },
       {
         label: "Contact No",
         field: "contactNo",
         sort: "asc",
-        width: 100,
+        width: 10,
       },
       {
         label: "Email",
         field: "email",
         sort: "asc",
-        width: 150,
+        width: 100,
       },
       {
         label: "Options",
         field: "option",
         sort: "asc",
-        width: 150,
+        width: 300,
       }
     ],
     rows: data,

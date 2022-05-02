@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/login/static/css/main.a40934a1.chunk.css",
-    "main.js": "/login/static/js/main.b011eb93.chunk.js",
-    "main.js.map": "/login/static/js/main.b011eb93.chunk.js.map",
-    "runtime-main.js": "/login/static/js/runtime-main.3e2ed74b.js",
-    "runtime-main.js.map": "/login/static/js/runtime-main.3e2ed74b.js.map",
-    "static/js/2.cb801ed4.chunk.js": "/login/static/js/2.cb801ed4.chunk.js",
-    "static/js/2.cb801ed4.chunk.js.map": "/login/static/js/2.cb801ed4.chunk.js.map",
+    "main.css": "/login/static/css/main.089de3f5.chunk.css",
+    "main.js": "/login/static/js/main.82baee10.chunk.js",
+    "main.js.map": "/login/static/js/main.82baee10.chunk.js.map",
+    "runtime-main.js": "/login/static/js/runtime-main.47d2619e.js",
+    "runtime-main.js.map": "/login/static/js/runtime-main.47d2619e.js.map",
+    "static/js/2.67bdca17.chunk.js": "/login/static/js/2.67bdca17.chunk.js",
+    "static/js/2.67bdca17.chunk.js.map": "/login/static/js/2.67bdca17.chunk.js.map",
     "index.html": "/login/index.html",
-    "static/css/main.a40934a1.chunk.css.map": "/login/static/css/main.a40934a1.chunk.css.map",
-    "static/js/2.cb801ed4.chunk.js.LICENSE.txt": "/login/static/js/2.cb801ed4.chunk.js.LICENSE.txt",
+    "static/css/main.089de3f5.chunk.css.map": "/login/static/css/main.089de3f5.chunk.css.map",
+    "static/js/2.67bdca17.chunk.js.LICENSE.txt": "/login/static/js/2.67bdca17.chunk.js.LICENSE.txt",
     "static/media/LOLC_Technologies_lg.af342b1c.png": "/login/static/media/LOLC_Technologies_lg.af342b1c.png",
     "static/media/LOLC_Technologies_sm.dce79d76.png": "/login/static/media/LOLC_Technologies_sm.dce79d76.png",
     "static/media/avatar-1.3921191a.jpg": "/login/static/media/avatar-1.3921191a.jpg",
@@ -19,16 +19,16 @@
     "static/media/hori-dark.6a2835f0.png": "/login/static/media/hori-dark.6a2835f0.png",
     "static/media/hori-light.17a41b33.png": "/login/static/media/hori-light.17a41b33.png",
     "static/media/hori-rtl.26e4bd8d.png": "/login/static/media/hori-rtl.26e4bd8d.png",
-    "static/media/logo-light.96c274da.svg": "/login/static/media/logo-light.96c274da.svg",
-    "static/media/logo.a0143fa8.svg": "/login/static/media/logo.a0143fa8.svg",
+    "static/media/logo-light.f0fb0325.svg": "/login/static/media/logo-light.f0fb0325.svg",
+    "static/media/logo.9901a8a0.svg": "/login/static/media/logo.9901a8a0.svg",
     "static/media/lolcf_logo.09f4fc9a.svg": "/login/static/media/lolcf_logo.09f4fc9a.svg",
     "static/media/megamenu-img.8b069df4.png": "/login/static/media/megamenu-img.8b069df4.png",
     "static/media/profile-img.43b59e59.png": "/login/static/media/profile-img.43b59e59.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.3e2ed74b.js",
-    "static/js/2.cb801ed4.chunk.js",
-    "static/css/main.a40934a1.chunk.css",
-    "static/js/main.b011eb93.chunk.js"
+    "static/js/runtime-main.47d2619e.js",
+    "static/js/2.67bdca17.chunk.js",
+    "static/css/main.089de3f5.chunk.css",
+    "static/js/main.82baee10.chunk.js"
   ]
 }
