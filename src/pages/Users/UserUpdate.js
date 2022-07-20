@@ -7,7 +7,7 @@ import Breadcrumbs from "../../components/Common/Breadcrumb"
 import "./datatables.scss"
 
 // Form Validations and Alerts
-import { AvForm, AvField } from "availity-reactstrap-validation"
+import { AvForm, AvField, AvCheckboxGroup, AvCheckbox } from "availity-reactstrap-validation"
 
 import { getuserById, updateUser } from "store/users/saga";
 import { getAllClcEntries } from "store/branches/saga";
@@ -21,33 +21,50 @@ const UpdateUser = (props) => {
     const [status, setStatus] = useState(null)
     const [message, setMessage] = useState(null)
     const [visible, setVisible] = useState(false)
+    const [sWChecked, setSWChecked] = useState(false);
+    const [gENChecked, setGENChecked] = useState(false);
+
+    const [swValue, setSwValue] = useState(null);
+    const [genValue, setGenValue] = useState(null);
     const [data, setData] = useState({})
     const [form, setForm] = useState()
     const [branches, setBranches] = useState([]);
     const [branchName, setBranchName] = useState(null);
 
     const onSubmit = (event, errors, values) => {
-        if(branchName !=null){
+        if (branchName != null) {
             values['branchName'] = branchName;
-        }else{
+        } else {
             for (let b of branches) {
-                if (b.branchCode === values['branchCode'] ) {
+                if (b.branchCode === values['branchCode']) {
                     values['branchName'] = b.branchDes;
-                 
+
                 }
-              }
+            }
         }
-       
+        console.log("type " + values['cardType']);
+        console.log("type " + values['cardType'][0]);
+        console.log("type " + values['cardType'][1]);
+        // if (sWChecked === true) {
+        //     values['cardType'] = 'SW';
+        // } else if (gENChecked === true) {
+        //     values['cardType'] = 'GEN';
+        // }
+        // console.log("after " + values['cardType']);
+
+
         if (errors.length === 0) {
             setLoading(true);
-        
+
             updateUser(values)
                 .then(res => {
                     if (res.status === 200) {
                         setStatus(true);
                         setMessage(res.data.message)
                         setVisible(true)
-                        form && form.reset()
+                        form && form.reset();
+                        setSWChecked(false);
+                        setGENChecked(false);
                     } else {
                         setStatus(false)
                         setMessage(res.data.message)
@@ -66,6 +83,16 @@ const UpdateUser = (props) => {
         var label = e.nativeEvent.target[index].text;
         setBranchName(label);
     }
+    const cardTypeHandler = (e) => {
+        console.log("e.target.value  " + e.target.value)
+        if (e.target.value === 'SW') {
+            setSWChecked(e.target.checked);
+            setSwValue('SW');
+        } else if (e.target.value === 'GEN') {
+            setGENChecked(e.target.checked);
+            setGenValue('GEN');
+        }
+    }
 
     useEffect(() => {
         if (id != null && id != undefined) {
@@ -73,39 +100,50 @@ const UpdateUser = (props) => {
                 meo_id: id
             }
             getuserById(data)
-            .then(res => {
-                if (res.status === 200) {
-                    setStatus(true);
-                    setMessage("Data Loaded!")
-                    setVisible(true)
-                    setData(res.data)
-                } else {
-                    setStatus(false)
-                    setMessage(res.data.message)
-                    setVisible(true)
-                }
+                .then(res => {
+                    if (res.status === 200) {
+                        setStatus(true);
+                        setMessage("Data Loaded!");
+                        setVisible(true);
+                        setData(res.data);
+                        let cardArray = res.data.cardType;
 
-                setTimeout(() => {
-                    setVisible(false)
-                }, 5000);
-            })
+                        for (let index = 0; index < cardArray.length; ++index) {
+                            if (cardArray[index] === 'SW') {
+                                setSWChecked(true);
+                                setSwValue('SW');
+                            } else if (cardArray[index] === 'GEN') {
+                                setGENChecked(true);
+                                setGenValue('GEN');
+                            }
+                        }
+                    } else {
+                        setStatus(false)
+                        setMessage(res.data.message)
+                        setVisible(true)
+                    }
+
+                    setTimeout(() => {
+                        setVisible(false)
+                    }, 5000);
+                })
         }
-    }, [setData])
+    }, [setData, setSWChecked, setGENChecked, setSwValue, setGenValue])
 
     useEffect(() => {
         const branches = () => {
             getAllClcEntries()
-            .then(res => {
-                if (res.status === 200) {
-                    setBranches(res.data.content);
-                }
-            })
+                .then(res => {
+                    if (res.status === 200) {
+                        setBranches(res.data.content);
+                    }
+                })
         };
 
         // Load branches
         branches();
 
-    }, [setBranches]);
+    }, [setBranches, setSWChecked, setGENChecked]);
 
     return (
         <React.Fragment>
@@ -254,7 +292,7 @@ const UpdateUser = (props) => {
                                                     validate={{ required: { value: true } }}
                                                 >
                                                     <option value="">-- Select --</option>
-                                                    {branches.length > 0 && 
+                                                    {branches.length > 0 &&
                                                         branches.map((b, i) => <option key={i} value={b.branchCode}>{b.branchDes}</option>)
                                                     }
                                                 </AvField>
@@ -266,16 +304,17 @@ const UpdateUser = (props) => {
                                                 className="col-sm-3 col-form-label"
                                             >Card Type<span className="text-danger">*</span></Label>
                                             <Col sm={9}>
-                                                <AvField
-                                                    name="cardType"
-                                                    type="select"
-                                                    value={data.cardType != null ? data.cardType : ''}
+
+                                                <AvCheckboxGroup inline name="cardType"
+                                                    // defaultValue={gENChecked === true ? ['GEN'] : (sWChecked === true ? ['SW'] : (gENChecked === true && sWChecked === true ? ['GEN', 'SW'] : ''))}
+                                                    errorMessage="Card Type is required!" onChange={(e) => cardTypeHandler(e)}
                                                     validate={{ required: { value: true } }}
+
                                                 >
-                                                    <option value="">-- Select --</option>
-                                                    <option value="GEN">General Credit Card</option>
-                                                    <option value="SW">Swairee Credit Card</option>
-                                                </AvField>
+                                                    <AvCheckbox label="General Credit Card" value='GEN' checked={gENChecked} />
+                                                    <AvCheckbox label="Swairee Credit Card" value='SW' checked={sWChecked} />
+
+                                                </AvCheckboxGroup>
                                             </Col>
                                         </div>
                                         <div className="row">

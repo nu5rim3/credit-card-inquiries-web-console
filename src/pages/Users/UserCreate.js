@@ -6,7 +6,7 @@ import Breadcrumbs from "../../components/Common/Breadcrumb"
 import "./datatables.scss"
 
 // Form Validations and Alerts
-import { AvForm, AvField } from "availity-reactstrap-validation"
+import { AvForm, AvField, AvCheckboxGroup, AvCheckbox } from "availity-reactstrap-validation"
 
 import { createUser, getuserinfoById } from "store/users/saga";
 import { getAllClcEntries } from "store/branches/saga";
@@ -26,12 +26,14 @@ const UserCreate = (props) => {
     const [userInfo, setUserInfo] = useState(null);
 
     const onSubmit = (event, errors, values) => {
+
         if (branchName != null) {
-            values['branchName'] = branchName;    
+            values['branchName'] = branchName;
         } else {
             values['branchName'] = userInfo.branchName;
         }
-        
+        console.log("type " + values['cardType'][0]);
+        console.log("type " + values['cardType'][1]);
         if (errors.length === 0) {
             setLoading(true);
             createUser(values)
@@ -57,7 +59,6 @@ const UserCreate = (props) => {
     const onChangeBranchName = (e) => {
         var index = e.nativeEvent.target.selectedIndex;
         var label = e.nativeEvent.target[index].text;
-        console.log(label);
         setBranchName(label);
     }
 
@@ -69,16 +70,16 @@ const UserCreate = (props) => {
         } else {
             setSearch(true)
             getuserinfoById(aduser.toUpperCase())
-            .then(res => {
-                setSearch(false);
-                if (res.status === 200 && res.data.responseCode === "000") {
-                    setUserInfo(res.data.responseObject.userDetails.length > 0 ? res.data.responseObject.userDetails[0]: null)
-                } else {
-                    setStatus(false)
-                    setMessage("Data fetching process is failed!")
-                    setVisible(true)
-                }
-            })
+                .then(res => {
+                    setSearch(false);
+                    if (res.status === 200 && res.data.responseCode === "000") {
+                        setUserInfo(res.data.responseObject.userDetails.length > 0 ? res.data.responseObject.userDetails[0] : null)
+                    } else {
+                        setStatus(false)
+                        setMessage("Data fetching process is failed!")
+                        setVisible(true)
+                    }
+                })
         }
 
         setTimeout(() => {
@@ -268,16 +269,12 @@ const UserCreate = (props) => {
                                                 className="col-sm-3 col-form-label"
                                             >Card Type<span className="text-danger">*</span></Label>
                                             <Col sm={9}>
-                                                <AvField
-                                                    name="cardType"
-                                                    type="select"
-                                                  
-                                                    validate={{ required: { value: true } }}
-                                                >
-                                                    <option value="">-- Select --</option>
-                                                    <option value="GEN">General Credit Card</option>
-                                                    <option value="SW">Swairee Credit Card</option>
-                                                </AvField>
+
+                                                <AvCheckboxGroup inline name="cardType" errorMessage="Card Type is required!" validate={{ required: { value: true } }}>
+                                                    <AvCheckbox label="General Credit Card" value="GEN" />
+                                                    <AvCheckbox label="Swairee Credit Card" value="SW" />
+
+                                                </AvCheckboxGroup>
                                             </Col>
                                         </div>
                                         <div className="row">
