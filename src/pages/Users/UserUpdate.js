@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react"
 import { useParams } from "react-router-dom";
-import { Row, Col, Card, CardBody, CardTitle, Label, Input, Button, Alert } from "reactstrap"
+import { Row, Col, Card, CardBody, CardTitle, Label, CustomInput, Button, Alert } from "reactstrap"
 
 //Import Breadcrumb
 import Breadcrumbs from "../../components/Common/Breadcrumb"
 import "./datatables.scss"
 
 // Form Validations and Alerts
-import { AvForm, AvField, AvCheckboxGroup, AvCheckbox, AvGroup, AvInput } from "availity-reactstrap-validation"
+import { AvForm, AvField, AvCheckboxGroup, AvCheckbox, AvGroup, AvInput, AvFeedback } from "availity-reactstrap-validation"
 
 import { getuserById, updateUser } from "store/users/saga";
 import { getAllClcEntries } from "store/branches/saga";
@@ -21,6 +21,7 @@ const UpdateUser = (props) => {
     const [status, setStatus] = useState(null)
     const [message, setMessage] = useState(null)
     const [visible, setVisible] = useState(false)
+    const [cardTypeVisible, setCardTypeVisible] = useState(false)
     const [sWChecked, setSWChecked] = useState(false);
     const [gENChecked, setGENChecked] = useState(false);
 
@@ -28,7 +29,7 @@ const UpdateUser = (props) => {
     const [genValue, setGenValue] = useState('GEN');
     const [cardValue, setCardValue] = useState([]);
     const [data, setData] = useState({})
-    const [form, setForm] = useState()
+    const [form, setForm] = useState();
     const [branches, setBranches] = useState([]);
     const [branchName, setBranchName] = useState(null);
 
@@ -43,10 +44,34 @@ const UpdateUser = (props) => {
                 }
             }
         }
-        console.log("type " + values['cardType']);
-        console.log("type " + values['cardType'][0]);
-        console.log("type " + values['cardType'][1]);
 
+
+        let cardTypeArr = [];
+        if (values['cardType1'] === 'false' && values['cardType2'] === 'false') {
+
+
+            setCardTypeVisible(true);
+
+        } else if (values['cardType1'] === 'SW' && values['cardType2'] === 'false') {
+            cardTypeArr[0] = values['cardType1'];
+            values['cardType'] = cardTypeArr;
+            setCardTypeVisible(false);
+        } else if (values['cardType1'] === 'false' && values['cardType2'] === 'GEN') {
+            cardTypeArr[0] = values['cardType2'];
+            values['cardType'] = cardTypeArr;
+
+            setCardTypeVisible(false);
+        } else if (values['cardType1'] === 'SW' && values['cardType2'] === 'GEN') {
+            cardTypeArr[0] = values['cardType1'];
+            cardTypeArr[1] = values['cardType2'];
+            values['cardType'] = cardTypeArr;
+            setCardTypeVisible(false);
+        } else {
+            setCardTypeVisible(false);
+        }
+        setTimeout(() => {
+            setCardTypeVisible(false);
+        }, 5000);
         if (errors.length === 0) {
             setLoading(true);
 
@@ -78,46 +103,51 @@ const UpdateUser = (props) => {
         setBranchName(label);
     }
     const cardTypeHandler = (e) => {
-        console.log("e.target.value  " + e.target.value)
+
+
         if (e.target.value === 'SW') {
             setSWChecked(e.target.checked);
-            // setSwValue('SW');
+
         } else if (e.target.value === 'GEN') {
             setGENChecked(e.target.checked);
-            // setGenValue('GEN');
+
         }
     }
 
-    useEffect(() => {
+    useEffect(async () => {
+
         if (id != null && id != undefined) {
             var data = {
                 meo_id: id
             }
-            getuserById(data)
+            await getuserById(data)
                 .then(res => {
+
                     if (res.status === 200) {
                         setStatus(true);
                         setMessage("Data Loaded!");
                         setVisible(true);
                         setData(res.data);
+
                         let cardArray = res.data.cardType;
-                        console.log("cardArray " + cardArray)
+
 
                         for (let index = 0; index < cardArray.length; ++index) {
 
                             if (cardArray[index] === 'SW') {
                                 setSWChecked(true);
 
+                                setSwValue('SW');
 
-                                console.log("cardArray " + index + cardArray[index])
+
                             } else if (cardArray[index] === 'GEN') {
                                 setGENChecked(true);
 
+                                setGenValue('GEN');
 
                             }
 
                         }
-
 
                     } else {
                         setStatus(false)
@@ -126,11 +156,17 @@ const UpdateUser = (props) => {
                     }
 
                     setTimeout(() => {
-                        setVisible(false)
+                        setVisible(false);
+
                     }, 5000);
 
                 })
+
+
+
         }
+
+
     }, [setData, setSWChecked, setGENChecked, setSwValue, setGenValue])
 
     useEffect(() => {
@@ -147,8 +183,8 @@ const UpdateUser = (props) => {
         branches();
 
     }, [setBranches, setSWChecked, setGENChecked]);
-
     return (
+
         <React.Fragment>
             <div className="page-content">
                 <div className="container-fluid">
@@ -158,7 +194,8 @@ const UpdateUser = (props) => {
                             <Card>
                                 <CardBody>
                                     <CardTitle>Fill the required details. </CardTitle>
-                                    <AvForm onSubmit={onSubmit} className="mt-5 col-8" ref={c => setForm(c)} >
+                                    <AvForm onSubmit={onSubmit} className="mt-5 col-8"
+                                        ref={c => setForm(c)}>
                                         {visible == true && status != null && status == true &&
                                             <Alert color="success" role="alert" className="mb-5">
                                                 {message}
@@ -308,18 +345,29 @@ const UpdateUser = (props) => {
                                             >Card Type<span className="text-danger">*</span></Label>
                                             <Col sm={9}>
 
-                                                <AvCheckboxGroup inline name="cardType"
-                                                    // defaultValue={gENChecked === true ? ['GEN'] : (sWChecked === true ? ['SW'] : (gENChecked === true && sWChecked === true ? ['GEN', 'SW'] : ''))}
-                                                    defaultValue={genValue}
 
-                                                    errorMessage="Card Type is required!" onChange={(e) => cardTypeHandler(e)}
-                                                    validate={{ required: { value: true } }}
 
-                                                >
-                                                    <AvCheckbox label="General Credit Card" value={genValue} checked={gENChecked} />
-                                                    <AvCheckbox label="Swairee Credit Card" value={swValue} checked={sWChecked} />
+                                                <AvGroup  >
+                                                    <Label check>
+                                                        <AvInput type="checkbox"
+                                                            onChange={(e) => cardTypeHandler(e)}
+                                                            trueValue={swValue} checked={sWChecked} falseValue='false' name="cardType1" /> Swairee Credit Card
+                                                     </Label>
+                                                </AvGroup>
+                                                <AvGroup>
+                                                    <Label check >
+                                                        <AvInput type="checkbox"
+                                                            onChange={(e) => cardTypeHandler(e)}
+                                                            trueValue={genValue} checked={gENChecked} falseValue='false' name="cardType2" /> General Credit Card
+                                                    </Label>
+                                                    {cardTypeVisible == true &&
+                                                        <Alert color="danger" role="alert" className="mb-5">
+                                                            Please Select  Card Type
+                                                        </Alert>
+                                                    }
+                                                </AvGroup>
 
-                                                </AvCheckboxGroup>
+
                                             </Col>
                                         </div>
                                         <div className="row">

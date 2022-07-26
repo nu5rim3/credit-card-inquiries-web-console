@@ -32,8 +32,7 @@ const UserCreate = (props) => {
         } else {
             values['branchName'] = userInfo.branchName;
         }
-        console.log("type " + values['cardType'][0]);
-        console.log("type " + values['cardType'][1]);
+
         if (errors.length === 0) {
             setLoading(true);
             createUser(values)
@@ -270,7 +269,7 @@ const UserCreate = (props) => {
                                             >Card Type<span className="text-danger">*</span></Label>
                                             <Col sm={9}>
 
-                                                <AvCheckboxGroup inline name="cardType" errorMessage="Card Type is required!" validate={{ required: { value: true } }}>
+                                                <AvCheckboxGroup  name="cardType" errorMessage="Card Type is required!" validate={{ required: { value: true } }}>
                                                     <AvCheckbox label="General Credit Card" value="GEN" />
                                                     <AvCheckbox label="Swairee Credit Card" value="SW" />
 
