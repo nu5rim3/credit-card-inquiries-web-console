@@ -58,7 +58,7 @@ class Login extends Component {
                       <Col className="col-7">
                         <div className="text-gray p-4">
                           <h5 className="text-gray">Welcome Back !</h5>
-                          <p>Sign in to continue to Console.</p>
+                          <p>Sign in to continue to Console</p>
                         </div>
                       </Col>
                       <Col className="col-5 pr-4">
