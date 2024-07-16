@@ -21,7 +21,7 @@ import {
   getAllEntries,
   getCsvFileByRefNo,
   getCsvAllData,
-} from "store/applications/saga";
+} from "store/commonApplications/saga";
 import { useForm } from "react-hook-form";
 import Spinner from "components/Common/Spinner";
 
@@ -220,7 +220,7 @@ const CommonApplication = () => {
         <div className="container-fluid">
           <Breadcrumbs
             title="Applications"
-            breadcrumbItem="General Application Details"
+            breadcrumbItem="Common Applications Details"
           />
           <Row>
             <Col className="col-12">
