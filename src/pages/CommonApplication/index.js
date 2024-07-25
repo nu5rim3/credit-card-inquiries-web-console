@@ -47,7 +47,8 @@ const CommonApplication = () => {
             dataSet.push({
               referenceNo: e.referenceNo,
               nicNo: e.nic,
-              fullName: e.customer != null ? e.customer.fullName : "",
+              fullName:
+                e.generalCustomer != null ? e.generalCustomer.fullName : "",
               contactNo: e.mobileNumber,
               date: formatDateTime(e.createdAt),
               option: (
