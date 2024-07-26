@@ -728,12 +728,6 @@ export default class index extends Component {
                 </Card>
                 <Card>
                   <CardBody>
-                    <CardTitle>Income Proofs</CardTitle>
-                    {this.getIncomeProofImages()}
-                  </CardBody>
-                </Card>
-                <Card>
-                  <CardBody>
                     <CardTitle>Employee ID</CardTitle>
                     {this.getEmployeeIdImages()}
                   </CardBody>
