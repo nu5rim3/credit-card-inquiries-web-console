@@ -14,12 +14,16 @@ export default class index extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      identificationImages: [],
-      billingProofImages: [],
-      IncomeProofsImages: [],
-      SupportiveImages: [],
-      GuarantorImages: [],
-      identification: false,
+      USER_IDENTIFICATION: [],
+      UTILITY_BILL: [],
+      PAY_SLIP: [],
+      EMLOYEE_ID: [],
+      EMPLOYEMENT_CONFIRMATION_LETTER: [],
+      BANK_STATEMENT: [],
+      PROOF_OF_INCOME: [],
+      BUSINESS_CARD: [],
+      BUSINESS_REGISTRATION_CRETIFICATION: [],
+      SELF_BANK_STATEMENT: [],
       billing: false,
       income: false,
       supportive: false,
@@ -29,47 +33,101 @@ export default class index extends Component {
   async componentDidMount() {
     var token = await getToken().then((res) => res);
     if (this.props.match.params.refNo != null) {
-      var imagesSet1 = [];
-      var imagesSet2 = [];
-      var imagesSet3 = [];
-      var imagesSet4 = [];
-      var imagesSet5 = [];
+      USER_IDENTIFICATION_1 = [];
+      USER_IDENTIFICATION_2 = [];
+      UTILITY_BILL = [];
+      PAY_SLIP = [];
+      EMLOYEE_ID = [];
+      EMPLOYEMENT_CONFIRMATION_LETTER = [];
+      BANK_STATEMENT = [];
+      PROOF_OF_INCOME = [];
+      BUSINESS_CARD = [];
+      BUSINESS_REGISTRATION_CRETIFICATION = [];
+      SELF_BANK_STATEMENT = [];
       await getAllDocuments(this.props.match.params.refNo).then((res) => {
         res.forEach((r) => {
-          if (r.fileCategory === "identification_document_1") {
-            imagesSet1.push({
+          if (r.fileCategory === "USER_IDENTIFICATION_1") {
+            USER_IDENTIFICATION_1.push({
               src: `${getImageViewUrl()}/${
                 r.filePath
               }?access_token=${token}&type=${r.fileType.toLowerCase()}`,
               type: r.fileType,
             });
           }
-          if (r.fileCategory === "identification_document_2") {
-            imagesSet2.push({
+          if (r.fileCategory === "USER_IDENTIFICATION_2") {
+            USER_IDENTIFICATION_2.push({
               src: `${getImageViewUrl()}/${
                 r.filePath
               }?access_token=${token}&type=${r.fileType.toLowerCase()}`,
               type: r.fileType,
             });
           }
-          if (r.fileCategory === "income_proof_document") {
-            imagesSet3.push({
+          if (r.fileCategory === "UTILITY_BILL") {
+            UTILITY_BILL.push({
               src: `${getImageViewUrl()}/${
                 r.filePath
               }?access_token=${token}&type=${r.fileType.toLowerCase()}`,
               type: r.fileType,
             });
           }
-          if (r.fileCategory === "other_supporting_document") {
-            imagesSet4.push({
+          if (r.fileCategory === "PAY_SLIP") {
+            PAY_SLIP.push({
               src: `${getImageViewUrl()}/${
                 r.filePath
               }?access_token=${token}&type=${r.fileType.toLowerCase()}`,
               type: r.fileType,
             });
           }
-          if (r.fileCategory === "g_identification_documents") {
-            imagesSet5.push({
+          if (r.fileCategory === "EMLOYEE_ID") {
+            EMLOYEE_ID.push({
+              src: `${getImageViewUrl()}/${
+                r.filePath
+              }?access_token=${token}&type=${r.fileType.toLowerCase()}`,
+              type: r.fileType,
+            });
+          }
+          if (r.fileCategory === "EMPLOYEMENT_CONFIRMATION_LETTER") {
+            EMPLOYEMENT_CONFIRMATION_LETTER.push({
+              src: `${getImageViewUrl()}/${
+                r.filePath
+              }?access_token=${token}&type=${r.fileType.toLowerCase()}`,
+              type: r.fileType,
+            });
+          }
+          if (r.fileCategory === "BANK_STATEMENT") {
+            BANK_STATEMENT.push({
+              src: `${getImageViewUrl()}/${
+                r.filePath
+              }?access_token=${token}&type=${r.fileType.toLowerCase()}`,
+              type: r.fileType,
+            });
+          }
+          if (r.fileCategory === "PROOF_OF_INCOME") {
+            PROOF_OF_INCOME.push({
+              src: `${getImageViewUrl()}/${
+                r.filePath
+              }?access_token=${token}&type=${r.fileType.toLowerCase()}`,
+              type: r.fileType,
+            });
+          }
+          if (r.fileCategory === "BUSINESS_CARD") {
+            BUSINESS_CARD.push({
+              src: `${getImageViewUrl()}/${
+                r.filePath
+              }?access_token=${token}&type=${r.fileType.toLowerCase()}`,
+              type: r.fileType,
+            });
+          }
+          if (r.fileCategory === "BUSINESS_REGISTRATION_CRETIFICATION") {
+            BUSINESS_REGISTRATION_CRETIFICATION.push({
+              src: `${getImageViewUrl()}/${
+                r.filePath
+              }?access_token=${token}&type=${r.fileType.toLowerCase()}`,
+              type: r.fileType,
+            });
+          }
+          if (r.fileCategory === "SELF_BANK_STATEMENT") {
+            SELF_BANK_STATEMENT.push({
               src: `${getImageViewUrl()}/${
                 r.filePath
               }?access_token=${token}&type=${r.fileType.toLowerCase()}`,
@@ -81,26 +139,31 @@ export default class index extends Component {
     }
 
     this.setState({
-      identificationImages: imagesSet1,
-      billingProofImages: imagesSet2,
-      IncomeProofsImages: imagesSet3,
-      SupportiveImages: imagesSet4,
-      GuarantorImages: imagesSet5,
+      USER_IDENTIFICATION: [...USER_IDENTIFICATION_1, ...USER_IDENTIFICATION_2],
+      UTILITY_BILL,
+      PAY_SLIP,
+      EMLOYEE_ID,
+      EMPLOYEMENT_CONFIRMATION_LETTER,
+      BANK_STATEMENT,
+      PROOF_OF_INCOME,
+      BUSINESS_CARD,
+      BUSINESS_REGISTRATION_CRETIFICATION,
+      SELF_BANK_STATEMENT,
     });
   }
 
   getIdentificationImages() {
-    const { identificationImages } = this.state;
+    const { USER_IDENTIFICATION } = this.state;
 
-    if (identificationImages.length > 0) {
+    if (USER_IDENTIFICATION.length > 0) {
       return (
         <div>
           <Row>
-            {identificationImages.map((item, index) => {
+            {USER_IDENTIFICATION.map((item, index) => {
               if (
                 item.type.toLowerCase() === "image/jpeg" ||
                 item.type.toLowerCase() === "image/png" ||
-                item.type.toLowerCase() === "image/apng"
+                item.type.toLowerCase() === "image/jpg"
               ) {
                 return (
                   <Col key={index.toString()} className="img-item col-3">
@@ -135,7 +198,7 @@ export default class index extends Component {
             onClose={() => {
               this.setState({ identification: false });
             }}
-            images={identificationImages}
+            images={USER_IDENTIFICATION}
           />
         </div>
       );
@@ -145,17 +208,17 @@ export default class index extends Component {
   }
 
   getBillingProofImages() {
-    const { billingProofImages } = this.state;
+    const { UTILITY_BILL } = this.state;
 
-    if (billingProofImages.length > 0) {
+    if (UTILITY_BILL.length > 0) {
       return (
         <div>
           <Row>
-            {billingProofImages.map((item, index) => {
+            {UTILITY_BILL.map((item, index) => {
               if (
                 item.type.toLowerCase() === "image/jpeg" ||
                 item.type.toLowerCase() === "image/png" ||
-                item.type.toLowerCase() === "image/apng"
+                item.type.toLowerCase() === "image/jpg"
               ) {
                 return (
                   <Col key={index.toString()} className="img-item col-3">
@@ -190,7 +253,7 @@ export default class index extends Component {
             onClose={() => {
               this.setState({ billing: false });
             }}
-            images={billingProofImages}
+            images={UTILITY_BILL}
           />
         </div>
       );
@@ -199,18 +262,18 @@ export default class index extends Component {
     }
   }
 
-  getIncomeProofImages() {
-    const { IncomeProofsImages } = this.state;
+  getpaySlipProofImages() {
+    const { PAY_SLIP } = this.state;
 
-    if (IncomeProofsImages.length > 0) {
+    if (PAY_SLIP.length > 0) {
       return (
         <div>
           <Row>
-            {IncomeProofsImages.map((item, index) => {
+            {PAY_SLIP.map((item, index) => {
               if (
                 item.type.toLowerCase() === "image/jpeg" ||
                 item.type.toLowerCase() === "image/png" ||
-                item.type.toLowerCase() === "image/apng"
+                item.type.toLowerCase() === "image/jpg"
               ) {
                 return (
                   <Col key={index.toString()} className="img-item col-3">
@@ -245,7 +308,7 @@ export default class index extends Component {
             onClose={() => {
               this.setState({ income: false });
             }}
-            images={IncomeProofsImages}
+            images={PAY_SLIP}
           />
         </div>
       );
@@ -254,18 +317,18 @@ export default class index extends Component {
     }
   }
 
-  getSupportiveImages() {
-    const { SupportiveImages } = this.state;
+  getEmployeeIdImages() {
+    const { EMLOYEE_ID } = this.state;
 
-    if (SupportiveImages.length > 0) {
+    if (EMLOYEE_ID.length > 0) {
       return (
         <div>
           <Row>
-            {SupportiveImages.map((item, index) => {
+            {EMLOYEE_ID.map((item, index) => {
               if (
                 item.type.toLowerCase() === "image/jpeg" ||
                 item.type.toLowerCase() === "image/png" ||
-                item.type.toLowerCase() === "image/apng"
+                item.type.toLowerCase() === "image/jpg"
               ) {
                 return (
                   <Col key={index.toString()} className="img-item col-3">
@@ -274,7 +337,7 @@ export default class index extends Component {
                       style={{ width: "100%" }}
                       onClick={() => {
                         this.setState({
-                          supportive: true,
+                          income: true,
                           activeIndex: index,
                         });
                       }}
@@ -296,11 +359,11 @@ export default class index extends Component {
             })}
           </Row>
           <Viewer
-            visible={this.state.supportive}
+            visible={this.state.income}
             onClose={() => {
-              this.setState({ supportive: false });
+              this.setState({ income: false });
             }}
-            images={SupportiveImages}
+            images={EMLOYEE_ID}
           />
         </div>
       );
@@ -309,18 +372,18 @@ export default class index extends Component {
     }
   }
 
-  getGuarantorImages() {
-    const { GuarantorImages } = this.state;
+  getEmployementConfirmationLetterImages() {
+    const { EMPLOYEMENT_CONFIRMATION_LETTER } = this.state;
 
-    if (GuarantorImages.length > 0) {
+    if (EMPLOYEMENT_CONFIRMATION_LETTER.length > 0) {
       return (
         <div>
           <Row>
-            {GuarantorImages.map((item, index) => {
+            {EMPLOYEMENT_CONFIRMATION_LETTER.map((item, index) => {
               if (
                 item.type.toLowerCase() === "image/jpeg" ||
                 item.type.toLowerCase() === "image/png" ||
-                item.type.toLowerCase() === "image/apng"
+                item.type.toLowerCase() === "image/jpg"
               ) {
                 return (
                   <Col key={index.toString()} className="img-item col-3">
@@ -329,7 +392,7 @@ export default class index extends Component {
                       style={{ width: "100%" }}
                       onClick={() => {
                         this.setState({
-                          supportive: true,
+                          income: true,
                           activeIndex: index,
                         });
                       }}
@@ -351,11 +414,286 @@ export default class index extends Component {
             })}
           </Row>
           <Viewer
-            visible={this.state.supportive}
+            visible={this.state.income}
             onClose={() => {
-              this.setState({ supportive: false });
+              this.setState({ income: false });
             }}
-            images={GuarantorImages}
+            images={EMPLOYEMENT_CONFIRMATION_LETTER}
+          />
+        </div>
+      );
+    } else {
+      return null;
+    }
+  }
+
+  getBankStatementImages() {
+    const { BANK_STATEMENT } = this.state;
+
+    if (BANK_STATEMENT.length > 0) {
+      return (
+        <div>
+          <Row>
+            {BANK_STATEMENT.map((item, index) => {
+              if (
+                item.type.toLowerCase() === "image/jpeg" ||
+                item.type.toLowerCase() === "image/png" ||
+                item.type.toLowerCase() === "image/jpg"
+              ) {
+                return (
+                  <Col key={index.toString()} className="img-item col-3">
+                    <img
+                      src={item.src}
+                      style={{ width: "100%" }}
+                      onClick={() => {
+                        this.setState({
+                          income: true,
+                          activeIndex: index,
+                        });
+                      }}
+                    />
+                  </Col>
+                );
+              } else {
+                return (
+                  <Col key={index.toString()} className="img-item col-3">
+                    <Link
+                      to={`/view-documents/file${item.src}`}
+                      className="btn btn-primary"
+                    >
+                      <i className="bx bx-file-blank mr-2"></i>View File
+                    </Link>
+                  </Col>
+                );
+              }
+            })}
+          </Row>
+          <Viewer
+            visible={this.state.income}
+            onClose={() => {
+              this.setState({ income: false });
+            }}
+            images={BANK_STATEMENT}
+          />
+        </div>
+      );
+    } else {
+      return null;
+    }
+  }
+
+  getProofOfIncomeImages() {
+    const { PROOF_OF_INCOME } = this.state;
+
+    if (PROOF_OF_INCOME.length > 0) {
+      return (
+        <div>
+          <Row>
+            {PROOF_OF_INCOME.map((item, index) => {
+              if (
+                item.type.toLowerCase() === "image/jpeg" ||
+                item.type.toLowerCase() === "image/png" ||
+                item.type.toLowerCase() === "image/jpg"
+              ) {
+                return (
+                  <Col key={index.toString()} className="img-item col-3">
+                    <img
+                      src={item.src}
+                      style={{ width: "100%" }}
+                      onClick={() => {
+                        this.setState({
+                          income: true,
+                          activeIndex: index,
+                        });
+                      }}
+                    />
+                  </Col>
+                );
+              } else {
+                return (
+                  <Col key={index.toString()} className="img-item col-3">
+                    <Link
+                      to={`/view-documents/file${item.src}`}
+                      className="btn btn-primary"
+                    >
+                      <i className="bx bx-file-blank mr-2"></i>View File
+                    </Link>
+                  </Col>
+                );
+              }
+            })}
+          </Row>
+          <Viewer
+            visible={this.state.income}
+            onClose={() => {
+              this.setState({ income: false });
+            }}
+            images={PROOF_OF_INCOME}
+          />
+        </div>
+      );
+    } else {
+      return null;
+    }
+  }
+
+  getBusinessCardImages() {
+    const { BUSINESS_CARD } = this.state;
+
+    if (BUSINESS_CARD.length > 0) {
+      return (
+        <div>
+          <Row>
+            {BUSINESS_CARD.map((item, index) => {
+              if (
+                item.type.toLowerCase() === "image/jpeg" ||
+                item.type.toLowerCase() === "image/png" ||
+                item.type.toLowerCase() === "image/jpg"
+              ) {
+                return (
+                  <Col key={index.toString()} className="img-item col-3">
+                    <img
+                      src={item.src}
+                      style={{ width: "100%" }}
+                      onClick={() => {
+                        this.setState({
+                          income: true,
+                          activeIndex: index,
+                        });
+                      }}
+                    />
+                  </Col>
+                );
+              } else {
+                return (
+                  <Col key={index.toString()} className="img-item col-3">
+                    <Link
+                      to={`/view-documents/file${item.src}`}
+                      className="btn btn-primary"
+                    >
+                      <i className="bx bx-file-blank mr-2"></i>View File
+                    </Link>
+                  </Col>
+                );
+              }
+            })}
+          </Row>
+          <Viewer
+            visible={this.state.income}
+            onClose={() => {
+              this.setState({ income: false });
+            }}
+            images={BUSINESS_CARD}
+          />
+        </div>
+      );
+    } else {
+      return null;
+    }
+  }
+
+  getBusinessRegistrationCretificationImages() {
+    const { BUSINESS_REGISTRATION_CRETIFICATION } = this.state;
+
+    if (BUSINESS_REGISTRATION_CRETIFICATION.length > 0) {
+      return (
+        <div>
+          <Row>
+            {BUSINESS_REGISTRATION_CRETIFICATION.map((item, index) => {
+              if (
+                item.type.toLowerCase() === "image/jpeg" ||
+                item.type.toLowerCase() === "image/png" ||
+                item.type.toLowerCase() === "image/jpg"
+              ) {
+                return (
+                  <Col key={index.toString()} className="img-item col-3">
+                    <img
+                      src={item.src}
+                      style={{ width: "100%" }}
+                      onClick={() => {
+                        this.setState({
+                          income: true,
+                          activeIndex: index,
+                        });
+                      }}
+                    />
+                  </Col>
+                );
+              } else {
+                return (
+                  <Col key={index.toString()} className="img-item col-3">
+                    <Link
+                      to={`/view-documents/file${item.src}`}
+                      className="btn btn-primary"
+                    >
+                      <i className="bx bx-file-blank mr-2"></i>View File
+                    </Link>
+                  </Col>
+                );
+              }
+            })}
+          </Row>
+          <Viewer
+            visible={this.state.income}
+            onClose={() => {
+              this.setState({ income: false });
+            }}
+            images={BUSINESS_REGISTRATION_CRETIFICATION}
+          />
+        </div>
+      );
+    } else {
+      return null;
+    }
+  }
+
+  getSelfBankStatementImages() {
+    const { SELF_BANK_STATEMENT } = this.state;
+
+    if (SELF_BANK_STATEMENT.length > 0) {
+      return (
+        <div>
+          <Row>
+            {SELF_BANK_STATEMENT.map((item, index) => {
+              if (
+                item.type.toLowerCase() === "image/jpeg" ||
+                item.type.toLowerCase() === "image/png" ||
+                item.type.toLowerCase() === "image/jpg"
+              ) {
+                return (
+                  <Col key={index.toString()} className="img-item col-3">
+                    <img
+                      src={item.src}
+                      style={{ width: "100%" }}
+                      onClick={() => {
+                        this.setState({
+                          income: true,
+                          activeIndex: index,
+                        });
+                      }}
+                    />
+                  </Col>
+                );
+              } else {
+                return (
+                  <Col key={index.toString()} className="img-item col-3">
+                    <Link
+                      to={`/view-documents/file${item.src}`}
+                      className="btn btn-primary"
+                    >
+                      <i className="bx bx-file-blank mr-2"></i>View File
+                    </Link>
+                  </Col>
+                );
+              }
+            })}
+          </Row>
+          <Viewer
+            visible={this.state.income}
+            onClose={() => {
+              this.setState({ income: false });
+            }}
+            images={SELF_BANK_STATEMENT}
           />
         </div>
       );
@@ -396,14 +734,44 @@ export default class index extends Component {
                 </Card>
                 <Card>
                   <CardBody>
-                    <CardTitle>Any Other Supporting Documents</CardTitle>
-                    {this.getSupportiveImages()}
+                    <CardTitle>Employee ID</CardTitle>
+                    {this.getEmployeeIdImages()}
                   </CardBody>
                 </Card>
                 <Card>
                   <CardBody>
-                    <CardTitle>Guarantor Documents</CardTitle>
-                    {this.getGuarantorImages()}
+                    <CardTitle>Employement Confirmation Letter</CardTitle>
+                    {this.getEmployementConfirmationLetterImages()}
+                  </CardBody>
+                </Card>
+                <Card>
+                  <CardBody>
+                    <CardTitle>Bank Statement</CardTitle>
+                    {this.getBankStatementImages()}
+                  </CardBody>
+                </Card>
+                <Card>
+                  <CardBody>
+                    <CardTitle>Proof of Income</CardTitle>
+                    {this.getProofOfIncomeImages()}
+                  </CardBody>
+                </Card>
+                <Card>
+                  <CardBody>
+                    <CardTitle>Business Card</CardTitle>
+                    {this.getBusinessCardImages()}
+                  </CardBody>
+                </Card>
+                <Card>
+                  <CardBody>
+                    <CardTitle>Business Registration Cretification</CardTitle>
+                    {this.getBusinessRegistrationCretificationImages()}
+                  </CardBody>
+                </Card>
+                <Card>
+                  <CardBody>
+                    <CardTitle>Self Bank Statement</CardTitle>
+                    {this.getSelfBankStatementImages()}
                   </CardBody>
                 </Card>
               </Col>
