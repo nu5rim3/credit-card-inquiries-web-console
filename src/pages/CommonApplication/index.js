@@ -90,7 +90,7 @@ const CommonApplication = () => {
     if (e.hasDocument === true) {
       return (
         <Link
-          to={`view-documents/` + e.referenceNo}
+          to={`view-common-documents/` + e.referenceNo}
           type="button"
           className="btn btn-primary btn-sm waves-effect waves-light mt-sm-2 mt-xl-0 ml-xl-2"
         >

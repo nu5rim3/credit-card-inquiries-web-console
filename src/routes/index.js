@@ -13,6 +13,7 @@ import Dashboard from "../pages/Dashboard/index";
 import Application from "../pages/Application/index";
 import SwaireeApplication from "../pages/SwaireeApplication/index";
 import Document from "../pages/Document/index";
+import CommonDocument from "../pages/CommonDocument/index";
 import SwaireeDocument from "../pages/SwaireeDocument/index";
 import ViewFile from "../pages/Document/ViewFile";
 
@@ -40,6 +41,7 @@ const authProtectedRoutes = [
   { path: "/profile", component: UserProfile },
   { path: "/view-documents/file**", component: ViewFile },
   { path: "/view-documents/:refNo", component: Document },
+  { path: "/view-common-documents/:refNo", component: CommonDocument },
   { path: "/view-swairee-documents/:refNo", component: SwaireeDocument },
   { path: "/dashboard", component: Dashboard },
   { path: "/common-applications", component: CommonApplication },
