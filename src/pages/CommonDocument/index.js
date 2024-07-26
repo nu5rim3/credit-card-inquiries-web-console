@@ -24,9 +24,16 @@ export default class index extends Component {
       BUSINESS_CARD: [],
       BUSINESS_REGISTRATION_CRETIFICATION: [],
       SELF_BANK_STATEMENT: [],
-      billing: false,
-      income: false,
-      supportive: false,
+      identification: false,
+      utilityBill: false,
+      paySlip: false,
+      employeeId: false,
+      employementConfirmationLetter: false,
+      bankStatement: false,
+      proofOfIncome: false,
+      businessCard: false,
+      businessRegistrationCretification: false,
+      selfBankStatement: false,
     };
   }
 
@@ -228,7 +235,7 @@ export default class index extends Component {
                       style={{ width: "100%" }}
                       onClick={() => {
                         this.setState({
-                          billing: true,
+                          utilityBill: true,
                           activeIndex: index,
                         });
                       }}
@@ -250,9 +257,9 @@ export default class index extends Component {
             })}
           </Row>
           <Viewer
-            visible={this.state.billing}
+            visible={this.state.utilityBill}
             onClose={() => {
-              this.setState({ billing: false });
+              this.setState({ utilityBill: false });
             }}
             images={UTILITY_BILL}
           />
@@ -283,7 +290,7 @@ export default class index extends Component {
                       style={{ width: "100%" }}
                       onClick={() => {
                         this.setState({
-                          income: true,
+                          paySlip: true,
                           activeIndex: index,
                         });
                       }}
@@ -305,9 +312,9 @@ export default class index extends Component {
             })}
           </Row>
           <Viewer
-            visible={this.state.income}
+            visible={this.state.paySlip}
             onClose={() => {
-              this.setState({ income: false });
+              this.setState({ paySlip: false });
             }}
             images={PAY_SLIP}
           />
@@ -338,7 +345,7 @@ export default class index extends Component {
                       style={{ width: "100%" }}
                       onClick={() => {
                         this.setState({
-                          income: true,
+                          employeeId: true,
                           activeIndex: index,
                         });
                       }}
@@ -360,9 +367,9 @@ export default class index extends Component {
             })}
           </Row>
           <Viewer
-            visible={this.state.income}
+            visible={this.state.employeeId}
             onClose={() => {
-              this.setState({ income: false });
+              this.setState({ employeeId: false });
             }}
             images={EMLOYEE_ID}
           />
@@ -393,7 +400,7 @@ export default class index extends Component {
                       style={{ width: "100%" }}
                       onClick={() => {
                         this.setState({
-                          income: true,
+                          employementConfirmationLetter: true,
                           activeIndex: index,
                         });
                       }}
@@ -415,9 +422,9 @@ export default class index extends Component {
             })}
           </Row>
           <Viewer
-            visible={this.state.income}
+            visible={this.state.employementConfirmationLetter}
             onClose={() => {
-              this.setState({ income: false });
+              this.setState({ employementConfirmationLetter: false });
             }}
             images={EMPLOYEMENT_CONFIRMATION_LETTER}
           />
@@ -448,7 +455,7 @@ export default class index extends Component {
                       style={{ width: "100%" }}
                       onClick={() => {
                         this.setState({
-                          income: true,
+                          bankStatement: true,
                           activeIndex: index,
                         });
                       }}
@@ -470,9 +477,9 @@ export default class index extends Component {
             })}
           </Row>
           <Viewer
-            visible={this.state.income}
+            visible={this.state.bankStatement}
             onClose={() => {
-              this.setState({ income: false });
+              this.setState({ bankStatement: false });
             }}
             images={BANK_STATEMENT}
           />
@@ -503,7 +510,7 @@ export default class index extends Component {
                       style={{ width: "100%" }}
                       onClick={() => {
                         this.setState({
-                          income: true,
+                          proofOfIncome: true,
                           activeIndex: index,
                         });
                       }}
@@ -525,9 +532,9 @@ export default class index extends Component {
             })}
           </Row>
           <Viewer
-            visible={this.state.income}
+            visible={this.state.proofOfIncome}
             onClose={() => {
-              this.setState({ income: false });
+              this.setState({ proofOfIncome: false });
             }}
             images={PROOF_OF_INCOME}
           />
@@ -558,7 +565,7 @@ export default class index extends Component {
                       style={{ width: "100%" }}
                       onClick={() => {
                         this.setState({
-                          income: true,
+                          businessCard: true,
                           activeIndex: index,
                         });
                       }}
@@ -580,9 +587,9 @@ export default class index extends Component {
             })}
           </Row>
           <Viewer
-            visible={this.state.income}
+            visible={this.state.businessCard}
             onClose={() => {
-              this.setState({ income: false });
+              this.setState({ businessCard: false });
             }}
             images={BUSINESS_CARD}
           />
@@ -613,7 +620,7 @@ export default class index extends Component {
                       style={{ width: "100%" }}
                       onClick={() => {
                         this.setState({
-                          income: true,
+                          businessRegistrationCretification: true,
                           activeIndex: index,
                         });
                       }}
@@ -635,9 +642,9 @@ export default class index extends Component {
             })}
           </Row>
           <Viewer
-            visible={this.state.income}
+            visible={this.state.businessRegistrationCretification}
             onClose={() => {
-              this.setState({ income: false });
+              this.setState({ businessRegistrationCretification: false });
             }}
             images={BUSINESS_REGISTRATION_CRETIFICATION}
           />
@@ -668,7 +675,7 @@ export default class index extends Component {
                       style={{ width: "100%" }}
                       onClick={() => {
                         this.setState({
-                          income: true,
+                          selfBankStatement: true,
                           activeIndex: index,
                         });
                       }}
@@ -690,9 +697,9 @@ export default class index extends Component {
             })}
           </Row>
           <Viewer
-            visible={this.state.income}
+            visible={this.state.selfBankStatement}
             onClose={() => {
-              this.setState({ income: false });
+              this.setState({ selfBankStatement: false });
             }}
             images={SELF_BANK_STATEMENT}
           />
@@ -704,6 +711,7 @@ export default class index extends Component {
   }
 
   render() {
+    console.log("[this.state] - ", this.state);
     return (
       <React.Fragment>
         <div className="page-content">
@@ -729,6 +737,12 @@ export default class index extends Component {
                 </Card>
                 <Card>
                   <CardBody>
+                    <CardTitle>Bank Statement</CardTitle>
+                    {this.getBankStatementImages()}
+                  </CardBody>
+                </Card>
+                <Card>
+                  <CardBody>
                     <CardTitle>Employee ID</CardTitle>
                     {this.getEmployeeIdImages()}
                   </CardBody>
@@ -737,12 +751,6 @@ export default class index extends Component {
                   <CardBody>
                     <CardTitle>Employement Confirmation Letter</CardTitle>
                     {this.getEmployementConfirmationLetterImages()}
-                  </CardBody>
-                </Card>
-                <Card>
-                  <CardBody>
-                    <CardTitle>Bank Statement</CardTitle>
-                    {this.getBankStatementImages()}
                   </CardBody>
                 </Card>
                 <Card>
