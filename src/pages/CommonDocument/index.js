@@ -33,17 +33,17 @@ export default class index extends Component {
   async componentDidMount() {
     var token = await getToken().then((res) => res);
     if (this.props.match.params.refNo != null) {
-      USER_IDENTIFICATION_1 = [];
-      USER_IDENTIFICATION_2 = [];
-      UTILITY_BILL = [];
-      PAY_SLIP = [];
-      EMLOYEE_ID = [];
-      EMPLOYEMENT_CONFIRMATION_LETTER = [];
-      BANK_STATEMENT = [];
-      PROOF_OF_INCOME = [];
-      BUSINESS_CARD = [];
-      BUSINESS_REGISTRATION_CRETIFICATION = [];
-      SELF_BANK_STATEMENT = [];
+      let USER_IDENTIFICATION_1 = [];
+      let USER_IDENTIFICATION_2 = [];
+      let UTILITY_BILL = [];
+      let PAY_SLIP = [];
+      let EMLOYEE_ID = [];
+      let EMPLOYEMENT_CONFIRMATION_LETTER = [];
+      let BANK_STATEMENT = [];
+      let PROOF_OF_INCOME = [];
+      let BUSINESS_CARD = [];
+      let BUSINESS_REGISTRATION_CRETIFICATION = [];
+      let SELF_BANK_STATEMENT = [];
       await getAllDocuments(this.props.match.params.refNo).then((res) => {
         res.forEach((r) => {
           if (r.fileCategory === "USER_IDENTIFICATION_1") {
