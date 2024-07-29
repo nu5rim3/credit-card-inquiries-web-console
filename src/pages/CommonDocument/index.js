@@ -749,6 +749,12 @@ export default class index extends Component {
                 </Card>
                 <Card>
                   <CardBody>
+                    <CardTitle>Pay Slip</CardTitle>
+                    {this.getpaySlipProofImages()}
+                  </CardBody>
+                </Card>
+                <Card>
+                  <CardBody>
                     <CardTitle>Employement Confirmation Letter</CardTitle>
                     {this.getEmployementConfirmationLetterImages()}
                   </CardBody>
