@@ -62,7 +62,11 @@ const authProtectedRoutes = [
 
   { path: "/invitations", component: Invitation },
 
-  { path: "/", exact: true, component: () => <Redirect to="/applications" /> },
+  {
+    path: "/",
+    exact: true,
+    component: () => <Redirect to="/common-applications" />,
+  },
 ];
 
 const publicRoutes = [
