@@ -78,7 +78,7 @@ export const GET_SWAIREE_CSV_FILE =
 export const GET_ALL_DOCUMENTS_BY_REFERENCE =
   "/api/v1/dashboard/documents/getDocumentsByRefNo";
 export const GET_ALL_COMMON_DOCUMENTS_BY_REFERENCE =
-  "/api/v1/dashboard/commondocuments/getDocumentsByRefNo";
+  "/api/v1/dashboard/common-documents/getDocumentsByRefNo";
 export const VIEW_IMAGE = "/api/v1/dashboard/documents/view";
 
 // USERS
