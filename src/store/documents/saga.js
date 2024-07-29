@@ -1,41 +1,65 @@
-import { get, getToken, getLoggedUser, BASE_URL } from "helpers/api_helper"
-import { GET_ALL_DOCUMENTS_BY_REFERENCE, VIEW_IMAGE } from "helpers/url_helper";
+import { get, getToken, getLoggedUser, BASE_URL } from "helpers/api_helper";
+import {
+  GET_ALL_DOCUMENTS_BY_REFERENCE,
+  GET_ALL_COMMON_DOCUMENTS_BY_REFERENCE,
+  VIEW_IMAGE,
+} from "helpers/url_helper";
 
 export async function getAllDocuments(refNo) {
   return await get(GET_ALL_DOCUMENTS_BY_REFERENCE, {
     params: {
       referenceNo: refNo,
-      page: '0',
-      size: '100000',
-      loggedUser: await getLoggedUser().then(res => res)
+      page: "0",
+      size: "100000",
+      loggedUser: await getLoggedUser().then((res) => res),
     },
     headers: {
-      'Authorization': `Bearer ${await getToken().then(res => res)}`
-    }
+      Authorization: `Bearer ${await getToken().then((res) => res)}`,
+    },
   })
-  .then((response) => {
-    return (response.data.content);
+    .then((response) => {
+      return response.data.content;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
+
+export async function getAllCommonDocuments(refNo) {
+  return await get(GET_ALL_COMMON_DOCUMENTS_BY_REFERENCE, {
+    params: {
+      referenceNo: refNo,
+      page: "0",
+      size: "100000",
+      loggedUser: await getLoggedUser().then((res) => res),
+    },
+    headers: {
+      Authorization: `Bearer ${await getToken().then((res) => res)}`,
+    },
   })
-  .catch((error) =>{
-    console.log(error);
-  })
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 }
 
 export async function viewImages(path) {
   return await get(`${VIEW_IMAGE}/${path}`, {
     params: {
-      loggedUser: await getLoggedUser().then(res => res)
+      loggedUser: await getLoggedUser().then((res) => res),
     },
     headers: {
-      'Authorization': `Bearer ${await getToken().then(res => res)}`
-    }
+      Authorization: `Bearer ${await getToken().then((res) => res)}`,
+    },
   })
-  .then((response) => {
-    return response;
-  })
-  .catch((error) =>{
-    console.log(error);
-  })
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 }
 
 export function getImageViewUrl() {

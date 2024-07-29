@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 //Import Breadcrumb
 import Breadcrumbs from "../../components/Common/Breadcrumb";
 
-import { getAllDocuments, getImageViewUrl } from "store/documents/saga";
+import { getImageViewUrl, getAllCommonDocuments } from "store/documents/saga";
 import { getToken } from "helpers/api_helper";
 
 export default class index extends Component {
@@ -52,7 +52,7 @@ export default class index extends Component {
       var BUSINESS_CARD = [];
       var BUSINESS_REGISTRATION_CRETIFICATION = [];
       var SELF_BANK_STATEMENT = [];
-      await getAllDocuments(this.props.match.params.refNo).then((res) => {
+      await getAllCommonDocuments(this.props.match.params.refNo).then((res) => {
         res.forEach((r) => {
           if (r.fileCategory === "USER_IDENTIFICATION_1") {
             USER_IDENTIFICATION_1.push({
