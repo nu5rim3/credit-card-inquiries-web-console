@@ -174,7 +174,11 @@ export default class index extends Component {
                 item.type.toLowerCase() === "image/jpg"
               ) {
                 return (
-                  <Col key={index.toString()} className="img-item col-3">
+                  <Col
+                    key={index.toString()}
+                    className="img-item col-3"
+                    style={{ marginBottom: 10 }}
+                  >
                     <img
                       src={item.src}
                       style={{ width: "100%" }}
@@ -189,7 +193,11 @@ export default class index extends Component {
                 );
               } else {
                 return (
-                  <Col key={index.toString()} className="img-item col-3">
+                  <Col
+                    key={index.toString()}
+                    className="img-item col-3"
+                    style={{ marginBottom: 10 }}
+                  >
                     <Link
                       to={`/view-documents/file${item.src}`}
                       className="btn btn-primary"
@@ -206,7 +214,11 @@ export default class index extends Component {
             onClose={() => {
               this.setState({ identification: false });
             }}
-            images={USER_IDENTIFICATION}
+            images={
+              USER_IDENTIFICATION.filter(
+                (item) => item.type.toLowerCase() !== "application/pdf"
+              ) ?? []
+            }
           />
         </div>
       );
@@ -229,7 +241,11 @@ export default class index extends Component {
                 item.type.toLowerCase() === "image/jpg"
               ) {
                 return (
-                  <Col key={index.toString()} className="img-item col-3">
+                  <Col
+                    key={index.toString()}
+                    className="img-item col-3"
+                    style={{ marginBottom: 10 }}
+                  >
                     <img
                       src={item.src}
                       style={{ width: "100%" }}
@@ -244,7 +260,11 @@ export default class index extends Component {
                 );
               } else {
                 return (
-                  <Col key={index.toString()} className="img-item col-3">
+                  <Col
+                    key={index.toString()}
+                    className="img-item col-3"
+                    style={{ marginBottom: 10 }}
+                  >
                     <Link
                       to={`/view-documents/file${item.src}`}
                       className="btn btn-primary"
@@ -261,7 +281,11 @@ export default class index extends Component {
             onClose={() => {
               this.setState({ utilityBill: false });
             }}
-            images={UTILITY_BILL}
+            images={
+              UTILITY_BILL.filter(
+                (item) => item.type.toLowerCase() !== "application/pdf"
+              ) ?? []
+            }
           />
         </div>
       );
@@ -284,7 +308,11 @@ export default class index extends Component {
                 item.type.toLowerCase() === "image/jpg"
               ) {
                 return (
-                  <Col key={index.toString()} className="img-item col-3">
+                  <Col
+                    key={index.toString()}
+                    className="img-item col-3"
+                    style={{ marginBottom: 10 }}
+                  >
                     <img
                       src={item.src}
                       style={{ width: "100%" }}
@@ -299,7 +327,11 @@ export default class index extends Component {
                 );
               } else {
                 return (
-                  <Col key={index.toString()} className="img-item col-3">
+                  <Col
+                    key={index.toString()}
+                    className="img-item col-3"
+                    style={{ marginBottom: 10 }}
+                  >
                     <Link
                       to={`/view-documents/file${item.src}`}
                       className="btn btn-primary"
@@ -316,7 +348,11 @@ export default class index extends Component {
             onClose={() => {
               this.setState({ paySlip: false });
             }}
-            images={PAY_SLIP}
+            images={
+              PAY_SLIP.filter(
+                (item) => item.type.toLowerCase() !== "application/pdf"
+              ) ?? []
+            }
           />
         </div>
       );
@@ -339,7 +375,11 @@ export default class index extends Component {
                 item.type.toLowerCase() === "image/jpg"
               ) {
                 return (
-                  <Col key={index.toString()} className="img-item col-3">
+                  <Col
+                    key={index.toString()}
+                    className="img-item col-3"
+                    style={{ marginBottom: 10 }}
+                  >
                     <img
                       src={item.src}
                       style={{ width: "100%" }}
@@ -354,7 +394,11 @@ export default class index extends Component {
                 );
               } else {
                 return (
-                  <Col key={index.toString()} className="img-item col-3">
+                  <Col
+                    key={index.toString()}
+                    className="img-item col-3"
+                    style={{ marginBottom: 10 }}
+                  >
                     <Link
                       to={`/view-documents/file${item.src}`}
                       className="btn btn-primary"
@@ -371,7 +415,11 @@ export default class index extends Component {
             onClose={() => {
               this.setState({ employeeId: false });
             }}
-            images={EMLOYEE_ID}
+            images={
+              EMLOYEE_ID.filter(
+                (item) => item.type.toLowerCase() !== "application/pdf"
+              ) ?? []
+            }
           />
         </div>
       );
@@ -394,7 +442,11 @@ export default class index extends Component {
                 item.type.toLowerCase() === "image/jpg"
               ) {
                 return (
-                  <Col key={index.toString()} className="img-item col-3">
+                  <Col
+                    key={index.toString()}
+                    className="img-item col-3"
+                    style={{ marginBottom: 10 }}
+                  >
                     <img
                       src={item.src}
                       style={{ width: "100%" }}
@@ -409,7 +461,11 @@ export default class index extends Component {
                 );
               } else {
                 return (
-                  <Col key={index.toString()} className="img-item col-3">
+                  <Col
+                    key={index.toString()}
+                    className="img-item col-3"
+                    style={{ marginBottom: 10 }}
+                  >
                     <Link
                       to={`/view-documents/file${item.src}`}
                       className="btn btn-primary"
@@ -426,7 +482,11 @@ export default class index extends Component {
             onClose={() => {
               this.setState({ employementConfirmationLetter: false });
             }}
-            images={EMPLOYEMENT_CONFIRMATION_LETTER}
+            images={
+              EMPLOYEMENT_CONFIRMATION_LETTER.filter(
+                (item) => item.type.toLowerCase() !== "application/pdf"
+              ) ?? []
+            }
           />
         </div>
       );
@@ -449,7 +509,11 @@ export default class index extends Component {
                 item.type.toLowerCase() === "image/jpg"
               ) {
                 return (
-                  <Col key={index.toString()} className="img-item col-3">
+                  <Col
+                    key={index.toString()}
+                    className="img-item col-3"
+                    style={{ marginBottom: 10 }}
+                  >
                     <img
                       src={item.src}
                       style={{ width: "100%" }}
@@ -464,7 +528,11 @@ export default class index extends Component {
                 );
               } else {
                 return (
-                  <Col key={index.toString()} className="img-item col-3">
+                  <Col
+                    key={index.toString()}
+                    className="img-item col-3"
+                    style={{ marginBottom: 10 }}
+                  >
                     <Link
                       to={`/view-documents/file${item.src}`}
                       className="btn btn-primary"
@@ -481,7 +549,11 @@ export default class index extends Component {
             onClose={() => {
               this.setState({ bankStatement: false });
             }}
-            images={BANK_STATEMENT}
+            images={
+              BANK_STATEMENT.filter(
+                (item) => item.type.toLowerCase() !== "application/pdf"
+              ) ?? []
+            }
           />
         </div>
       );
@@ -504,7 +576,11 @@ export default class index extends Component {
                 item.type.toLowerCase() === "image/jpg"
               ) {
                 return (
-                  <Col key={index.toString()} className="img-item col-3">
+                  <Col
+                    key={index.toString()}
+                    className="img-item col-3"
+                    style={{ marginBottom: 10 }}
+                  >
                     <img
                       src={item.src}
                       style={{ width: "100%" }}
@@ -519,7 +595,11 @@ export default class index extends Component {
                 );
               } else {
                 return (
-                  <Col key={index.toString()} className="img-item col-3">
+                  <Col
+                    key={index.toString()}
+                    className="img-item col-3"
+                    style={{ marginBottom: 10 }}
+                  >
                     <Link
                       to={`/view-documents/file${item.src}`}
                       className="btn btn-primary"
@@ -536,7 +616,11 @@ export default class index extends Component {
             onClose={() => {
               this.setState({ proofOfIncome: false });
             }}
-            images={PROOF_OF_INCOME}
+            images={
+              PROOF_OF_INCOME.filter(
+                (item) => item.type.toLowerCase() !== "application/pdf"
+              ) ?? []
+            }
           />
         </div>
       );
@@ -559,7 +643,11 @@ export default class index extends Component {
                 item.type.toLowerCase() === "image/jpg"
               ) {
                 return (
-                  <Col key={index.toString()} className="img-item col-3">
+                  <Col
+                    key={index.toString()}
+                    className="img-item col-3"
+                    style={{ marginBottom: 10 }}
+                  >
                     <img
                       src={item.src}
                       style={{ width: "100%" }}
@@ -574,7 +662,11 @@ export default class index extends Component {
                 );
               } else {
                 return (
-                  <Col key={index.toString()} className="img-item col-3">
+                  <Col
+                    key={index.toString()}
+                    className="img-item col-3"
+                    style={{ marginBottom: 10 }}
+                  >
                     <Link
                       to={`/view-documents/file${item.src}`}
                       className="btn btn-primary"
@@ -591,7 +683,11 @@ export default class index extends Component {
             onClose={() => {
               this.setState({ businessCard: false });
             }}
-            images={BUSINESS_CARD}
+            images={
+              BUSINESS_CARD.filter(
+                (item) => item.type.toLowerCase() !== "application/pdf"
+              ) ?? []
+            }
           />
         </div>
       );
@@ -614,7 +710,11 @@ export default class index extends Component {
                 item.type.toLowerCase() === "image/jpg"
               ) {
                 return (
-                  <Col key={index.toString()} className="img-item col-3">
+                  <Col
+                    key={index.toString()}
+                    className="img-item col-3"
+                    style={{ marginBottom: 10 }}
+                  >
                     <img
                       src={item.src}
                       style={{ width: "100%" }}
@@ -629,7 +729,11 @@ export default class index extends Component {
                 );
               } else {
                 return (
-                  <Col key={index.toString()} className="img-item col-3">
+                  <Col
+                    key={index.toString()}
+                    className="img-item col-3"
+                    style={{ marginBottom: 10 }}
+                  >
                     <Link
                       to={`/view-documents/file${item.src}`}
                       className="btn btn-primary"
@@ -646,7 +750,11 @@ export default class index extends Component {
             onClose={() => {
               this.setState({ businessRegistrationCretification: false });
             }}
-            images={BUSINESS_REGISTRATION_CRETIFICATION}
+            images={
+              BUSINESS_REGISTRATION_CRETIFICATION.filter(
+                (item) => item.type.toLowerCase() !== "application/pdf"
+              ) ?? []
+            }
           />
         </div>
       );
@@ -657,7 +765,7 @@ export default class index extends Component {
 
   getSelfBankStatementImages() {
     const { SELF_BANK_STATEMENT } = this.state;
-
+    console.log("[SELF_BANK_STATEMENT] - ", SELF_BANK_STATEMENT);
     if (SELF_BANK_STATEMENT.length > 0) {
       return (
         <div>
@@ -669,7 +777,11 @@ export default class index extends Component {
                 item.type.toLowerCase() === "image/jpg"
               ) {
                 return (
-                  <Col key={index.toString()} className="img-item col-3">
+                  <Col
+                    key={index.toString()}
+                    className="img-item col-3"
+                    style={{ marginBottom: 10 }}
+                  >
                     <img
                       src={item.src}
                       style={{ width: "100%" }}
@@ -684,7 +796,11 @@ export default class index extends Component {
                 );
               } else {
                 return (
-                  <Col key={index.toString()} className="img-item col-3">
+                  <Col
+                    key={index.toString()}
+                    className="img-item col-3"
+                    style={{ marginBottom: 10 }}
+                  >
                     <Link
                       to={`/view-documents/file${item.src}`}
                       className="btn btn-primary"
@@ -701,7 +817,11 @@ export default class index extends Component {
             onClose={() => {
               this.setState({ selfBankStatement: false });
             }}
-            images={SELF_BANK_STATEMENT}
+            images={
+              SELF_BANK_STATEMENT.filter(
+                (item) => item.type.toLowerCase() !== "application/pdf"
+              ) ?? []
+            }
           />
         </div>
       );
@@ -711,7 +831,6 @@ export default class index extends Component {
   }
 
   render() {
-    console.log("[this.state] - ", this.state);
     return (
       <React.Fragment>
         <div className="page-content">
