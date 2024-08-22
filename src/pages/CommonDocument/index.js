@@ -24,6 +24,7 @@ export default class index extends Component {
       BUSINESS_CARD: [],
       BUSINESS_REGISTRATION_CRETIFICATION: [],
       SELF_BANK_STATEMENT: [],
+      GUARANTOR_IDENTIFICATION: [],
       identification: false,
       utilityBill: false,
       paySlip: false,
@@ -34,6 +35,7 @@ export default class index extends Component {
       businessCard: false,
       businessRegistrationCretification: false,
       selfBankStatement: false,
+      guarantorIdentification: false,
     };
   }
 
@@ -52,6 +54,9 @@ export default class index extends Component {
       var BUSINESS_CARD = [];
       var BUSINESS_REGISTRATION_CRETIFICATION = [];
       var SELF_BANK_STATEMENT = [];
+      var GUARANTOR_IDENTIFICATION_1 = [];
+      var GUARANTOR_IDENTIFICATION_2 = [];
+
       await getAllCommonDocuments(this.props.match.params.refNo).then((res) => {
         res.forEach((r) => {
           if (r.fileCategory === "USER_IDENTIFICATION_1") {
@@ -64,6 +69,22 @@ export default class index extends Component {
           }
           if (r.fileCategory === "USER_IDENTIFICATION_2") {
             USER_IDENTIFICATION_2.push({
+              src: `${getImageViewUrl()}/${
+                r.filePath
+              }?access_token=${token}&type=${r.fileType.toLowerCase()}`,
+              type: r.fileType,
+            });
+          }
+          if (r.fileCategory === "GUARANTOR_IDENTIFICATION_1") {
+            GUARANTOR_IDENTIFICATION_1.push({
+              src: `${getImageViewUrl()}/${
+                r.filePath
+              }?access_token=${token}&type=${r.fileType.toLowerCase()}`,
+              type: r.fileType,
+            });
+          }
+          if (r.fileCategory === "GUARANTOR_IDENTIFICATION_2") {
+            GUARANTOR_IDENTIFICATION_2.push({
               src: `${getImageViewUrl()}/${
                 r.filePath
               }?access_token=${token}&type=${r.fileType.toLowerCase()}`,
@@ -157,6 +178,10 @@ export default class index extends Component {
       BUSINESS_CARD,
       BUSINESS_REGISTRATION_CRETIFICATION,
       SELF_BANK_STATEMENT,
+      GUARANTOR_IDENTIFICATION: [
+        ...GUARANTOR_IDENTIFICATION_1,
+        ...GUARANTOR_IDENTIFICATION_2,
+      ],
     });
   }
 
@@ -216,6 +241,73 @@ export default class index extends Component {
             }}
             images={
               USER_IDENTIFICATION.filter(
+                (item) => item.type.toLowerCase() !== "application/pdf"
+              ) ?? []
+            }
+          />
+        </div>
+      );
+    } else {
+      return null;
+    }
+  }
+
+  getGuarantorIdentificationImages() {
+    const { GUARANTOR_IDENTIFICATION } = this.state;
+
+    if (GUARANTOR_IDENTIFICATION.length > 0) {
+      return (
+        <div>
+          <Row>
+            {GUARANTOR_IDENTIFICATION.map((item, index) => {
+              if (
+                item.type.toLowerCase() === "image/jpeg" ||
+                item.type.toLowerCase() === "image/png" ||
+                item.type.toLowerCase() === "image/jpg"
+              ) {
+                return (
+                  <Col
+                    key={index.toString()}
+                    className="img-item col-3"
+                    style={{ marginBottom: 10 }}
+                  >
+                    <img
+                      src={item.src}
+                      style={{ width: "100%" }}
+                      onClick={() => {
+                        this.setState({
+                          guarantorIdentification: true,
+                          activeIndex: index,
+                        });
+                      }}
+                    />
+                  </Col>
+                );
+              } else {
+                return (
+                  <Col
+                    key={index.toString()}
+                    className="img-item col-3"
+                    style={{ marginBottom: 10 }}
+                  >
+                    <Link
+                      to={`/view-documents/file${item.src}`}
+                      className="btn btn-primary"
+                    >
+                      <i className="bx bx-file-blank mr-2"></i>View File
+                    </Link>
+                  </Col>
+                );
+              }
+            })}
+          </Row>
+          <Viewer
+            visible={this.state.guarantorIdentification}
+            onClose={() => {
+              this.setState({ guarantorIdentification: false });
+            }}
+            images={
+              GUARANTOR_IDENTIFICATION.filter(
                 (item) => item.type.toLowerCase() !== "application/pdf"
               ) ?? []
             }
@@ -894,6 +986,12 @@ export default class index extends Component {
                   <CardBody>
                     <CardTitle>Business Registration Cretification</CardTitle>
                     {this.getBusinessRegistrationCretificationImages()}
+                  </CardBody>
+                </Card>
+                <Card>
+                  <CardBody>
+                    <CardTitle>Guarantor Identification Documents</CardTitle>
+                    {this.getGuarantorIdentificationImages()}
                   </CardBody>
                 </Card>
                 <Card>
